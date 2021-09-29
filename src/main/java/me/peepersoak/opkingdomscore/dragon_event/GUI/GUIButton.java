@@ -241,11 +241,7 @@ public class GUIButton {
         greenMeta.setDisplayName(ChatColor.GOLD + "Dragon Guardian");
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.AQUA + "Spawn Wither Skeleton");
-        lore.add(ChatColor.AQUA + "on player location");
-        lore.add("");
-        lore.add(ChatColor.AQUA + "Currently Set to:");
-        lore.add(ChatColor.LIGHT_PURPLE + "" + data.getConfig().getBoolean(DragonStringpath.DRAGON_SKILL_GUARDIAN));
+        lore.add(ChatColor.AQUA + "Click to open the Guardian Setting");
         greenMeta.setLore(lore);
         wool.setItemMeta(greenMeta);
         return wool;

@@ -11,10 +11,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class DragonSkill extends BukkitRunnable {
 
@@ -28,6 +25,8 @@ public class DragonSkill extends BukkitRunnable {
     private int playerPercentageStrike;
     private int skillCastDistance;
     private double limit;
+
+    private final Random rand = new Random();
 
     private List<String> skill;
 
@@ -50,7 +49,7 @@ public class DragonSkill extends BukkitRunnable {
         if (data.getConfig().getBoolean(DragonStringpath.DRAGON_SKILL_WITHER)) {
             skill.add("Wither");
         }
-        if (data.getConfig().getBoolean(DragonStringpath.DRAGON_SKILL_GUARDIAN)) {
+        if (data.getConfig().getBoolean(DragonStringpath.DRAGON_GUARDIAN_SETTINGS_ALLOW)) {
             skill.add("Guardian");
         }
     }
@@ -65,23 +64,46 @@ public class DragonSkill extends BukkitRunnable {
                         player.getWorld().strikeLightning(player.getLocation());
                         break;
                     case "Explosion":
-                        player.getWorld().createExplosion(player.getLocation(), 6.0F, false, false);
+                        float damage = rand.nextInt(8) + 4;
+                        player.getWorld().createExplosion(player.getLocation(), damage, false, false);
                         break;
                     case "Wither":
                         player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 400, 3));
                         break;
                     case "Guardian":
+                        DragonEventData data = new DragonEventData();
+                        int health = data.getConfig().getInt(DragonStringpath.DRAGON_GUARDIAN_SETTINGS_HEALTH);
+                        int dmg = data.getConfig().getInt(DragonStringpath.DRAGON_GUARDIAN_SETTINGS_DAMAGE);
+                        int duration = data.getConfig().getInt(DragonStringpath.DRAGON_GUARDIAN_SETTINGS_DURATION);
+                        int chance = data.getConfig().getInt(DragonStringpath.DRAGON_GUARDIAN_SETTINGS_CHANCE);
+                        String name = data.getConfig().getString(DragonStringpath.DRAGON_GUARDIAN_SETTINGS_NAME);
+
+                        if (rand.nextInt(100) > chance) return;
+
                         WitherSkeleton skel = (WitherSkeleton) player.getWorld().spawnEntity(player.getLocation(), EntityType.WITHER_SKELETON);
-                        Objects.requireNonNull(skel.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(100);
+
+                        Objects.requireNonNull(skel.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(health);
+                        Objects.requireNonNull(skel.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)).setBaseValue(dmg);
                         skel.setCustomNameVisible(true);
-                        skel.setCustomName(ChatColor.RED + "" + ChatColor.BOLD + "Dragon Guardian");
+                        skel.setCustomName(ChatColor.RED + "" + ChatColor.BOLD + name);
                         skel.setRemoveWhenFarAway(true);
-                        skel.setHealth(100);
+                        skel.setHealth(health);
                         skel.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 1));
+                        removeGuardian(skel, duration);
                         break;
                 }
             }
         }.runTask(OPKingdomsCore.getInstance());
+    }
+
+    public void removeGuardian(WitherSkeleton skel, int duration) {
+        int ticks = duration * 20;
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                skel.remove();
+            }
+        }.runTaskLater(OPKingdomsCore.getInstance(), ticks);
     }
 
     public boolean shouldCast() {

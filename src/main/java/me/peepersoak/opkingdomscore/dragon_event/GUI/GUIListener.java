@@ -4,6 +4,7 @@ import me.peepersoak.opkingdomscore.OPKingdomsCore;
 import me.peepersoak.opkingdomscore.dragon_event.DragonEggData;
 import me.peepersoak.opkingdomscore.dragon_event.DragonEventData;
 import me.peepersoak.opkingdomscore.dragon_event.DragonStringpath;
+import me.peepersoak.opkingdomscore.dragon_event.GUI.guardian.GuardianSettingsGUI;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
@@ -362,15 +363,8 @@ public class GUIListener implements Listener {
                 player.openInventory(inventory.getInv());
                 break;
             case WITHER_SKELETON_SKULL:
-                if (data.getConfig().getBoolean(DragonStringpath.DRAGON_SKILL_GUARDIAN)) {
-                    data.writeBoolean(DragonStringpath.DRAGON_SKILL_GUARDIAN, false);
-                    player.sendMessage(ChatColor.GREEN + "You have set it to false");
-                } else {
-                    data.writeBoolean(DragonStringpath.DRAGON_SKILL_GUARDIAN, true);
-                    player.sendMessage(ChatColor.GREEN + "You have set it to true");
-                }
-                inventory.createInventory();
-                player.openInventory(inventory.getInv());
+                GuardianSettingsGUI guardian = new GuardianSettingsGUI();
+                player.openInventory(guardian.createInventory());
                 break;
             case NETHERITE_SWORD:
                 if (data.getConfig().getString(DragonStringpath.DRAGON_EVENT_STATUS).equalsIgnoreCase("Alive")) {

@@ -9,7 +9,7 @@
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>OPKingdomsEvents</name>
+    <name>OPKingdomsCore</name>
 
     <description>A special events plugin for OP Kingdoms</description>
     <properties>

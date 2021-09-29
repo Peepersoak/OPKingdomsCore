@@ -7,6 +7,16 @@ import org.bukkit.NamespacedKey;
 public class DragonStringpath {
 
 
+    // Dragon Guardian String Path
+    public static final String DRAGON_GUARDIAN_SETTINGS_GUI = "Dragon Guardian Settings";
+    public static final String DRAGON_GUARDIAN_SETTINGS_PATH = "Dragon_Skill.Guardian";
+    public static final String DRAGON_GUARDIAN_SETTINGS_ALLOW = DRAGON_GUARDIAN_SETTINGS_PATH + ".Allow";
+    public static final String DRAGON_GUARDIAN_SETTINGS_NAME = DRAGON_GUARDIAN_SETTINGS_PATH + ".Name";
+    public static final String DRAGON_GUARDIAN_SETTINGS_HEALTH = DRAGON_GUARDIAN_SETTINGS_PATH + ".Health";
+    public static final String DRAGON_GUARDIAN_SETTINGS_DAMAGE = DRAGON_GUARDIAN_SETTINGS_PATH + ".Damage";
+    public static final String DRAGON_GUARDIAN_SETTINGS_DURATION  = DRAGON_GUARDIAN_SETTINGS_PATH + ".Duration";
+    public static final String DRAGON_GUARDIAN_SETTINGS_CHANCE = DRAGON_GUARDIAN_SETTINGS_PATH  + ".Chance";
+
     public static final String DRAGON_EVENT_SETTING_FILE_NAME = "Dragon_Event_Settings.yml";
     public static final String DRAGON_HEALTH_THRESHOLD = "Dragon_Health_Threshold";
     public static final String DRAGON_SKILL_PLAYER_PERCENTAGE = "Player_Percentage";
@@ -28,7 +38,6 @@ public class DragonStringpath {
     public static final String DRAGON_SKILL_LIGHTNINGSTRIKE = "Lightning_Strike";
     public static final String DRAGON_SKILL_EXPLOSION = "Explosion";
     public static final String DRAGON_SKILL_WITHER = "Wither_Effect";
-    public static final String DRAGON_SKILL_GUARDIAN = "Dragon_Guardian";
     public static final String DRAGON_PARTICLE = "Dragon_Particle";
 
     public static final String DRAGON_EVENT_STATUS = "Dragon_Event_Status";

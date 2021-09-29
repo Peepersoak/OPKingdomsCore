@@ -13,6 +13,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -35,6 +36,7 @@ public class TopDamager implements Listener {
         if (!dataContainer.has(new NamespacedKey(OPKingdomsCore.getInstance(), "Egg_Falling_Block"), PersistentDataType.STRING)) return;
         e.setCancelled(true);
     }
+
     @EventHandler
     public void onDragonDestroy(EntityExplodeEvent e) {
         if (!(e.getEntity() instanceof EnderDragon)) return;
@@ -74,6 +76,8 @@ public class TopDamager implements Listener {
 
         double damage = e.getFinalDamage();
 
+
+
         if (dragonEventTopDamager.containsKey(player)) {
             double newDamage = damage + dragonEventTopDamager.get(player);
             dragonEventTopDamager.put(player, newDamage);
@@ -90,7 +94,6 @@ public class TopDamager implements Listener {
         if (!data.has(DragonStringpath.DRAGON_NAMESPACEDKEY, PersistentDataType.STRING)) return;
 
         List<Double> allDamage = new ArrayList<>();
-
         for (Player p : dragonEventTopDamager.keySet()) {
             allDamage.add(dragonEventTopDamager.get(p));
         }

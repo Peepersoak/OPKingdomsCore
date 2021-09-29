@@ -72,9 +72,7 @@ public class DragonEventData {
             config.addDefault(DragonStringpath.DRAGON_SKILL_WITHER, false);
         }
 
-        if (!config.getBoolean(DragonStringpath.DRAGON_SKILL_GUARDIAN)) {
-            config.addDefault(DragonStringpath.DRAGON_SKILL_GUARDIAN, false);
-        }
+        setDragonGuardianDefault();
 
         if (config.getInt(DragonStringpath.DRAGON_HEALTH_THRESHOLD) == 0) {
             config.addDefault(DragonStringpath.DRAGON_HEALTH_THRESHOLD, 50);
@@ -102,6 +100,27 @@ public class DragonEventData {
 
         config.options().copyDefaults(true);
         saveFileConfig();
+    }
+
+    public void setDragonGuardianDefault() {
+        if (config.getString(DragonStringpath.DRAGON_GUARDIAN_SETTINGS_NAME) == null) {
+            config.addDefault(DragonStringpath.DRAGON_GUARDIAN_SETTINGS_NAME, "Dragon Guardian");
+        }
+        if (config.getInt(DragonStringpath.DRAGON_GUARDIAN_SETTINGS_HEALTH) == 0) {
+            config.addDefault(DragonStringpath.DRAGON_GUARDIAN_SETTINGS_HEALTH, 100);
+        }
+        if (config.getInt(DragonStringpath.DRAGON_GUARDIAN_SETTINGS_DAMAGE) == 0) {
+            config.addDefault(DragonStringpath.DRAGON_GUARDIAN_SETTINGS_DAMAGE, 15);
+        }
+        if (!config.getBoolean(DragonStringpath.DRAGON_GUARDIAN_SETTINGS_ALLOW)) {
+            config.addDefault(DragonStringpath.DRAGON_GUARDIAN_SETTINGS_ALLOW, false);
+        }
+        if (config.getInt(DragonStringpath.DRAGON_GUARDIAN_SETTINGS_DURATION) == 0) {
+            config.addDefault(DragonStringpath.DRAGON_GUARDIAN_SETTINGS_DURATION, 30);
+        }
+        if (config.getInt(DragonStringpath.DRAGON_GUARDIAN_SETTINGS_CHANCE) == 0) {
+            config.addDefault(DragonStringpath.DRAGON_GUARDIAN_SETTINGS_CHANCE, 25);
+        }
     }
 
     public void saveFileConfig() {
