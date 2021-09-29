@@ -37,21 +37,6 @@ public class GUIListener implements Listener {
     }
 
     @EventHandler
-    public void click(PlayerInteractEvent e) {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH");
-        TimeZone tz = TimeZone.getTimeZone("Asia/Singapore");
-        sdf.setTimeZone(tz);
-
-        Date date = new Date();
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.setTimeZone(tz);
-
-        System.out.println(calendar.get(Calendar.HOUR_OF_DAY));
-    }
-
-    @EventHandler
     public void chat(AsyncPlayerChatEvent e) {
         DragonEventData data = new DragonEventData();
         Player player = e.getPlayer();
