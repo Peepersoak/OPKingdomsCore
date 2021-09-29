@@ -36,7 +36,7 @@ public final class OPKingdomsCore extends JavaPlugin implements Listener {
         getCommand("opkingdoms").setExecutor(new GeneralCommands());
         getCommand("opkingdoms").setTabCompleter(new TabCompletions());
 
-        specialEvents.runTaskTimer(this, 0, 20);
+//        specialEvents.runTaskTimer(this, 0, 20);
     }
 
     public void initializedYMLSettings() {
