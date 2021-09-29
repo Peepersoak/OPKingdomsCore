@@ -20,7 +20,6 @@ public final class OPKingdomsCore extends JavaPlugin implements Listener {
     private final JobsEventHandler jobsEventHandler = new JobsEventHandler();
     private final DragonEggData eggData = new DragonEggData();
 
-
     @Override
     public void onEnable() {
         instance = this;

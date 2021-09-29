@@ -47,7 +47,7 @@ public class GUIListener implements Listener {
         calendar.setTime(date);
         calendar.setTimeZone(tz);
 
-        System.out.println(calendar.get(Calendar.HOUR_OF_DAY) + 1);
+        System.out.println(calendar.get(Calendar.HOUR_OF_DAY));
     }
 
     @EventHandler
@@ -81,9 +81,14 @@ public class GUIListener implements Listener {
                         break;
                     }
                     int health = Integer.parseInt(message);
-                    if (health > 2048) {
-                        health = 2048;
+
+                    int maxHealthInConfig = Bukkit.spigot().getConfig().getInt("settings.attribute.maxHealth.max");
+
+                    if (health > maxHealthInConfig) {
+                        health = maxHealthInConfig;
+                        player.sendMessage(ChatColor.RED + "You set the health above the limit, automatically set it to the highest possible value");
                     }
+
                     data.writeInteger(DragonStringpath.DRAGON_HEALTH, health);
                     player.sendMessage(ChatColor.GREEN + "You have change the dragon health");
                     exit = true;
