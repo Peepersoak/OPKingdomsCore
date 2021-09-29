@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.peepersoak</groupId>
-    <artifactId>OPKingdomsEvents</artifactId>
-    <version>1.0</version>
+    <artifactId>OPKingdomsCore</artifactId>
+    <version>0.5-Beta</version>
     <packaging>jar</packaging>
 
     <name>OPKingdomsCore</name>

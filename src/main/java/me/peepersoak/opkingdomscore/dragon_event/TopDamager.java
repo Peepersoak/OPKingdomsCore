@@ -18,10 +18,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class TopDamager implements Listener {
 
@@ -94,76 +91,11 @@ public class TopDamager implements Listener {
         PersistentDataContainer data = dragon.getPersistentDataContainer();
         if (!data.has(DragonStringpath.DRAGON_NAMESPACEDKEY, PersistentDataType.STRING)) return;
 
-        List<Double> allDamage = new ArrayList<>();
-        for (Player p : dragonEventTopDamager.keySet()) {
-            allDamage.add(dragonEventTopDamager.get(p));
-        }
-
-        Collections.sort(allDamage);
-        Collections.reverse(allDamage);
-
-        String firstPlace = "";
-        String secondPlace = "";
-        String thirdPlace = "";
-
-        Player firstPlayer = null;
-        Player secondPlayer = null;
-        Player thirdPlayer = null;
-
-        for (int i = 0; i < 3; i++) {
-            if (i >= allDamage.size()) {
-                break;
-            }
-            for (Player p : dragonEventTopDamager.keySet()) {
-                if (dragonEventTopDamager.get(p) == allDamage.get(i)) {
-                    if (i == 0) {
-                        firstPlace = ChatColor.GOLD + "First Place: " +
-                                ChatColor.AQUA + p.getName() +
-                                ChatColor.GOLD + ": " +
-                                ChatColor.RED + (Math.round(allDamage.get(i)*100)/100);
-                        firstPlayer = p;
-                        giveRewards(p, "First Place");
-                    }
-                    if (i == 1) {
-                        secondPlace = ChatColor.GOLD + "Second Place: " +
-                                ChatColor.AQUA + p.getName() +
-                                ChatColor.GOLD + ": " +
-                                ChatColor.RED + (Math.round(allDamage.get(i)*100)/100);
-                        secondPlayer = p;
-                        giveRewards(p, "Second Place");
-                    }
-                    if (i == 2) {
-                        thirdPlace = ChatColor.GOLD + "Third Place: " +
-                                ChatColor.AQUA + p.getName() +
-                                ChatColor.GOLD + ": " +
-                                ChatColor.RED + (Math.round(allDamage.get(i)*100)/100);
-                        thirdPlayer = p;
-                        giveRewards(p, "Third Place");
-                    }
-                }
-            }
-        }
+        Rewards rewards = new Rewards(dragonEventTopDamager, dragonKiller);
+        rewards.setTop();
+        rewards.sendEndEventMessage();
 
         dragonEventTopDamager = new HashMap<>();
-
-        String eventEndMessage = OPKingdomsCore.getInstance().getConfig().getString(DragonStringpath.DRAGON_END_EVENT_MESSAGE);
-        assert eventEndMessage != null;
-        String msg = ChatColor.translateAlternateColorCodes('&', eventEndMessage);
-
-        Bukkit.broadcastMessage(ChatColor.AQUA + "==========================");
-        Bukkit.broadcastMessage(ChatColor.GREEN + "");
-        Bukkit.broadcastMessage(msg);
-        Bukkit.broadcastMessage(ChatColor.GREEN + "");
-        Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "Dragon Killer:");
-        Bukkit.broadcastMessage(ChatColor.GOLD + dragonKiller.getName());
-        Bukkit.broadcastMessage("");
-        Bukkit.broadcastMessage(ChatColor.GREEN + "Most Damage Dealt:");
-        Bukkit.broadcastMessage(ChatColor.GREEN + "");
-        Bukkit.broadcastMessage(ChatColor.GOLD + firstPlace);
-        Bukkit.broadcastMessage(ChatColor.GOLD + secondPlace);
-        Bukkit.broadcastMessage(ChatColor.GOLD + thirdPlace);
-        Bukkit.broadcastMessage(ChatColor.AQUA + "==========================");
-
         DragonEventData eventData = new DragonEventData();
         eventData.write(DragonStringpath.DRAGON_EVENT_STATUS, "Dead");
         resetDragonEgg(dragon, eventData);
@@ -217,31 +149,6 @@ public class TopDamager implements Listener {
         int y = Integer.parseInt(split[2]);
         int z = Integer.parseInt(split[3]);
         return new Location(Bukkit.getWorld(name), x , y, z);
-    }
-
-    public void giveRewards(Player player, String position) {
-
-        List<String> firstPlaceRewards = this.data.getConfig().getStringList(DragonStringpath.DRAGON_FIRST_PLACE_REWARDS);
-        List<String> secondPlaceRewards = this.data.getConfig().getStringList(DragonStringpath.DRAGON_SECOND_PLACE_REWARDS);
-        List<String> thirdPlaceRewards = this.data.getConfig().getStringList(DragonStringpath.DRAGON_THIRD_PLACE_REWARDS);
-
-        switch (position) {
-            case "First Place":
-                runCommands(firstPlaceRewards, player.getName());
-                break;
-            case "Second Place":
-                runCommands(secondPlaceRewards, player.getName());
-                break;
-            case "Third Place":
-                runCommands(thirdPlaceRewards, player.getName());
-                break;
-        }
-    }
-
-    public void runCommands(List<String> commands, String name) {
-        for (String cmd : commands) {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%player_name%", name));
-        }
     }
 
     public void updateBossBar(EnderDragon dragon, double dammage) {

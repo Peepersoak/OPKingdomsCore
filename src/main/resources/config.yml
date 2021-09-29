@@ -15,14 +15,29 @@ Dragon_Event_Message: "&6Ancient Dragon Event is Starting!!"
 Dragon_End_Event_Message: "&6The Ancient Black Dragon has been defeated!!"
 
 # Commands for winners:
+Dragon_Killer:
+  Reward_1:
+    Reward: "give %player_name% apple"
+    Message: "&61 Apple"
+  Reward_2:
+    Reward: "give %player_name% iron_ingot 64"
+    Message: "&664 iron"
 First_Place_Rewards:
-  - "give %player_name% apple"
-  - "give %player_name% iron_ingot 64"
-  - "xp add %player_name% 10000"
+  Reward_1:
+    Reward: "give %player_name% apple"
+    Message: "&61 apple"
+  Reward_2:
+    Reward: "give %player_name% iron_ingot 64"
+    Message: "&664 iron"
 Second_Place_Rewards:
-  - "give %player_name% sand 16"
+  Reward_1:
+    Reward: "give %player_name% apple"
+    Message: "&61 apple"
 Third_Place_Rewards:
-  - "give %player_name% dirt 64"
+  Reward_1:
+    Reward: "give %player_name% apple"
+    Message: "&61 apple"
+Damage_To_Level_Message: "&6%level% Levels!!"
 
 
 
