@@ -27,6 +27,7 @@ public class TopDamager implements Listener {
 
     private HashMap<Player, Double> dragonEventTopDamager = new HashMap<>();
     private final DragonEventData data = new DragonEventData();
+    private Player dragonKiller;
 
     @EventHandler
     public void onBlockChange(EntityChangeBlockEvent e){
@@ -74,9 +75,9 @@ public class TopDamager implements Listener {
 
         if (player == null) return;
 
+        dragonKiller = player;
+
         double damage = e.getFinalDamage();
-
-
 
         if (dragonEventTopDamager.containsKey(player)) {
             double newDamage = damage + dragonEventTopDamager.get(player);
@@ -153,6 +154,9 @@ public class TopDamager implements Listener {
         Bukkit.broadcastMessage(ChatColor.GREEN + "");
         Bukkit.broadcastMessage(msg);
         Bukkit.broadcastMessage(ChatColor.GREEN + "");
+        Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "Dragon Killer:");
+        Bukkit.broadcastMessage(ChatColor.GOLD + dragonKiller.getName());
+        Bukkit.broadcastMessage("");
         Bukkit.broadcastMessage(ChatColor.GREEN + "Most Damage Dealt:");
         Bukkit.broadcastMessage(ChatColor.GREEN + "");
         Bukkit.broadcastMessage(ChatColor.GOLD + firstPlace);
