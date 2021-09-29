@@ -1,0 +1,76 @@
+Break:
+  andesite:
+    income: 1
+    experience: 1
+  stone:
+    income: 1
+    experience: 1
+  granite:
+    income: 1
+    experience: 1
+  diorite:
+    income: 1
+    experience: 1
+  sandstone:
+    income: 0.15
+    experience: 0.2
+  chiseled_sandstone:
+    income: 0.15
+    experience: 0.2
+  cut_sandstone:
+    income: 0.15
+    experience: 0.2
+  coal_ore:
+    income: 3
+    experience: 2
+  redstone_ore:
+    income: 2.5
+    experience: 2
+  iron_ore:
+    income: 3.5
+    experience: 2
+  gold_ore:
+    income: 5
+    experience: 2
+  lapis_ore:
+    income: 7.5
+    experience: 2
+  diamond_ore:
+    income: 10
+    experience: 10
+  emerald_ore:
+    income: 15
+    experience: 30
+  nether_quartz_ore:
+    income: 2.5
+    experience: 2.5
+  obsidian:
+    income: 5
+    experience: 5
+  cobblestone_wall:
+    income: 2.5
+    experience: 2.5
+  mossy_cobblestone_wall:
+    income: 2.5
+    experience: 2.5
+  nether_bricks:
+    income: 1.0
+    experience: 1.0
+  nether_brick_stairs:
+    income: 3
+    experience: 3
+  nether_brick_fence:
+    income: 1
+    experience: 1
+  netherrack:
+    income: 0.1
+    experience: 0.1
+  prismarine:
+    income: 2.5
+    experience: 2.5
+  prismarine_bricks:
+    income: 2.5
+    experience: 2.5
+  dark_prismarine:
+    income: 2.5
+    experience: 2.5

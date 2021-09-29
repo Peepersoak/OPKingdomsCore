@@ -1,0 +1,8 @@
+name: OPKingdomsEvents
+version: ${project.version}
+main: me.peepersoak.opkingdomsevents.OPKingdomsCore
+api-version: 1.17
+authors: [ Peepersoak ]
+description: A special events plugin for OP Kingdoms
+commands:
+  opkingdoms:

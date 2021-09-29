@@ -1,0 +1,93 @@
+Enchant:
+  wood_sword:
+    income: 1.5
+    points: 1.5
+    experience: 3.0
+  leather_boots:
+    income: 1.0
+    points: 1.0
+    experience: 6.0
+  leather_chestplate:
+    income: 2.0
+    points: 2.0
+    experience: 6.0
+  leather_helmet:
+    income: 1.0
+    points: 1.0
+    experience: 6.0
+  leather_leggings:
+    income: 2.0
+    points: 2.0
+    experience: 6.0
+  iron_sword:
+    income: 3.0
+    points: 3.0
+    experience: 6.0
+  iron_boots:
+    income: 2.5
+    points: 2.5
+    experience: 9.0
+  iron_chestplate:
+    income: 4.5
+    points: 4.5
+    experience: 9.0
+  iron_helmet:
+    income: 2.5
+    points: 2.5
+    experience: 9.0
+  iron_leggings:
+    income: 4.5
+    points: 4.5
+    experience: 9.0
+  gold_sword:
+    income: 4.5
+    points: 4.5
+    experience: 15.0
+  gold_boots:
+    income: 2.5
+    points: 2.5
+    experience: 15.0
+  gold_chestplate:
+    income: 5.5
+    points: 5.5
+    experience: 15.0
+  gold_helmet:
+    income: 2.5
+    points: 2.5
+    experience: 15.0
+  gold_leggings:
+    income: 5.5
+    points: 5.5
+    experience: 15.0
+  diamond_sword:
+    income: 9.0
+    points: 9.0
+    experience: 30.0
+  diamond_shovel:
+    income: 5.0
+    points: 5.0
+    experience: 30.0
+  diamond_pickaxe:
+    income: 10.0
+    points: 10.0
+    experience: 30.0
+  diamond_axe:
+    income: 10.0
+    points: 10.0
+    experience: 30.0
+  diamond_helmet:
+    income: 6.0
+    points: 6.0
+    experience: 30.0
+  diamond_chestplate:
+    income: 12.0
+    points: 12.0
+    experience: 50.0
+  diamond_leggings:
+    income: 12.0
+    points: 12.0
+    experience: 50.0
+  diamond_boots:
+    income: 6.0
+    points: 6.0
+    experience: 30.0

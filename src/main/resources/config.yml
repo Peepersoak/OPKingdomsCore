@@ -1,0 +1,28 @@
+####### OP KINGDOMS CORE #######
+
+# Special Event Date
+Day: Sunday
+# Time in 24 Hour format
+Time: 12
+
+# Event Reminder
+Dragon_Event_Reminder: "&6%hour% hour and %minutes% mins remain until the dragon event starts"
+
+# Event message
+Dragon_Event_Message: "&6Ancient Dragon Event is Starting!!"
+
+# Event End Message
+Dragon_End_Event_Message: "&6The Ancient Black Dragon has been defeated!!"
+
+# Commands for winners:
+First_Place_Rewards:
+  - "give %player_name% apple"
+  - "give %player_name% iron_ingot 64"
+  - "xp add %player_name% 10000"
+Second_Place_Rewards:
+  - "give %player_name% sand 16"
+Third_Place_Rewards:
+  - "give %player_name% dirt 64"
+
+
+
