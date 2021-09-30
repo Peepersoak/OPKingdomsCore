@@ -8,7 +8,7 @@ import org.bukkit.plugin.PluginManager;
 public class DragonEventHandler {
 
     public void registerDragonEvent(OPKingdomsCore plugin, PluginManager pm) {
-        pm.registerEvents(new TopDamager(), plugin);
+        pm.registerEvents(new DragonEventListener(), plugin);
         pm.registerEvents(new GUIListener(), plugin);
         pm.registerEvents(new GuardianSettingsListener(), plugin);
     }

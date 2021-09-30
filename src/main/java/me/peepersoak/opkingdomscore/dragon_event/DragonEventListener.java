@@ -16,11 +16,13 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
-public class TopDamager implements Listener {
+public class DragonEventListener implements Listener {
 
     private HashMap<Player, Double> dragonEventTopDamager = new HashMap<>();
     private final DragonEventData data = new DragonEventData();
@@ -110,6 +112,36 @@ public class TopDamager implements Listener {
         teleportAllPlayer(dragon.getWorld());
     }
 
+    @EventHandler
+    public void onDragonPhaseChange(EnderDragonChangePhaseEvent e) {
+        EnderDragon dragon = e.getEntity();
+        PersistentDataContainer data = dragon.getPersistentDataContainer();
+        if (!data.has(DragonStringpath.DRAGON_NAMESPACEDKEY, PersistentDataType.STRING)) return;
+        if (e.getCurrentPhase() == EnderDragon.Phase.LAND_ON_PORTAL) {
+            castMassLightningStrike(dragon);
+        }
+    }
+
+    public void castMassLightningStrike(EnderDragon dragon) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (dragon.getPhase() != EnderDragon.Phase.LAND_ON_PORTAL &&
+                dragon.getPhase() != EnderDragon.Phase.SEARCH_FOR_BREATH_ATTACK_TARGET &&
+                dragon.getPhase() != EnderDragon.Phase.BREATH_ATTACK &&
+                dragon.getPhase() != EnderDragon.Phase.ROAR_BEFORE_ATTACK) this.cancel();
+                healDragon(dragon);
+                for (Player p : dragon.getWorld().getPlayers()) {
+                    double distance = p.getLocation().distance(dragon.getLocation());
+                    if (distance <= 100) {
+                        dragon.getWorld().strikeLightning(p.getLocation());
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 100, 2));
+                    }
+                }
+            }
+        }.runTaskTimer(OPKingdomsCore.getInstance(), 0, 20);
+    }
+
     public void teleportAllPlayer(World world) {
         int delay = OPKingdomsCore.getInstance().getConfig().getInt(DragonStringpath.DRAGON_END_EVENT_TP_DELAY) * 20;
         new BukkitRunnable() {
@@ -194,5 +226,18 @@ public class TopDamager implements Listener {
         } else {
             bar.setProgress(points);
         }
+    }
+
+    public void healDragon(EnderDragon dragon) {
+        BossBar bar = DragonEvent.getDragonEventBossBar();
+        if (bar == null) return;
+
+        double maxHealth = dragon.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+        double heal = maxHealth * 0.03;
+
+        double health = dragon.getHealth() + heal;
+        double points = health/maxHealth;
+
+        bar.setProgress(points);
     }
 }
