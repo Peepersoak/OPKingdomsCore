@@ -50,6 +50,12 @@ public class TopDamager implements Listener {
         EnderDragon dragon = (EnderDragon) e.getEntity();
         PersistentDataContainer data = dragon.getPersistentDataContainer();
         if (!data.has(DragonStringpath.DRAGON_NAMESPACEDKEY, PersistentDataType.STRING)) return;
+
+        if (e.getCause() == EntityDamageEvent.DamageCause.LIGHTNING ||
+        e.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION ||
+        e.getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION) {
+            e.setCancelled(true);
+        }
         updateBossBar(dragon, e.getFinalDamage());
     }
 
@@ -177,11 +183,13 @@ public class TopDamager implements Listener {
     public void updateBossBar(EnderDragon dragon, double dammage) {
         BossBar bar = DragonEvent.getDragonEventBossBar();
         if (bar == null) return;
-        double health = dragon.getHealth();
+        double health = dragon.getHealth() - dammage;
         double maxHealth = dragon.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
         double points = health/maxHealth;
 
-        if (dammage >= health) {
+        System.out.println(dammage + " " + health);
+
+        if (health < 0) {
             bar.setProgress(0);
         } else {
             bar.setProgress(points);

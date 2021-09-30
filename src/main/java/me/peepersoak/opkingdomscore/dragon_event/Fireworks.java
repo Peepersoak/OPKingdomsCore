@@ -26,7 +26,7 @@ public class Fireworks {
             int count = 0;
             @Override
             public void run() {
-                if (count == 30) this.cancel();
+                if (count == 10) this.cancel();
                 Location location = getLocation(locData);
                 Firework fw = (Firework) Objects.requireNonNull(location.getWorld()).spawnEntity(location, EntityType.FIREWORK);
                 FireworkMeta meta = fw.getFireworkMeta();

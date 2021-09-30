@@ -61,7 +61,9 @@ public class DragonSkill extends BukkitRunnable {
             public void run() {
                 switch (randomSkill) {
                     case "Lightning_Strike":
+                        float lightningDamage = rand.nextInt(8) + 5;
                         player.getWorld().strikeLightning(player.getLocation());
+                        player.damage(lightningDamage);
                         break;
                     case "Explosion":
                         float damage = rand.nextInt(8) + 4;

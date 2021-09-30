@@ -18,26 +18,26 @@ Dragon_End_Event_Message: "&6The Ancient Black Dragon has been defeated!!"
 Dragon_Killer:
   Reward_1:
     Reward: "give %player_name% apple"
-    Message: "&61 Apple"
+    Message: "&6Apple x1"
   Reward_2:
     Reward: "give %player_name% iron_ingot 64"
-    Message: "&664 iron"
+    Message: "&6Iron x64"
 First_Place_Rewards:
   Reward_1:
     Reward: "give %player_name% apple"
-    Message: "&61 apple"
+    Message: "&6Apple x1"
   Reward_2:
     Reward: "give %player_name% iron_ingot 64"
-    Message: "&664 iron"
+    Message: "&6Iron x64"
 Second_Place_Rewards:
   Reward_1:
     Reward: "give %player_name% apple"
-    Message: "&61 apple"
+    Message: "&6Apple x1"
 Third_Place_Rewards:
   Reward_1:
     Reward: "give %player_name% apple"
-    Message: "&61 apple"
-Damage_To_Level_Message: "&6%level% Levels!!"
+    Message: "&6Apple x1"
+Damage_To_Level_Message: "&6%level% Levels"
 
 # Teleport Delay in seconds.
 Dragon_End_Event_Command_Delay: 30
