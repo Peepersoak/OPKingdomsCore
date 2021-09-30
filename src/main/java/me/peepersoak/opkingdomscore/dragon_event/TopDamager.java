@@ -91,6 +91,7 @@ public class TopDamager implements Listener {
         PersistentDataContainer data = dragon.getPersistentDataContainer();
         if (!data.has(DragonStringpath.DRAGON_NAMESPACEDKEY, PersistentDataType.STRING)) return;
 
+        Fireworks fireworks = new Fireworks();
         Rewards rewards = new Rewards(dragonEventTopDamager, dragonKiller);
         rewards.setTop();
         rewards.sendEndEventMessage();
@@ -99,6 +100,28 @@ public class TopDamager implements Listener {
         DragonEventData eventData = new DragonEventData();
         eventData.write(DragonStringpath.DRAGON_EVENT_STATUS, "Dead");
         resetDragonEgg(dragon, eventData);
+
+        teleportAllPlayer(dragon.getWorld());
+    }
+
+    public void teleportAllPlayer(World world) {
+        int delay = OPKingdomsCore.getInstance().getConfig().getInt(DragonStringpath.DRAGON_END_EVENT_TP_DELAY) * 20;
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                List<String> cmd = OPKingdomsCore.getInstance().getConfig().getStringList(DragonStringpath.DRAGON_END_EVENT_TP_COMMAND);
+                for (Player player : world.getPlayers()) {
+                    for (String str : cmd) {
+                        dispatchCommand(str, player.getName());
+                    }
+                }
+            }
+        }.runTaskLater(OPKingdomsCore.getInstance(), delay);
+    }
+
+    public void dispatchCommand(String command, String name) {
+        String cmd = command.replace("%player_name%", name);
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
     }
 
     public void resetDragonEgg(EnderDragon dragon, DragonEventData data) {

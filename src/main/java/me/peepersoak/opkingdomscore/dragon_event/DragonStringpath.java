@@ -30,6 +30,8 @@ public class DragonStringpath {
     public static final String DRAGON_SECOND_PLACE_REWARDS = "Second_Place_Rewards";
     public static final String DRAGON_THIRD_PLACE_REWARDS = "Third_Place_Rewards";
     public static final String DRAGON_EVENT_REMAINING_MESSAGE = "Dragon_Event_Reminder";
+    public static final String DRAGON_END_EVENT_TP_COMMAND = "Dragon_Teleport_Command";
+    public static final String DRAGON_END_EVENT_TP_DELAY = "Dragon_Teleport_Delay";
 
     public static final String DRAGON_NAME = "Dragon_Name";
     public static final String DRAGON_HEALTH = "Dragon_Health";

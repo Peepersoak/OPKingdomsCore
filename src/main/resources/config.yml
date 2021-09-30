@@ -39,5 +39,11 @@ Third_Place_Rewards:
     Message: "&61 apple"
 Damage_To_Level_Message: "&6%level% Levels!!"
 
-
+# Teleport Delay in seconds.
+Dragon_End_Event_Command_Delay: 30
+# List of Commands, this will run after a delay from killing the dragon
+Dragon_End_Event_Commands:
+  - "cmi warp spawn %player_name%"
+  - "playsound minecraft:ui.toast.challenge_complete player %player_name%"
+  - "cmi titlemsg %player_name% Victory"
 
