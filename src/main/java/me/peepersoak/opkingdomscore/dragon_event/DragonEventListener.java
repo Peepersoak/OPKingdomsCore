@@ -234,9 +234,14 @@ public class DragonEventListener implements Listener {
 
         double maxHealth = dragon.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
         double heal = maxHealth * 0.03;
-
         double health = dragon.getHealth() + heal;
+
+        if (health >= maxHealth) {
+            health = maxHealth;
+        }
+
         double points = health/maxHealth;
+        dragon.setHealth(health);
 
         bar.setProgress(points);
     }
