@@ -152,7 +152,9 @@ public class Rewards {
             dispatchCommand(cmd, player.getName());
             assert msg != null;
             String newMsg = ChatColor.translateAlternateColorCodes('&', msg);
-            player.sendMessage(newMsg);
+            if (!msg.equalsIgnoreCase("none")) {
+                player.sendMessage(newMsg);
+            }
         }
     }
 
