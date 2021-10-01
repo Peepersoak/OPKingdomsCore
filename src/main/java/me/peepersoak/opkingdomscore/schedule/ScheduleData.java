@@ -1,7 +1,6 @@
 package me.peepersoak.opkingdomscore.schedule;
 
 import me.peepersoak.opkingdomscore.OPKingdomsCore;
-import me.peepersoak.opkingdomscore.jobscertificate.JobsString;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;

@@ -1,39 +1,42 @@
-# Schedule
+# Sample Weekly Event:
+#  Friday: [Set the event day]
+#    Run_Event: true [Either to run the event or not]
+#    Event_Time: 12 [The Event Time in 24 Hour Format]
+#    Event_Name: "Sample Event"
+#    Event_Start_Message: "Event is Starting" [This message will be sent as a Title not on chat]
+#    Reminder:
+#      Hour_Left: 5 [Minimum hour left needed before it starts to remind the players every hour]
+#      Reminder_Message:
+#        - "Event starts in %time_left%"
+#        - "Proceed on this area to participate"
+#    Command: [List of commands that will run when the event starts]
+#      - "None"
 
 # Weekly Schedule
 Weekly_Event:
   Friday:
-    # If the event should be added to the schedule
     Run_Event: true
-    # Time of the Event in 24 Hour Format
     Event_Time: 12
-    Event_Start_Message: "Event is Starting"
+    Event_Name: 'Sample Event'
+    Event_Start_Message: 'Event is Starting'
     Reminder:
-      # Hour left before the reminder starts, will repeat every hour. Then on 30, 15, 10, 5, and 1 min before the event start
       Hour_Left: 5
       Reminder_Message:
-        - "Event starts in %hour_left%"
-        - "Proceed on this area to participate"
-    # List of commands that will run on the event
+        - 'Event starts in %time_left%'
+        - 'Proceed on this area to participate'
     Command:
-      - "None"
+      - 'None'
 
-# Monthly Event
 Monthly_Event:
   Event_1:
     Run_Event: false
-    # The specific day of the month, on example this will run the 1st day of every month.
-    # Be aware that not all months have the same number of days.
     Day: 1
-    # Time of the event in 24 Hour Formay.
     Event_Time: 12
-    Event_Start_Message: "None"
+    Event_Start_Message: 'None'
     Reminder:
-      # Hour left before the reminder starts, will repeat every hour. Then on 30, 15, 10, 5, and 1 min before the event start
       Hour_Left: 5
       Reminder_Message:
-        - "Event starts in %hour_left%"
-        - "Proceed on this area to participate"
-    # List of commands that will run on the event
+        - 'Event starts in %hour_left%'
+        - 'Proceed on this area to participate'
     Command:
-      - "None"
+      - 'None'

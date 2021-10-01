@@ -9,6 +9,7 @@ public class ScheduleStringPath {
     public static final String MONTHLY_EVENT_SECTION = "Monthly_Event";
     public static final String MONTHLY_EVENT_DAY = "Day";
 
+    public static final String EVENT_NAME = "Event_Name";
     public static final String EVENT_RUN = "Run_Event";
     public static final String EVENT_TIME = "Event_Time";
     public static final String EVENT_START_MESSAGE = "Event_Start_Message";

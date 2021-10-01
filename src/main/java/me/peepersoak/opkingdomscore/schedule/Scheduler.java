@@ -27,56 +27,26 @@ public class Scheduler {
         return calendar;
     }
 
-    public String getDayOfWeek() {
-        String day;
-        int dayCount = getCalendar().get(Calendar.DAY_OF_WEEK);
-        return convertCountToDay(dayCount);
-    }
-    
-    public String convertCountToDay(int count) {
-        String day = null;
-        switch (count) {
-            case 1:
-                day = "Sunday";
-                break;
-            case 2:
-                day = "Monday";
-                break;
-            case 3:
-                day = "Tuesday";
-                break;
-            case 4:
-                day = "Wednesday";
-                break;
-            case 5:
-                day = "Thursday";
-                break;
-            case 6:
-                day = "Friday";
-                break;
-            case 7:
-                day = "Saturday";
-                break;
-        }
-        return day;
-    }
-
     public void checkWeekly() {
         ScheduleData data = new ScheduleData();
         ConfigurationSection weekly = data.getConfig().getConfigurationSection(ScheduleStringPath.WEEKLY_EVENT_SECTION);
+        assert weekly != null;
         for (String day : weekly.getKeys(false)) {
-            if (!weekly.getBoolean(ScheduleStringPath.EVENT_RUN)) continue;
-            if (!getDayOfWeek().equalsIgnoreCase(day)) return;
+            String[] strsplit = day.split("_");
+            String str = strsplit[0];
 
-            int eventTime = weekly.getInt(ScheduleStringPath.EVENT_TIME);
-            String eventMessage = weekly.getString(ScheduleStringPath.EVENT_START_MESSAGE);
+            if (!weekly.getBoolean(day + "." + ScheduleStringPath.EVENT_RUN)) continue;
 
-            int hourLeftReminder = weekly.getInt(ScheduleStringPath.EVENT_REMINDER_HOUR_LEFT);
-            List<String> reminderMessage = weekly.getStringList(ScheduleStringPath.EVENT_REMINDER_MESSAGE);
+            int eventTime = weekly.getInt(day + "." +ScheduleStringPath.EVENT_TIME);
+            String eventMessage = weekly.getString(day + "." +ScheduleStringPath.EVENT_START_MESSAGE);
+            String eventName = weekly.getString(day + "." + ScheduleStringPath.EVENT_NAME);
 
-            List<String> eventCommand = weekly.getStringList(ScheduleStringPath.EVENT_COMMANDS);
+            int hourLeftReminder = weekly.getInt(day + "." +ScheduleStringPath.EVENT_REMINDER_HOUR_LEFT);
+            List<String> reminderMessage = weekly.getStringList(day + "." +ScheduleStringPath.EVENT_REMINDER_MESSAGE);
 
-            RunSchedule schedule = new RunSchedule(day, eventTime, hourLeftReminder, reminderMessage, eventCommand, eventMessage);
+            List<String> eventCommand = weekly.getStringList(day + "." +ScheduleStringPath.EVENT_COMMANDS);
+
+            RunSchedule schedule = new RunSchedule(str, eventTime, hourLeftReminder, reminderMessage, eventCommand, eventMessage, eventName, getCalendar());
             schedule.runTaskTimerAsynchronously(OPKingdomsCore.getInstance(), 0, 20);
         }
     }
