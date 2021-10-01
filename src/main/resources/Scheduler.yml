@@ -1,0 +1,39 @@
+# Schedule
+
+# Weekly Schedule
+Weekly_Event:
+  Friday:
+    # If the event should be added to the schedule
+    Run_Event: true
+    # Time of the Event in 24 Hour Format
+    Event_Time: 12
+    Event_Start_Message: "Event is Starting"
+    Reminder:
+      # Hour left before the reminder starts, will repeat every hour. Then on 30, 15, 10, 5, and 1 min before the event start
+      Hour_Left: 5
+      Reminder_Message:
+        - "Event starts in %hour_left%"
+        - "Proceed on this area to participate"
+    # List of commands that will run on the event
+    Command:
+      - "None"
+
+# Monthly Event
+Monthly_Event:
+  Event_1:
+    Run_Event: false
+    # The specific day of the month, on example this will run the 1st day of every month.
+    # Be aware that not all months have the same number of days.
+    Day: 1
+    # Time of the event in 24 Hour Formay.
+    Event_Time: 12
+    Event_Start_Message: "None"
+    Reminder:
+      # Hour left before the reminder starts, will repeat every hour. Then on 30, 15, 10, 5, and 1 min before the event start
+      Hour_Left: 5
+      Reminder_Message:
+        - "Event starts in %hour_left%"
+        - "Proceed on this area to participate"
+    # List of commands that will run on the event
+    Command:
+      - "None"

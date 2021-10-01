@@ -1,5 +1,6 @@
-package me.peepersoak.opkingdomscore;
+package me.peepersoak.opkingdomscore.schedule;
 
+import me.peepersoak.opkingdomscore.OPKingdomsCore;
 import me.peepersoak.opkingdomscore.dragon_event.DragonEggData;
 import me.peepersoak.opkingdomscore.dragon_event.DragonEvent;
 import me.peepersoak.opkingdomscore.dragon_event.DragonEventData;

@@ -5,6 +5,9 @@ import me.peepersoak.opkingdomscore.commands.GeneralCommands;
 import me.peepersoak.opkingdomscore.commands.TabCompletions;
 import me.peepersoak.opkingdomscore.jobscertificate.JobsEventHandler;
 import me.peepersoak.opkingdomscore.jobscertificate.data.*;
+import me.peepersoak.opkingdomscore.schedule.ScheduleData;
+import me.peepersoak.opkingdomscore.schedule.Scheduler;
+import me.peepersoak.opkingdomscore.schedule.TaskRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -19,6 +22,7 @@ public final class OPKingdomsCore extends JavaPlugin implements Listener {
     private final DragonEventHandler dragonEventHandler = new DragonEventHandler();
     private final JobsEventHandler jobsEventHandler = new JobsEventHandler();
     private final DragonEggData eggData = new DragonEggData();
+
 
     @Override
     public void onEnable() {
@@ -35,7 +39,7 @@ public final class OPKingdomsCore extends JavaPlugin implements Listener {
         getCommand("opkingdoms").setExecutor(new GeneralCommands());
         getCommand("opkingdoms").setTabCompleter(new TabCompletions());
 
-//        specialEvents.runTaskTimer(this, 0, 20);
+        Scheduler scheduler = new Scheduler();
     }
 
     public void initializedYMLSettings() {
@@ -47,6 +51,7 @@ public final class OPKingdomsCore extends JavaPlugin implements Listener {
         WarriorData warriorData = new WarriorData();
         ArcherData archerData = new ArcherData();
         SmithingData smithingData = new SmithingData();
+        ScheduleData scheduleData = new ScheduleData();
 
         eggData.getYMLData();
     }
