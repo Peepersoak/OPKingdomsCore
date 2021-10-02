@@ -53,23 +53,7 @@ public class GeneralCommands implements CommandExecutor {
                     player.sendMessage(ChatColor.GREEN + "Config has been reloaded");
                 }
                 if (cmd.equalsIgnoreCase("events")) {
-                    if (Events.getRegisterEventName().isEmpty()) {
-                        player.sendMessage(ChatColor.RED + "No scheduled Events for today");
-                        return false;
-                    }
-                    player.sendMessage(ChatColor.GOLD + "=====================");
-                    player.sendMessage("");
-                    player.sendMessage(ChatColor.GREEN + "Events for today:");
-                    player.sendMessage("");
-                    int count = 1;
-                    for (String str : Events.getRegisterEventName()) {
-                        player.sendMessage(ChatColor.LIGHT_PURPLE + "Event "+ count + ":");
-                        String msg = ChatColor.translateAlternateColorCodes('&', str);
-                        player.sendMessage(msg);
-                        count++;
-                    }
-                    player.sendMessage("");
-                    player.sendMessage(ChatColor.GOLD + "=====================");
+                    Events.getEvents(player);
                 }
             } else {
                 if (cmd.equalsIgnoreCase("launch")) {

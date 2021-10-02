@@ -7,16 +7,16 @@ import me.peepersoak.opkingdomscore.jobscertificate.JobsEventHandler;
 import me.peepersoak.opkingdomscore.jobscertificate.data.*;
 import me.peepersoak.opkingdomscore.schedule.ScheduleData;
 import me.peepersoak.opkingdomscore.schedule.Scheduler;
-import me.peepersoak.opkingdomscore.schedule.TaskRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Objects;
+
 
 public final class OPKingdomsCore extends JavaPlugin implements Listener {
 
-    private final TaskRunnable specialEvents = new TaskRunnable();
     private static OPKingdomsCore instance;
 
     private final DragonEventHandler dragonEventHandler = new DragonEventHandler();
@@ -37,8 +37,8 @@ public final class OPKingdomsCore extends JavaPlugin implements Listener {
         dragonEventHandler.registerDragonEvent(this, pm);
 //        jobsEventHandler.registerJobsEvent(this, pm);
 
-        getCommand("opkingdoms").setExecutor(new GeneralCommands());
-        getCommand("opkingdoms").setTabCompleter(new TabCompletions());
+        Objects.requireNonNull(getCommand("opkingdoms")).setExecutor(new GeneralCommands());
+        Objects.requireNonNull(getCommand("opkingdoms")).setTabCompleter(new TabCompletions());
 
         Scheduler scheduler = new Scheduler();
     }
