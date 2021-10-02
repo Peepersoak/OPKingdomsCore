@@ -5,10 +5,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
 
 public class Scheduler {
 
@@ -16,15 +15,15 @@ public class Scheduler {
         checkWeekly();
     }
 
-    public Calendar getCalendar() {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH");
-        TimeZone tz = TimeZone.getTimeZone("Asia/Singapore");
-        sdf.setTimeZone(tz);
-        Date date = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.setTimeZone(tz);
-        return calendar;
+    public boolean shouldScheduleEvent(String day, int time) {
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Singapore"));
+        boolean allow = false;
+        if (day.equalsIgnoreCase(now.getDayOfWeek().toString())) {
+            if (time >= now.getHour()) {
+                allow = true;
+            }
+        }
+        return allow;
     }
 
     public void checkWeekly() {
@@ -46,7 +45,9 @@ public class Scheduler {
 
             List<String> eventCommand = weekly.getStringList(day + "." +ScheduleStringPath.EVENT_COMMANDS);
 
-            RunSchedule schedule = new RunSchedule(str, eventTime, hourLeftReminder, reminderMessage, eventCommand, eventMessage, eventName, getCalendar());
+            if (!shouldScheduleEvent(str, eventTime)) continue;
+
+            RunSchedule schedule = new RunSchedule(str, eventTime, hourLeftReminder, reminderMessage, eventCommand, eventMessage, eventName);
             schedule.runTaskTimerAsynchronously(OPKingdomsCore.getInstance(), 0, 20);
         }
     }

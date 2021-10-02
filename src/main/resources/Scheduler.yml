@@ -14,7 +14,7 @@
 
 # Weekly Schedule
 Weekly_Event:
-  Friday:
+  Friday_0:
     Run_Event: true
     Event_Time: 12
     Event_Name: 'Sample Event'
