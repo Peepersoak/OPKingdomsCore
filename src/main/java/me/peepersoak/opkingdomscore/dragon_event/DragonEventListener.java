@@ -6,10 +6,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.boss.BossBar;
-import org.bukkit.entity.EnderDragon;
-import org.bukkit.entity.FallingBlock;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
@@ -78,7 +75,10 @@ public class DragonEventListener implements Listener {
             }
         }
 
-        if (player == null) return;
+        if (player == null) {
+            e.setCancelled(true);
+            return;
+        }
 
         dragonKiller = player;
 
@@ -118,7 +118,11 @@ public class DragonEventListener implements Listener {
         PersistentDataContainer data = dragon.getPersistentDataContainer();
         if (!data.has(DragonStringpath.DRAGON_NAMESPACEDKEY, PersistentDataType.STRING)) return;
         if (e.getCurrentPhase() == EnderDragon.Phase.LAND_ON_PORTAL) {
-            castMassLightningStrike(dragon);
+            double maxHealth = Objects.requireNonNull(dragon.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue();
+            double health = dragon.getHealth();
+            if (health < (maxHealth/3)) {
+                castMassLightningStrike(dragon);
+            }
         }
     }
 
@@ -130,16 +134,17 @@ public class DragonEventListener implements Listener {
                 dragon.getPhase() != EnderDragon.Phase.SEARCH_FOR_BREATH_ATTACK_TARGET &&
                 dragon.getPhase() != EnderDragon.Phase.BREATH_ATTACK &&
                 dragon.getPhase() != EnderDragon.Phase.ROAR_BEFORE_ATTACK) this.cancel();
-                healDragon(dragon);
-                for (Player p : dragon.getWorld().getPlayers()) {
-                    double distance = p.getLocation().distance(dragon.getLocation());
-                    if (distance <= 100) {
-                        dragon.getWorld().strikeLightning(p.getLocation());
-                        p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 100, 2));
-                    }
+                List<Entity> playerList = dragon.getNearbyEntities(50, 50, 50);
+                if (playerList.isEmpty()) this.cancel();
+                Collections.shuffle(playerList);
+                Entity p = playerList.get(0);
+                dragon.getWorld().strikeLightning(p.getLocation());
+                if (p instanceof Player) {
+                    Player player = (Player) p;
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 60, 1));
                 }
             }
-        }.runTaskTimer(OPKingdomsCore.getInstance(), 0, 20);
+        }.runTaskTimer(OPKingdomsCore.getInstance(), 0, 5);
     }
 
     public void teleportAllPlayer(World world) {

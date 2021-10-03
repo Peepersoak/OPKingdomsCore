@@ -196,6 +196,7 @@ public class DragonEvent {
                }
                dragonBossBar(dragon);
                dragon.setPhase(EnderDragon.Phase.CIRCLING);
+               changeDragPhase(dragon);
            }
        }.runTask(OPKingdomsCore.getInstance());
     }
@@ -205,7 +206,7 @@ public class DragonEvent {
         assert dragonName != null;
         String name = ChatColor.translateAlternateColorCodes('&', dragonName);
 
-        dragonEventBossBar= Bukkit.createBossBar(name, BarColor.RED, BarStyle.SEGMENTED_12);
+        dragonEventBossBar = Bukkit.createBossBar(name, BarColor.RED, BarStyle.SEGMENTED_12);
 
         new BukkitRunnable() {
             @Override
@@ -230,5 +231,19 @@ public class DragonEvent {
 
     public static BossBar getDragonEventBossBar() {
         return dragonEventBossBar;
+    }
+
+    public void changeDragPhase(EnderDragon dragon) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (dragon.getPhase() != EnderDragon.Phase.LAND_ON_PORTAL &&
+                        dragon.getPhase() != EnderDragon.Phase.SEARCH_FOR_BREATH_ATTACK_TARGET &&
+                        dragon.getPhase() != EnderDragon.Phase.BREATH_ATTACK &&
+                        dragon.getPhase() != EnderDragon.Phase.ROAR_BEFORE_ATTACK) {
+                    dragon.setPhase(EnderDragon.Phase.LAND_ON_PORTAL);
+                }
+            }
+        }.runTaskTimer(OPKingdomsCore.getInstance(), 0, 20*60);
     }
 }

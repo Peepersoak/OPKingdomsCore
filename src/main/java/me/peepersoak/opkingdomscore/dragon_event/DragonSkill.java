@@ -70,7 +70,7 @@ public class DragonSkill extends BukkitRunnable {
                         player.getWorld().createExplosion(player.getLocation(), damage, false, false);
                         break;
                     case "Wither":
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 400, 3));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 400, 1));
                         break;
                     case "Guardian":
                         DragonEventData data = new DragonEventData();
