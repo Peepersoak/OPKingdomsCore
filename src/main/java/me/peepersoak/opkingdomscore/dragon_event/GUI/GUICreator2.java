@@ -9,7 +9,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class GUICreator {
+public class GUICreator2 {
 
     private Inventory inv;
 
@@ -18,7 +18,7 @@ public class GUICreator {
     }
 
     public void createInventory() {
-        GUIButton button = new GUIButton();
+        GUIButton2 button = new GUIButton2();
         DragonEventData data = new DragonEventData();
         inv = Bukkit.createInventory(null, 54, DragonStringpath.DRAGON_GUI_NAME);
 

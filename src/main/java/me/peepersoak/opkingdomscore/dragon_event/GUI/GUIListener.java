@@ -15,12 +15,10 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class GUIListener implements Listener {
@@ -45,7 +43,7 @@ public class GUIListener implements Listener {
 
         String message = e.getMessage();
 
-        GUICreator inventory = new GUICreator();
+        GUICreator2 inventory = new GUICreator2();
 
         boolean exit = false;
 
@@ -164,7 +162,7 @@ public class GUIListener implements Listener {
         if (command.equalsIgnoreCase("Spawn")) {
             data.write(DragonStringpath.DRAGON_SPAWN_LOCATION, value);
             player.sendMessage(ChatColor.GREEN + "Successfully set the dragon spawn location");
-            GUICreator inventory = new GUICreator();
+            GUICreator2 inventory = new GUICreator2();
             inventory.createInventory();
             player.openInventory(inventory.getInv());
             playerList.remove(player);
@@ -199,7 +197,7 @@ public class GUIListener implements Listener {
         if (!(e.getWhoClicked() instanceof Player)) return;
         Player player = (Player) e.getWhoClicked();
 
-        GUICreator inventory = new GUICreator();
+        GUICreator2 inventory = new GUICreator2();
 
         switch (item.getType()) {
             case END_STONE:
@@ -314,51 +312,19 @@ public class GUIListener implements Listener {
                 player.sendMessage(ChatColor.GREEN + "Enter player percentage");
                 player.sendMessage(ChatColor.RED + "Enter cancel to exit edit mode");
                 break;
-            case LIGHTNING_ROD:
-                if (data.getConfig().getBoolean(DragonStringpath.DRAGON_SKILL_LIGHTNINGSTRIKE)) {
-                    data.writeBoolean(DragonStringpath.DRAGON_SKILL_LIGHTNINGSTRIKE, false);
-                    player.sendMessage(ChatColor.GREEN + "You have set it to false");
-                } else {
-                    data.writeBoolean(DragonStringpath.DRAGON_SKILL_LIGHTNINGSTRIKE, true);
-                    player.sendMessage(ChatColor.GREEN + "You have set it to true");
-                }
-                inventory.createInventory();
-                player.openInventory(inventory.getInv());
-                break;
-            case FIRE_CHARGE:
-                if (data.getConfig().getBoolean(DragonStringpath.DRAGON_SKILL_EXPLOSION)) {
-                    data.writeBoolean(DragonStringpath.DRAGON_SKILL_EXPLOSION, false);
-                    player.sendMessage(ChatColor.GREEN + "You have set it to false");
-                } else {
-                    data.writeBoolean(DragonStringpath.DRAGON_SKILL_EXPLOSION, true);
-                    player.sendMessage(ChatColor.GREEN + "You have set it to true");
-                }
-                inventory.createInventory();
-                player.openInventory(inventory.getInv());
-                break;
-            case WITHER_ROSE:
-                if (data.getConfig().getBoolean(DragonStringpath.DRAGON_SKILL_WITHER)) {
-                    data.writeBoolean(DragonStringpath.DRAGON_SKILL_WITHER, false);
-                    player.sendMessage(ChatColor.GREEN + "You have set it to false");
-                } else {
-                    data.writeBoolean(DragonStringpath.DRAGON_SKILL_WITHER, true);
-                    player.sendMessage(ChatColor.GREEN + "You have set it to true");
-                }
-                inventory.createInventory();
-                player.openInventory(inventory.getInv());
-                break;
-            case WITHER_SKELETON_SKULL:
-                GuardianSettingsGUI guardian = new GuardianSettingsGUI();
-                player.openInventory(guardian.createInventory());
-                break;
             case NETHERITE_SWORD:
-                if (data.getConfig().getString(DragonStringpath.DRAGON_EVENT_STATUS).equalsIgnoreCase("Alive")) {
-                    data.write(DragonStringpath.DRAGON_EVENT_STATUS, "Dead");
-                    player.sendMessage(ChatColor.GREEN + "You have set it to Dead");
-                } else {
-                    data.write(DragonStringpath.DRAGON_EVENT_STATUS, "Alive");
-                    player.sendMessage(ChatColor.GREEN + "You have set it to Alive");
-                }
+                // Open Drag Skill Settings GUI
+                player.sendMessage("Drag Skill Settings OPEN");
+                break;
+            case JACK_O_LANTERN:
+                data.write(DragonStringpath.DRAGON_EVENT_STATUS, "Dead");
+                player.sendMessage(ChatColor.GREEN + "You have set it to Dead");
+                inventory.createInventory();
+                player.openInventory(inventory.getInv());
+                break;
+            case CARVED_PUMPKIN:
+                data.write(DragonStringpath.DRAGON_EVENT_STATUS, "Alive");
+                player.sendMessage(ChatColor.GREEN + "You have set it to Alive");
                 inventory.createInventory();
                 player.openInventory(inventory.getInv());
                 break;

@@ -17,6 +17,16 @@ public class DragonStringpath {
     public static final String DRAGON_GUARDIAN_SETTINGS_DURATION  = DRAGON_GUARDIAN_SETTINGS_PATH + ".Duration";
     public static final String DRAGON_GUARDIAN_SETTINGS_CHANCE = DRAGON_GUARDIAN_SETTINGS_PATH  + ".Chance";
 
+    // Dragon AOE Skill
+    public static final String DRAGON_SKILL_AOE_SETTINGS_GUI = "AOE Lightning Settings";
+    public static final String DRAGON_SKILL_LIGHTNING_AOE = "Dragon_Skill.Lightning_AOE";
+    public static final String DRAGON_SKILL_AOE_ALLOW = DRAGON_SKILL_LIGHTNING_AOE + ".Allow";
+    public static final String DRAGON_SKILL_AOE_INTERVAL = DRAGON_SKILL_LIGHTNING_AOE + ".Interval";
+    public static final String DRAGON_SKILL_AOE_WITHER_AMPLIFIER = DRAGON_SKILL_LIGHTNING_AOE + ".Wither_Amplifier";
+    public static final String DRAGON_SKILL_AOE_TARGET_ALL = DRAGON_SKILL_LIGHTNING_AOE + ".Target_All";
+    public static final String DRAGON_SKILL_AOE_DISTANCE = DRAGON_SKILL_LIGHTNING_AOE + ".Distance";
+    public static final String DRAGON_SKILL_AOE_THRESHOLD = DRAGON_SKILL_LIGHTNING_AOE + ".Threshold";
+
     public static final String DRAGON_EVENT_SETTING_FILE_NAME = "Dragon_Event_Settings.yml";
     public static final String DRAGON_HEALTH_THRESHOLD = "Dragon_Health_Threshold";
     public static final String DRAGON_SKILL_PLAYER_PERCENTAGE = "Player_Percentage";

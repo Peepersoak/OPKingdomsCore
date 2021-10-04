@@ -3,7 +3,7 @@ package me.peepersoak.opkingdomscore.dragon_event.GUI.guardian;
 import me.peepersoak.opkingdomscore.OPKingdomsCore;
 import me.peepersoak.opkingdomscore.dragon_event.DragonEventData;
 import me.peepersoak.opkingdomscore.dragon_event.DragonStringpath;
-import me.peepersoak.opkingdomscore.dragon_event.GUI.GUICreator;
+import me.peepersoak.opkingdomscore.dragon_event.GUI.GUICreator2;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -17,10 +17,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.sql.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class GuardianSettingsListener implements Listener {
 
@@ -88,7 +85,7 @@ public class GuardianSettingsListener implements Listener {
                 player.sendMessage(ChatColor.GREEN + "Enter the chance 1-100 of the guardian spawning, " + cancelMessage);
                 break;
             case RED_STAINED_GLASS_PANE:
-                GUICreator guiCreator = new GUICreator();
+                GUICreator2 guiCreator = new GUICreator2();
                 guiCreator.createInventory();
                 player.openInventory(guiCreator.getInv());
                 break;

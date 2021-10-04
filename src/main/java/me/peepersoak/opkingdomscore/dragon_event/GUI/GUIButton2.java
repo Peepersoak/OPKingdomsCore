@@ -10,9 +10,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GUIButton {
+public class GUIButton2 {
 
-    public GUIButton() {
+    public GUIButton2() {
         data = new DragonEventData();
     }
 

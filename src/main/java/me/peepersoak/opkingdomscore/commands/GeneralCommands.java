@@ -2,7 +2,8 @@ package me.peepersoak.opkingdomscore.commands;
 
 import me.peepersoak.opkingdomscore.OPKingdomsCore;
 import me.peepersoak.opkingdomscore.dragon_event.DragonEvent;
-import me.peepersoak.opkingdomscore.dragon_event.GUI.GUICreator;
+import me.peepersoak.opkingdomscore.dragon_event.GUI.GUICreator2;
+import me.peepersoak.opkingdomscore.dragon_event.GUI.main.MainGUI;
 import me.peepersoak.opkingdomscore.schedule.Events;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -41,9 +42,8 @@ public class GeneralCommands implements CommandExecutor {
             DragonEvent event = new DragonEvent();
             if (player != null) {
                 if (cmd.equalsIgnoreCase("dragon_event")) {
-                    GUICreator gui = new GUICreator();
-                    gui.createInventory();
-                    player.openInventory(gui.getInv());
+                    MainGUI gui = new MainGUI();
+                    player.openInventory(gui.openGUI());
                 }
                 if (cmd.equalsIgnoreCase("launch")) {
                     event.startEvent();
