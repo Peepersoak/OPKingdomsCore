@@ -22,7 +22,6 @@ import java.util.*;
 public class DragonEventListener implements Listener {
 
     private HashMap<Player, Double> dragonEventTopDamager = new HashMap<>();
-    private final DragonEventData data = new DragonEventData();
     private Player dragonKiller;
 
     @EventHandler
@@ -118,15 +117,25 @@ public class DragonEventListener implements Listener {
         PersistentDataContainer data = dragon.getPersistentDataContainer();
         if (!data.has(DragonStringpath.DRAGON_NAMESPACEDKEY, PersistentDataType.STRING)) return;
         if (e.getCurrentPhase() == EnderDragon.Phase.LAND_ON_PORTAL) {
-            double maxHealth = Objects.requireNonNull(dragon.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue();
-            double health = dragon.getHealth();
-            if (health < (maxHealth/3)) {
-                castMassLightningStrike(dragon);
-            }
+            castMassLightningStrike(dragon);
         }
     }
 
     public void castMassLightningStrike(EnderDragon dragon) {
+        DragonEventData data = new DragonEventData();
+
+        int distance = data.getConfig().getInt(DragonStringpath.DRAGON_SKILL_AOE_DISTANCE);
+        int interval = data.getConfig().getInt(DragonStringpath.DRAGON_SKILL_AOE_INTERVAL);
+        int witherAmp = data.getConfig().getInt(DragonStringpath.DRAGON_SKILL_AOE_WITHER_AMPLIFIER);
+        int threshold = data.getConfig().getInt(DragonStringpath.DRAGON_SKILL_AOE_THRESHOLD);
+        boolean allow = data.getConfig().getBoolean(DragonStringpath.DRAGON_SKILL_AOE_ALLOW);
+        boolean targetAll = data.getConfig().getBoolean(DragonStringpath.DRAGON_SKILL_AOE_TARGET_ALL);
+
+        double maxHealth = Objects.requireNonNull(dragon.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue();
+        double health = dragon.getHealth();
+
+        if (health > (maxHealth*(threshold/100))) return;
+
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -134,17 +143,32 @@ public class DragonEventListener implements Listener {
                 dragon.getPhase() != EnderDragon.Phase.SEARCH_FOR_BREATH_ATTACK_TARGET &&
                 dragon.getPhase() != EnderDragon.Phase.BREATH_ATTACK &&
                 dragon.getPhase() != EnderDragon.Phase.ROAR_BEFORE_ATTACK) this.cancel();
-                List<Entity> playerList = dragon.getNearbyEntities(50, 50, 50);
-                if (playerList.isEmpty()) this.cancel();
-                Collections.shuffle(playerList);
-                Entity p = playerList.get(0);
-                dragon.getWorld().strikeLightning(p.getLocation());
-                if (p instanceof Player) {
-                    Player player = (Player) p;
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 60, 1));
+                if (dragon.isDead()) this.cancel();
+
+                if (!allow) return;
+                List<Entity> entityList = dragon.getNearbyEntities(distance, distance, distance);
+                if (entityList.isEmpty()) this.cancel();
+                if (entityList.size() == 0) this.cancel();
+
+                if (targetAll) {
+                    for (Entity entity :entityList) {
+                        entity.getWorld().strikeLightning(entity.getLocation());
+                        if (entity instanceof Player) {
+                            Player player = (Player) entity;
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 100, witherAmp));
+                        }
+                    }
+                } else {
+                    Collections.shuffle(entityList);
+                    Entity entity = entityList.get(0);
+                    entity.getWorld().strikeLightning(entity.getLocation());
+                    if (entity instanceof Player) {
+                        Player player = (Player) entity;
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 100, witherAmp));
+                    }
                 }
             }
-        }.runTaskTimer(OPKingdomsCore.getInstance(), 0, 5);
+        }.runTaskTimer(OPKingdomsCore.getInstance(), 0, interval);
     }
 
     public void teleportAllPlayer(World world) {
@@ -223,8 +247,6 @@ public class DragonEventListener implements Listener {
         double health = dragon.getHealth() - dammage;
         double maxHealth = dragon.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
         double points = health/maxHealth;
-
-        System.out.println(dammage + " " + health);
 
         if (health < 0) {
             bar.setProgress(0);

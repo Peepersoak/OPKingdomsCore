@@ -3,8 +3,7 @@ package me.peepersoak.opkingdomscore.dragon_event.GUI.aoe_lightning;
 import me.peepersoak.opkingdomscore.OPKingdomsCore;
 import me.peepersoak.opkingdomscore.dragon_event.DragonEventData;
 import me.peepersoak.opkingdomscore.dragon_event.DragonStringpath;
-import me.peepersoak.opkingdomscore.dragon_event.GUI.GUICreator2;
-import me.peepersoak.opkingdomscore.dragon_event.GUI.guardian.GuardianSettingsGUI;
+import me.peepersoak.opkingdomscore.dragon_event.GUI.main.MainGUI;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -57,7 +56,7 @@ public class AOELightningSettingsListener implements Listener {
                     data.writeBoolean(DragonStringpath.DRAGON_SKILL_AOE_ALLOW, true);
                     status = true;
                 }
-                player.openInventory(gui.createInventory());
+                player.openInventory(gui.openGUI());
                 player.sendMessage(ChatColor.GREEN + "Change to " + status);
                 break;
             case CLOCK:
@@ -79,7 +78,7 @@ public class AOELightningSettingsListener implements Listener {
                     data.writeBoolean(DragonStringpath.DRAGON_SKILL_AOE_TARGET_ALL, true);
                     targetStatus = true;
                 }
-                player.openInventory(gui.createInventory());
+                player.openInventory(gui.openGUI());
                 player.sendMessage(ChatColor.GREEN + "Change to " + targetStatus);
                 break;
             case ENDER_PEARL:
@@ -93,9 +92,8 @@ public class AOELightningSettingsListener implements Listener {
                 player.sendMessage(ChatColor.GREEN + "Enter the threshold between 1-100, " + cancelMessage);
                 break;
             case RED_STAINED_GLASS_PANE:
-                GUICreator2 guiCreator = new GUICreator2();
-                guiCreator.createInventory();
-                player.openInventory(guiCreator.getInv());
+                MainGUI guiCreator = new MainGUI();
+                player.openInventory(guiCreator.openGUI());
                 break;
         }
     }
@@ -110,13 +108,14 @@ public class AOELightningSettingsListener implements Listener {
 
         DragonEventData data = new DragonEventData();
         e.setCancelled(true);
-        GuardianSettingsGUI gui = new GuardianSettingsGUI();
+
+        AOELightningSettingsGUI gui = new AOELightningSettingsGUI();
 
         boolean exit = false;
 
         if (msg.equalsIgnoreCase("cancel")) {
             playerList.remove(player);
-            player.openInventory(gui.createInventory());
+            player.openInventory(gui.openGUI());
             exit = true;
         } else {
             switch (setting) {
@@ -177,7 +176,7 @@ public class AOELightningSettingsListener implements Listener {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    player.openInventory(gui.createInventory());
+                    player.openInventory(gui.openGUI());
                     playerList.remove(player);
                 }
             }.runTask(OPKingdomsCore.getInstance());

@@ -3,7 +3,7 @@ package me.peepersoak.opkingdomscore.dragon_event.GUI.guardian;
 import me.peepersoak.opkingdomscore.OPKingdomsCore;
 import me.peepersoak.opkingdomscore.dragon_event.DragonEventData;
 import me.peepersoak.opkingdomscore.dragon_event.DragonStringpath;
-import me.peepersoak.opkingdomscore.dragon_event.GUI.GUICreator2;
+import me.peepersoak.opkingdomscore.dragon_event.GUI.main.MainGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -56,7 +56,7 @@ public class GuardianSettingsListener implements Listener {
                     status = true;
                 }
                 GuardianSettingsGUI gui = new GuardianSettingsGUI();
-                player.openInventory(gui.createInventory());
+                player.openInventory(gui.openGUI());
                 player.sendMessage(ChatColor.GREEN + "Change to " + status);
                 break;
             case POTION:
@@ -85,9 +85,8 @@ public class GuardianSettingsListener implements Listener {
                 player.sendMessage(ChatColor.GREEN + "Enter the chance 1-100 of the guardian spawning, " + cancelMessage);
                 break;
             case RED_STAINED_GLASS_PANE:
-                GUICreator2 guiCreator = new GUICreator2();
-                guiCreator.createInventory();
-                player.openInventory(guiCreator.getInv());
+                MainGUI guiCreator = new MainGUI();
+                player.openInventory(guiCreator.openGUI());
                 break;
         }
     }
@@ -108,7 +107,7 @@ public class GuardianSettingsListener implements Listener {
 
         if (msg.equalsIgnoreCase("cancel")) {
             playerList.remove(player);
-            player.openInventory(gui.createInventory());
+            player.openInventory(gui.openGUI());
             exit = true;
         } else {
             switch (setting) {
@@ -193,7 +192,7 @@ public class GuardianSettingsListener implements Listener {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    player.openInventory(gui.createInventory());
+                    player.openInventory(gui.openGUI());
                     playerList.remove(player);
                 }
             }.runTask(OPKingdomsCore.getInstance());

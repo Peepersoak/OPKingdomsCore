@@ -17,7 +17,6 @@ public class TabCompletions implements TabCompleter {
     public List<String> tabs() {
         List<String> str = new ArrayList<>();
         str.add("Dragon_Event");
-        str.add("Launch");
         str.add("Reload");
         str.add("Events");
         return str;

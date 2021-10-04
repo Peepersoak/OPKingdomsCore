@@ -6,6 +6,11 @@ import org.bukkit.NamespacedKey;
 
 public class DragonStringpath {
 
+    // Dragon Skill GUI
+    public static final String DRAGON_SKILL_GUI_NAME = "Dragon Skill Settings";
+
+    // Dragon Controll
+    public static final String DRAGON_PHASE_CONTROL_GUI = "Dragon Controller";
 
     // Dragon Guardian String Path
     public static final String DRAGON_GUARDIAN_SETTINGS_GUI = "Dragon Guardian Settings";
@@ -27,6 +32,11 @@ public class DragonStringpath {
     public static final String DRAGON_SKILL_AOE_DISTANCE = DRAGON_SKILL_LIGHTNING_AOE + ".Distance";
     public static final String DRAGON_SKILL_AOE_THRESHOLD = DRAGON_SKILL_LIGHTNING_AOE + ".Threshold";
 
+    // Regular Lightning Strike
+    public static final String DRAGON_SKILL_LIGHTNINGSTRIKE = "Dragon_Skill.Lightning_Strike";
+    public static final String DRAGON_SKILL_EXPLOSION = "Dragon_Skill.Explosion";
+    public static final String DRAGON_SKILL_WITHER = "Dragon_Skill.Wither_Effect";
+
     public static final String DRAGON_EVENT_SETTING_FILE_NAME = "Dragon_Event_Settings.yml";
     public static final String DRAGON_HEALTH_THRESHOLD = "Dragon_Health_Threshold";
     public static final String DRAGON_SKILL_PLAYER_PERCENTAGE = "Player_Percentage";
@@ -47,9 +57,7 @@ public class DragonStringpath {
     public static final String DRAGON_HEALTH = "Dragon_Health";
     public static final String DRAGON_ALLOW_SKILL = "Allow_Dragon_Skill";
     public static final String DRAGON_SKILL_COOLDOWN = "Dragon_Skill_Cooldown";
-    public static final String DRAGON_SKILL_LIGHTNINGSTRIKE = "Lightning_Strike";
-    public static final String DRAGON_SKILL_EXPLOSION = "Explosion";
-    public static final String DRAGON_SKILL_WITHER = "Wither_Effect";
+
     public static final String DRAGON_PARTICLE = "Dragon_Particle";
 
     public static final String DRAGON_EVENT_STATUS = "Dragon_Event_Status";

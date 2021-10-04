@@ -23,9 +23,6 @@ public class MainGUI {
 
         for (int i = 0; i < 54; i++) {
             switch (i) {
-                case 4:
-                    inv.setItem(i, button.createButton(Material.DRAGON_HEAD, " ", null, false));
-                    break;
                 case 10:
                     String worldName = ChatColor.GOLD + "Set The Dragon Event World";
                     List<String> WorldNameLore = new ArrayList<>();
@@ -147,10 +144,17 @@ public class MainGUI {
                     skillLore.add(ChatColor.AQUA + "skill here");
                     inv.setItem(i, button.createButton(Material.NETHERITE_SWORD, skill, skillLore, true));
                     break;
+                case 50:
+                    String phase = ChatColor.GOLD + "Dragon Controller";
+                    List<String> phaseLore = new ArrayList<>();
+                    phaseLore.add("");
+                    phaseLore.add(ChatColor.AQUA + "Control the dragon");
+                    inv.setItem(i, button.createButton(Material.DRAGON_HEAD, phase, phaseLore, true));
+                    break;
                 case 51:
-                    boolean isALive = data.getConfig().getBoolean(DragonStringpath.DRAGON_EVENT_STATUS);
+                    String isALive = data.getConfig().getString(DragonStringpath.DRAGON_EVENT_STATUS);
                     Material mat;
-                    if (isALive) {
+                    if (isALive.equalsIgnoreCase("Alive")) {
                         mat = Material.JACK_O_LANTERN;
                     } else {
                         mat = Material.CARVED_PUMPKIN;
@@ -174,7 +178,7 @@ public class MainGUI {
                     eggLore.add("");
                     eggLore.add(ChatColor.AQUA + "Currently Set to:");
                     eggLore.add(ChatColor.LIGHT_PURPLE + "" + data.getConfig().getBoolean(DragonStringpath.DRAGON_PARTICLE));
-                    inv.setItem(i, button.createButton(Material.DRAGON_HEAD, egg, eggLore, true));
+                    inv.setItem(i, button.createButton(Material.DRAGON_EGG, egg, eggLore, true));
                     break;
                 default:
                     inv.setItem(i, button.createButton(Material.BLACK_STAINED_GLASS_PANE, " ", null, false));

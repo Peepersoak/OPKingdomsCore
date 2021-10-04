@@ -23,6 +23,7 @@ public class DragonEvent {
     private DragonEventData data;
     private final Random rand = new Random();
     private static BossBar dragonEventBossBar;
+    private static EnderDragon dragon;
 
     public void startEvent() {
         data = new DragonEventData();
@@ -180,7 +181,7 @@ public class DragonEvent {
        new BukkitRunnable() {
            @Override
            public void run() {
-               EnderDragon dragon = (EnderDragon) location.getWorld().spawnEntity(location, EntityType.ENDER_DRAGON);
+               dragon = (EnderDragon) location.getWorld().spawnEntity(location, EntityType.ENDER_DRAGON);
                double health = data.getConfig().getInt(DragonStringpath.DRAGON_HEALTH);
                dragon.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(health);
                dragon.setHealth(health);
@@ -196,7 +197,6 @@ public class DragonEvent {
                }
                dragonBossBar(dragon);
                dragon.setPhase(EnderDragon.Phase.CIRCLING);
-               changeDragPhase(dragon);
            }
        }.runTask(OPKingdomsCore.getInstance());
     }
@@ -232,18 +232,7 @@ public class DragonEvent {
     public static BossBar getDragonEventBossBar() {
         return dragonEventBossBar;
     }
-
-    public void changeDragPhase(EnderDragon dragon) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (dragon.getPhase() != EnderDragon.Phase.LAND_ON_PORTAL &&
-                        dragon.getPhase() != EnderDragon.Phase.SEARCH_FOR_BREATH_ATTACK_TARGET &&
-                        dragon.getPhase() != EnderDragon.Phase.BREATH_ATTACK &&
-                        dragon.getPhase() != EnderDragon.Phase.ROAR_BEFORE_ATTACK) {
-                    dragon.setPhase(EnderDragon.Phase.LAND_ON_PORTAL);
-                }
-            }
-        }.runTaskTimer(OPKingdomsCore.getInstance(), 0, 20*60);
+    public static EnderDragon getDragon() {
+        return dragon;
     }
 }

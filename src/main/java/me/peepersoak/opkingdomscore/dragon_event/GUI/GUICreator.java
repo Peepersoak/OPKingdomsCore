@@ -8,6 +8,7 @@ public class GUICreator {
     public GUICreator(String title, int slot) {
         this.title = title;
         this.slot = slot;
+        createInv();
     }
 
     private final String title;

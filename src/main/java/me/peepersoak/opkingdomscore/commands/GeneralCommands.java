@@ -2,7 +2,6 @@ package me.peepersoak.opkingdomscore.commands;
 
 import me.peepersoak.opkingdomscore.OPKingdomsCore;
 import me.peepersoak.opkingdomscore.dragon_event.DragonEvent;
-import me.peepersoak.opkingdomscore.dragon_event.GUI.GUICreator2;
 import me.peepersoak.opkingdomscore.dragon_event.GUI.main.MainGUI;
 import me.peepersoak.opkingdomscore.schedule.Events;
 import org.bukkit.ChatColor;

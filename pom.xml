@@ -6,7 +6,7 @@
 
     <groupId>me.peepersoak</groupId>
     <artifactId>OPKingdomsCore</artifactId>
-    <version>0.5-Beta</version>
+    <version>0.5.1-Beta</version>
     <packaging>jar</packaging>
 
     <name>OPKingdomsCore</name>

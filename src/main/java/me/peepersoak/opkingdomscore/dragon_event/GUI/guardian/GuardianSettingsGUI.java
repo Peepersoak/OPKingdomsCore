@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class GuardianSettingsGUI {
-    public Inventory createInventory() {
+    public Inventory openGUI() {
         Inventory inv = Bukkit.createInventory(null, 9, ChatColor.RED + "" + ChatColor.BOLD + DragonStringpath.DRAGON_GUARDIAN_SETTINGS_GUI);
 
         GuardianButtonFactory btn = new GuardianButtonFactory();

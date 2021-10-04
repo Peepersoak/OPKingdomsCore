@@ -1,10 +1,13 @@
-package me.peepersoak.opkingdomscore.dragon_event.GUI;
+package me.peepersoak.opkingdomscore.dragon_event.GUI.main;
 
 import me.peepersoak.opkingdomscore.OPKingdomsCore;
 import me.peepersoak.opkingdomscore.dragon_event.DragonEggData;
 import me.peepersoak.opkingdomscore.dragon_event.DragonEventData;
 import me.peepersoak.opkingdomscore.dragon_event.DragonStringpath;
+import me.peepersoak.opkingdomscore.dragon_event.GUI.drag_phase.DragPhaseGUI;
+import me.peepersoak.opkingdomscore.dragon_event.GUI.drag_skill.DragonSkillGUI;
 import me.peepersoak.opkingdomscore.dragon_event.GUI.guardian.GuardianSettingsGUI;
+import me.peepersoak.opkingdomscore.dragon_event.GUI.main.MainGUI;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
@@ -21,7 +24,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
-public class GUIListener implements Listener {
+public class MainGUIListener implements Listener {
 
     private HashMap<Player, String> playerList = new HashMap<>();
 
@@ -43,7 +46,7 @@ public class GUIListener implements Listener {
 
         String message = e.getMessage();
 
-        GUICreator2 inventory = new GUICreator2();
+        MainGUI inventory = new MainGUI();
 
         boolean exit = false;
 
@@ -130,11 +133,10 @@ public class GUIListener implements Listener {
 
         if (exit) {
             e.setCancelled(true);
-            inventory.createInventory();
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    player.openInventory(inventory.getInv());
+                    player.openInventory(inventory.openGUI());
                 }
             }.runTask(OPKingdomsCore.getInstance());
             playerList.remove(player);
@@ -162,9 +164,8 @@ public class GUIListener implements Listener {
         if (command.equalsIgnoreCase("Spawn")) {
             data.write(DragonStringpath.DRAGON_SPAWN_LOCATION, value);
             player.sendMessage(ChatColor.GREEN + "Successfully set the dragon spawn location");
-            GUICreator2 inventory = new GUICreator2();
-            inventory.createInventory();
-            player.openInventory(inventory.getInv());
+            MainGUI inventory = new MainGUI();
+            player.openInventory(inventory.openGUI());
             playerList.remove(player);
         } else if (command.equalsIgnoreCase("End Crystal")) {
             List<String> str = data.getConfig().getStringList(DragonStringpath.DRAGON_END_CRYSTAL_LOCATION);
@@ -197,14 +198,13 @@ public class GUIListener implements Listener {
         if (!(e.getWhoClicked() instanceof Player)) return;
         Player player = (Player) e.getWhoClicked();
 
-        GUICreator2 inventory = new GUICreator2();
+        MainGUI inventory = new MainGUI();
 
         switch (item.getType()) {
             case END_STONE:
                 data.write(DragonStringpath.DRAGON_WORLD_NAME, player.getWorld().getName());
                 player.sendMessage(ChatColor.GREEN + "You have set the Dragon Event World to " + player.getWorld().getName());
-                inventory.createInventory();
-                player.openInventory(inventory.getInv());
+                player.openInventory(inventory.openGUI());
                 break;
             case END_PORTAL_FRAME:
                 if (playerList.containsKey(player)) {
@@ -232,8 +232,7 @@ public class GUIListener implements Listener {
                 List<String> str = new ArrayList<>();
                 data.writeList(DragonStringpath.DRAGON_END_CRYSTAL_LOCATION, str);
                 player.sendMessage(ChatColor.GREEN + "All end crystal location has beed cleared");
-                inventory.createInventory();
-                player.openInventory(inventory.getInv());
+                player.openInventory(inventory.openGUI());
                 break;
             case PAPER:
                 if (playerList.containsKey(player)) {
@@ -265,8 +264,7 @@ public class GUIListener implements Listener {
                     data.writeBoolean(DragonStringpath.DRAGON_ALLOW_SKILL, true);
                     player.sendMessage(ChatColor.GREEN + "You have set it to true");
                 }
-                inventory.createInventory();
-                player.openInventory(inventory.getInv());
+                player.openInventory(inventory.openGUI());
                 break;
             case ENCHANTED_GOLDEN_APPLE:
                 if (playerList.containsKey(player)) {
@@ -313,20 +311,22 @@ public class GUIListener implements Listener {
                 player.sendMessage(ChatColor.RED + "Enter cancel to exit edit mode");
                 break;
             case NETHERITE_SWORD:
-                // Open Drag Skill Settings GUI
-                player.sendMessage("Drag Skill Settings OPEN");
+                DragonSkillGUI dragonSkillGUI = new DragonSkillGUI();
+                player.openInventory(dragonSkillGUI.openGUI());
+                break;
+            case DRAGON_HEAD:
+                DragPhaseGUI dragPhaseGUI = new DragPhaseGUI();
+                player.openInventory(dragPhaseGUI.openGUI());
                 break;
             case JACK_O_LANTERN:
                 data.write(DragonStringpath.DRAGON_EVENT_STATUS, "Dead");
                 player.sendMessage(ChatColor.GREEN + "You have set it to Dead");
-                inventory.createInventory();
-                player.openInventory(inventory.getInv());
+                player.openInventory(inventory.openGUI());
                 break;
             case CARVED_PUMPKIN:
                 data.write(DragonStringpath.DRAGON_EVENT_STATUS, "Alive");
                 player.sendMessage(ChatColor.GREEN + "You have set it to Alive");
-                inventory.createInventory();
-                player.openInventory(inventory.getInv());
+                player.openInventory(inventory.openGUI());
                 break;
             case DRAGON_EGG:
                 if (data.getConfig().getString(DragonStringpath.DRAGON_SPAWN_LOCATION).equalsIgnoreCase("None")) {
@@ -346,8 +346,7 @@ public class GUIListener implements Listener {
                     }
                     player.sendMessage(ChatColor.GREEN + "Egg has been place");
                 }
-                inventory.createInventory();
-                player.openInventory(inventory.getInv());
+                player.openInventory(inventory.openGUI());
                 break;
             default:
                 break;

@@ -60,19 +60,9 @@ public class DragonEventData {
             config.addDefault(DragonStringpath.DRAGON_SKILL_COOLDOWN, 5);
         }
 
-        if (!config.getBoolean(DragonStringpath.DRAGON_SKILL_LIGHTNINGSTRIKE)) {
-            config.addDefault(DragonStringpath.DRAGON_SKILL_LIGHTNINGSTRIKE, false);
-        }
-
-        if (!config.getBoolean(DragonStringpath.DRAGON_SKILL_EXPLOSION)) {
-            config.addDefault(DragonStringpath.DRAGON_SKILL_EXPLOSION, false);
-        }
-
-        if (!config.getBoolean(DragonStringpath.DRAGON_SKILL_WITHER)) {
-            config.addDefault(DragonStringpath.DRAGON_SKILL_WITHER, false);
-        }
-
+        setDragonSkill();
         setDragonGuardianDefault();
+        setAOELightningSkilLDefault();
 
         if (config.getInt(DragonStringpath.DRAGON_HEALTH_THRESHOLD) == 0) {
             config.addDefault(DragonStringpath.DRAGON_HEALTH_THRESHOLD, 50);
@@ -120,6 +110,41 @@ public class DragonEventData {
         }
         if (config.getInt(DragonStringpath.DRAGON_GUARDIAN_SETTINGS_CHANCE) == 0) {
             config.addDefault(DragonStringpath.DRAGON_GUARDIAN_SETTINGS_CHANCE, 25);
+        }
+    }
+
+    public void setAOELightningSkilLDefault() {
+        if (!config.getBoolean(DragonStringpath.DRAGON_SKILL_AOE_ALLOW)) {
+            config.addDefault(DragonStringpath.DRAGON_SKILL_AOE_ALLOW, false);
+        }
+        if (config.getInt(DragonStringpath.DRAGON_SKILL_AOE_INTERVAL) == 0) {
+            config.addDefault(DragonStringpath.DRAGON_SKILL_AOE_INTERVAL, 10);
+        }
+        if (config.getInt(DragonStringpath.DRAGON_SKILL_AOE_WITHER_AMPLIFIER) == 0) {
+            config.addDefault(DragonStringpath.DRAGON_SKILL_AOE_WITHER_AMPLIFIER, 1);
+        }
+        if (!config.getBoolean(DragonStringpath.DRAGON_SKILL_AOE_TARGET_ALL)) {
+            config.addDefault(DragonStringpath.DRAGON_SKILL_AOE_TARGET_ALL, false);
+        }
+        if (config.getInt(DragonStringpath.DRAGON_SKILL_AOE_DISTANCE) == 0) {
+            config.addDefault(DragonStringpath.DRAGON_SKILL_AOE_DISTANCE, 50);
+        }
+        if (config.getInt(DragonStringpath.DRAGON_SKILL_AOE_THRESHOLD) == 0) {
+            config.addDefault(DragonStringpath.DRAGON_SKILL_AOE_THRESHOLD, 35);
+        }
+    }
+
+    public void setDragonSkill() {
+        if (!config.getBoolean(DragonStringpath.DRAGON_SKILL_LIGHTNINGSTRIKE)) {
+            config.addDefault(DragonStringpath.DRAGON_SKILL_LIGHTNINGSTRIKE, false);
+        }
+
+        if (!config.getBoolean(DragonStringpath.DRAGON_SKILL_EXPLOSION)) {
+            config.addDefault(DragonStringpath.DRAGON_SKILL_EXPLOSION, false);
+        }
+
+        if (!config.getBoolean(DragonStringpath.DRAGON_SKILL_WITHER)) {
+            config.addDefault(DragonStringpath.DRAGON_SKILL_WITHER, false);
         }
     }
 

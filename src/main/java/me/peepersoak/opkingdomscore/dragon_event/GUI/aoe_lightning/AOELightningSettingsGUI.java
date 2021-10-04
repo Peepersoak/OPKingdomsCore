@@ -10,7 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class AOELightningSettingsGUI {
 
-    public Inventory createInventory() {
+    public Inventory openGUI() {
         Inventory inv = Bukkit.createInventory(null, 9, ChatColor.RED + "" + ChatColor.BOLD + DragonStringpath.DRAGON_SKILL_AOE_SETTINGS_GUI);
 
         AOELightningButtonFactory btn = new AOELightningButtonFactory();
