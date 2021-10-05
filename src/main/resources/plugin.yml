@@ -6,3 +6,4 @@ authors: [ Peepersoak ]
 description: A special events plugin for OP Kingdoms
 commands:
   opkingdoms:
+  jobscert:

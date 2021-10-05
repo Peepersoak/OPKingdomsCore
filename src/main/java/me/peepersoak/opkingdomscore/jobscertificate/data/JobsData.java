@@ -31,6 +31,15 @@ public class JobsData {
         }
         config = YamlConfiguration.loadConfiguration(file);
 
+        if (config.getInt(JobsString.LEVEL_UP_TOKEN) == 0) {
+            config.addDefault(JobsString.LEVEL_UP_TOKEN, 20);
+        }
+        if (config.getDouble(JobsString.LEVEL_UP_TOKEN_MULTIPLIER) == 0) {
+            config.addDefault(JobsString.LEVEL_UP_TOKEN_MULTIPLIER, 1.5);
+        }
+        if (config.getInt(JobsString.CONVERTER_DOLLAR) == 0) {
+            config.addDefault(JobsString.CONVERTER_DOLLAR, 10000);
+        }
         if (config.getConfigurationSection(JobsString.MINER_PATH) == null) {
             addDefault(JobsString.MINER_PATH);
         }
@@ -68,6 +77,7 @@ public class JobsData {
         config.addDefault(jobTitle + "." + JobsString.JOBS_LORE, lore);
         config.addDefault(jobTitle + "." + JobsString.JOBS_JOIN_MESSAGE, "Message Here");
         config.addDefault(jobTitle + "." + JobsString.JOBS_LEAVE_MESSAGE, "Message Here");
+        config.addDefault(jobTitle + "." + JobsString.JOBS_LEVEL_UP_MESSAGE, "You are now a level %job_level% %job_title%");
     }
 
     public void saveFileConfig() {

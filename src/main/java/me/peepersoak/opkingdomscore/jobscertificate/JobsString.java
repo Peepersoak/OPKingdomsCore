@@ -3,6 +3,7 @@ package me.peepersoak.opkingdomscore.jobscertificate;
 import me.peepersoak.opkingdomscore.OPKingdomsCore;
 import org.bukkit.NamespacedKey;
 
+import javax.xml.stream.events.Namespace;
 import java.io.File;
 
 public class JobsString {
@@ -11,7 +12,8 @@ public class JobsString {
     public static final NamespacedKey JOB_TITLE = new NamespacedKey(OPKingdomsCore.getInstance(), "JobTitle");
     public static final NamespacedKey JOB_LEVEL = new NamespacedKey(OPKingdomsCore.getInstance(), "JobLevel");
     public static final NamespacedKey JOB_XP = new NamespacedKey(OPKingdomsCore.getInstance(), "JobXP");
-    public static final NamespacedKey JOB_XP_TARGET = new NamespacedKey(OPKingdomsCore.getInstance(), "JOBXPTarget");
+    public static final NamespacedKey JOB_XP_TARGET = new NamespacedKey(OPKingdomsCore.getInstance(), "JobXPTarget");
+    public static final NamespacedKey JOB_TOKEN = new NamespacedKey(OPKingdomsCore.getInstance(), "JobToken");
 
     public static final NamespacedKey MINER = new NamespacedKey(OPKingdomsCore.getInstance(), "miner_certificate");
     public static final NamespacedKey LOGGER = new NamespacedKey(OPKingdomsCore.getInstance(), "logger_certificate");
@@ -20,6 +22,11 @@ public class JobsString {
     public static final NamespacedKey WARRIOR = new NamespacedKey(OPKingdomsCore.getInstance(), "warrior_certificate");
     public static final NamespacedKey ARCHER = new NamespacedKey(OPKingdomsCore.getInstance(), "archer_certificate");
     public static final NamespacedKey SMITH = new NamespacedKey(OPKingdomsCore.getInstance(), "smith_certificate");
+
+    // Token Converter
+    public static final String CONVERTER_GUI_NAME = "Dollar --> Token";
+    public static final String CONVERTER_DOLLAR = "Dollar_To_Token";
+
 
     // Miner Certificate
     public static final String MINER_JOBS_BLOCKS = "Miner_Jobs";
@@ -40,6 +47,7 @@ public class JobsString {
     public static final String JOBS_TITLE_NAME = "Title";
     public static final String JOBS_JOIN_MESSAGE = "Jobs_Join_Message";
     public static final String JOBS_LEAVE_MESSAGE = "Jobs_Leave_Message";
+    public static final String JOBS_LEVEL_UP_MESSAGE = "Jobs_Level_UP_Message";
     public static final String JOBS_LORE = "Lore";
 
     // Path and Name
@@ -55,5 +63,8 @@ public class JobsString {
     public static final String NEW_JOB_GUI_NAME = "Select your new job";
 
     public static final String XP = "experience";
-    public static final String income = "income";
+    public static final String INCOME = "income";
+
+    public static final String LEVEL_UP_TOKEN = "Token_Needed";
+    public static final String LEVEL_UP_TOKEN_MULTIPLIER = "Token_Multiplier";
 }

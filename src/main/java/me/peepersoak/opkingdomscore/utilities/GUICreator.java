@@ -1,4 +1,4 @@
-package me.peepersoak.opkingdomscore.dragon_event.GUI;
+package me.peepersoak.opkingdomscore.utilities;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;

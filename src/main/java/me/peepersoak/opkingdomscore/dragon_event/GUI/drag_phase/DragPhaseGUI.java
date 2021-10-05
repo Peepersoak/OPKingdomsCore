@@ -1,8 +1,8 @@
 package me.peepersoak.opkingdomscore.dragon_event.GUI.drag_phase;
 
 import me.peepersoak.opkingdomscore.dragon_event.DragonStringpath;
-import me.peepersoak.opkingdomscore.dragon_event.GUI.GUIButton;
-import me.peepersoak.opkingdomscore.dragon_event.GUI.GUICreator;
+import me.peepersoak.opkingdomscore.utilities.GUIButton;
+import me.peepersoak.opkingdomscore.utilities.GUICreator;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;

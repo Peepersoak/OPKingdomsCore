@@ -31,10 +31,10 @@ public class JobsCertificateListener implements Listener {
         }
         if (item.getType() == Material.EMERALD_BLOCK) {
             PersistentDataContainer data = player.getPersistentDataContainer();
-            player.sendMessage("" + data.get(JobsString.JOB_TITLE, PersistentDataType.STRING));
-            player.sendMessage("" + data.get(JobsString.JOB_LEVEL, PersistentDataType.INTEGER));
-            player.sendMessage("" + data.get(JobsString.JOB_XP, PersistentDataType.INTEGER));
-            player.sendMessage("" + data.get(JobsString.JOB_XP_TARGET, PersistentDataType.INTEGER));
+            player.sendMessage(ChatColor.GOLD + "Title: " + ChatColor.AQUA + "" + data.get(JobsString.JOB_TITLE, PersistentDataType.STRING));
+            player.sendMessage(ChatColor.GOLD + "Level: " + ChatColor.AQUA + "" + "" + data.get(JobsString.JOB_LEVEL, PersistentDataType.INTEGER));
+            player.sendMessage(ChatColor.GOLD + "XP: " + ChatColor.AQUA + "" + "" + data.get(JobsString.JOB_XP, PersistentDataType.DOUBLE));
+            player.sendMessage(ChatColor.GOLD + "TARGET XP: " + ChatColor.AQUA + "" + "" + data.get(JobsString.JOB_XP_TARGET, PersistentDataType.INTEGER));
         }
     }
 
@@ -68,34 +68,11 @@ public class JobsCertificateListener implements Listener {
     public void setCertificate(Player player, String title) {
         JobsData jobsData = new JobsData();
         PersistentDataContainer data = player.getPersistentDataContainer();
-        switch (title) {
-            case JobsString.MINER_PATH:
-                data.set(JobsString.MINER, PersistentDataType.STRING, title);
-                break;
-            case JobsString.LOGGER_PATH:
-                data.set(JobsString.LOGGER, PersistentDataType.STRING, title);
-                break;
-            case JobsString.BREWER_PATH:
-                data.set(JobsString.BREWER, PersistentDataType.STRING, title);
-                break;
-            case JobsString.ENCHANTER_PATH:
-                data.set(JobsString.ENCHANTER, PersistentDataType.STRING, title);
-                break;
-            case JobsString.WARRIOR_PATH:
-                data.set(JobsString.WARRIOR, PersistentDataType.STRING, title);
-                break;
-            case JobsString.ARCHER_PATH:
-                data.set(JobsString.ARCHER, PersistentDataType.STRING, title);
-                break;
-            case JobsString.SMITH_PATH:
-                data.set(JobsString.SMITH, PersistentDataType.STRING, title);
-                break;
-        }
 
         data.set(JobsString.JOB_TITLE, PersistentDataType.STRING, title);
         data.set(JobsString.JOB_LEVEL, PersistentDataType.INTEGER, 0);
-        data.set(JobsString.JOB_XP, PersistentDataType.INTEGER, 0);
-        data.set(JobsString.JOB_XP_TARGET, PersistentDataType.INTEGER, jobsData.getConfig().getInt(title + "." + JobsString.JOB_XP_TARGET));
+        data.set(JobsString.JOB_XP, PersistentDataType.DOUBLE, 0.0);
+        data.set(JobsString.JOB_TOKEN, PersistentDataType.INTEGER, 0);
 
         String joinRaw = jobsData.getConfig().getString(title + "." + JobsString.JOBS_JOIN_MESSAGE);
         assert joinRaw != null;

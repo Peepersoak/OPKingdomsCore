@@ -55,10 +55,6 @@ public class GeneralCommands implements CommandExecutor {
                 if (cmd.equalsIgnoreCase("events")) {
                     Events.getEvents(player);
                 }
-                if (cmd.equalsIgnoreCase("Jobs")) {
-                    JobsGUI jobsGUI = new JobsGUI();
-                    player.openInventory(jobsGUI.openMainGUI());
-                }
             } else {
                 if (cmd.equalsIgnoreCase("launch")) {
                     event.startEvent();
