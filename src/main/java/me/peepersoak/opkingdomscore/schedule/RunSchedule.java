@@ -3,6 +3,7 @@ package me.peepersoak.opkingdomscore.schedule;
 import me.peepersoak.opkingdomscore.OPKingdomsCore;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -153,6 +154,17 @@ public class RunSchedule extends BukkitRunnable {
             }
         }.runTask(OPKingdomsCore.getInstance());
         Events.removeEvents(eventDetails);
+    }
+
+    public void runVFXforDragEvent() {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+                    p.playSound(p.getLocation().clone().add(0,15,0), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 50F, 1F);
+                }
+            }
+        }.runTask(OPKingdomsCore.getInstance());
     }
 
     @Override
