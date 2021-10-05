@@ -7,9 +7,12 @@ import me.peepersoak.opkingdomscore.jobscertificate.JobsEventHandler;
 import me.peepersoak.opkingdomscore.jobscertificate.data.*;
 import me.peepersoak.opkingdomscore.schedule.ScheduleData;
 import me.peepersoak.opkingdomscore.schedule.Scheduler;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -23,6 +26,7 @@ public final class OPKingdomsCore extends JavaPlugin implements Listener {
     private final JobsEventHandler jobsEventHandler = new JobsEventHandler();
     private final DragonEggData eggData = new DragonEggData();
 
+    private static Economy econ = null;
 
 
     @Override
@@ -35,12 +39,29 @@ public final class OPKingdomsCore extends JavaPlugin implements Listener {
 
         PluginManager pm = Bukkit.getPluginManager();
         dragonEventHandler.registerDragonEvent(this, pm);
-//        jobsEventHandler.registerJobsEvent(this, pm);
+        jobsEventHandler.registerJobsEvent(this, pm);
 
         Objects.requireNonNull(getCommand("opkingdoms")).setExecutor(new GeneralCommands());
         Objects.requireNonNull(getCommand("opkingdoms")).setTabCompleter(new TabCompletions());
 
         Scheduler scheduler = new Scheduler();
+
+        if (!setupEconomy() ) {
+            System.out.println(ChatColor.RED + "No Economy found, disabling vault");
+            getServer().getPluginManager().disablePlugin(this);
+        }
+    }
+
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        econ = rsp.getProvider();
+        return econ != null;
     }
 
     public void initializedYMLSettings() {
@@ -59,5 +80,9 @@ public final class OPKingdomsCore extends JavaPlugin implements Listener {
 
     public static OPKingdomsCore getInstance() {
         return instance;
+    }
+
+    public static Economy getEconomy() {
+        return econ;
     }
 }

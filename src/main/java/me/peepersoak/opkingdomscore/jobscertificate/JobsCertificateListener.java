@@ -20,19 +20,11 @@ import org.bukkit.persistence.PersistentDataType;
 public class JobsCertificateListener implements Listener {
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent e) {
-        if (e.getPlayer().hasPlayedBefore()) return;
-        Player player = e.getPlayer();
-        JobsGUI gui = new JobsGUI();
-        // Open the GUI settings for the races
-        player.openInventory(gui.openMainGUI());
-    }
-
-    @EventHandler
     public void onInteract(PlayerInteractEvent e) {
         if (!e.hasItem()) return;
         ItemStack item = e.getItem();
         Player player = e.getPlayer();
+        if (!player.isOp()) return;
         if (item.getType() == Material.DIAMOND_BLOCK) {
             JobsGUI gui = new JobsGUI();
             player.openInventory(gui.openMainGUI());
@@ -63,23 +55,51 @@ public class JobsCertificateListener implements Listener {
         if (!(e.getWhoClicked() instanceof Player)) return;
         Player player = (Player) e.getWhoClicked();
 
-        JobsData jobsData = new JobsData();
-
         ItemMeta meta = item.getItemMeta();
+        assert meta != null;
         PersistentDataContainer itemData = meta.getPersistentDataContainer();
         String jobTitle = itemData.get(JobsString.JOB_TITLE, PersistentDataType.STRING);
+        assert jobTitle != null;
 
-        PersistentDataContainer playerData = player.getPersistentDataContainer();
-        playerData.set(JobsString.JOB_TITLE, PersistentDataType.STRING, jobTitle);
-        playerData.set(JobsString.JOB_LEVEL, PersistentDataType.INTEGER, 0);
-        playerData.set(JobsString.JOB_XP, PersistentDataType.INTEGER, 0);
-        playerData.set(JobsString.JOB_XP_TARGET, PersistentDataType.INTEGER, jobsData.getConfig().getInt(jobTitle + "." + JobsString.JOB_XP_TARGET));
-
+        setCertificate(player, jobTitle);
         player.closeInventory();
+    }
 
-        String joinRaw = jobsData.getConfig().getString(jobTitle + "." + JobsString.JOBS_JOIN_MESSAGE);
+    public void setCertificate(Player player, String title) {
+        JobsData jobsData = new JobsData();
+        PersistentDataContainer data = player.getPersistentDataContainer();
+        switch (title) {
+            case JobsString.MINER_PATH:
+                data.set(JobsString.MINER, PersistentDataType.STRING, title);
+                break;
+            case JobsString.LOGGER_PATH:
+                data.set(JobsString.LOGGER, PersistentDataType.STRING, title);
+                break;
+            case JobsString.BREWER_PATH:
+                data.set(JobsString.BREWER, PersistentDataType.STRING, title);
+                break;
+            case JobsString.ENCHANTER_PATH:
+                data.set(JobsString.ENCHANTER, PersistentDataType.STRING, title);
+                break;
+            case JobsString.WARRIOR_PATH:
+                data.set(JobsString.WARRIOR, PersistentDataType.STRING, title);
+                break;
+            case JobsString.ARCHER_PATH:
+                data.set(JobsString.ARCHER, PersistentDataType.STRING, title);
+                break;
+            case JobsString.SMITH_PATH:
+                data.set(JobsString.SMITH, PersistentDataType.STRING, title);
+                break;
+        }
+
+        data.set(JobsString.JOB_TITLE, PersistentDataType.STRING, title);
+        data.set(JobsString.JOB_LEVEL, PersistentDataType.INTEGER, 0);
+        data.set(JobsString.JOB_XP, PersistentDataType.INTEGER, 0);
+        data.set(JobsString.JOB_XP_TARGET, PersistentDataType.INTEGER, jobsData.getConfig().getInt(title + "." + JobsString.JOB_XP_TARGET));
+
+        String joinRaw = jobsData.getConfig().getString(title + "." + JobsString.JOBS_JOIN_MESSAGE);
+        assert joinRaw != null;
         String message = ChatColor.translateAlternateColorCodes('&', joinRaw);
-
         player.sendMessage(message);
     }
 }

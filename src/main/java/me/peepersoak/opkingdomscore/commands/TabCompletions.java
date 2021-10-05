@@ -19,6 +19,7 @@ public class TabCompletions implements TabCompleter {
         str.add("Dragon_Event");
         str.add("Reload");
         str.add("Events");
+        str.add("Jobs");
         return str;
     }
 }

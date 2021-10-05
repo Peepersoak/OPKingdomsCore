@@ -3,6 +3,7 @@ package me.peepersoak.opkingdomscore.commands;
 import me.peepersoak.opkingdomscore.OPKingdomsCore;
 import me.peepersoak.opkingdomscore.dragon_event.DragonEvent;
 import me.peepersoak.opkingdomscore.dragon_event.GUI.main.MainGUI;
+import me.peepersoak.opkingdomscore.jobscertificate.jobsGUI.JobsGUI;
 import me.peepersoak.opkingdomscore.schedule.Events;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -53,6 +54,10 @@ public class GeneralCommands implements CommandExecutor {
                 }
                 if (cmd.equalsIgnoreCase("events")) {
                     Events.getEvents(player);
+                }
+                if (cmd.equalsIgnoreCase("Jobs")) {
+                    JobsGUI jobsGUI = new JobsGUI();
+                    player.openInventory(jobsGUI.openMainGUI());
                 }
             } else {
                 if (cmd.equalsIgnoreCase("launch")) {

@@ -32,12 +32,6 @@ Break:
   gold_ore:
     income: 5
     experience: 2
-  lapis_ore:
-    income: 7.5
-    experience: 2
-  diamond_ore:
-    income: 10
-    experience: 10
   emerald_ore:
     income: 15
     experience: 30
@@ -74,3 +68,30 @@ Break:
   dark_prismarine:
     income: 2.5
     experience: 2.5
+
+
+Miner_Jobs:
+  Level_1:
+    diamond_ore:
+      income: 10
+      experience: 10
+  Level_2:
+    lapis_ore:
+      income: 7.5
+      experience: 2
+  Level_3:
+    emerald_ore:
+      income: 15
+      experience: 30
+  Level_4:
+    redstone_ore:
+      income: 2.5
+      experience: 2
+  Level_5:
+    ancient_debris:
+      income: 10
+        experience: 5
+
+
+
+

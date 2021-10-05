@@ -21,6 +21,9 @@ public class JobsString {
     public static final NamespacedKey ARCHER = new NamespacedKey(OPKingdomsCore.getInstance(), "archer_certificate");
     public static final NamespacedKey SMITH = new NamespacedKey(OPKingdomsCore.getInstance(), "smith_certificate");
 
+    // Miner Certificate
+    public static final String MINER_JOBS_BLOCKS = "Miner_Jobs";
+
     // For datas
     public static final String JOBS_CERTIFICATE_FILE_NAME = "Jobs Certificate Settings.yml";
     public static final String MINER_SETTINGS_FILE_NAME = "JobsSettings" + File.separator + "Miner.yml";
@@ -38,6 +41,8 @@ public class JobsString {
     public static final String JOBS_JOIN_MESSAGE = "Jobs_Join_Message";
     public static final String JOBS_LEAVE_MESSAGE = "Jobs_Leave_Message";
     public static final String JOBS_LORE = "Lore";
+
+    // Path and Name
     public static final String MINER_PATH = "Miner";
     public static final String LOGGER_PATH = "Logger";
     public static final String BREWER_PATH = "Brewer";
@@ -49,5 +54,6 @@ public class JobsString {
     public static final String JOBS_GUI_NAME = "Select your job";
     public static final String NEW_JOB_GUI_NAME = "Select your new job";
 
-
+    public static final String XP = "experience";
+    public static final String income = "income";
 }
