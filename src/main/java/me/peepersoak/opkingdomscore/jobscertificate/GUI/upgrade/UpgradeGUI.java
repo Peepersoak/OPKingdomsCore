@@ -24,15 +24,16 @@ public class UpgradeGUI {
 
         for (int i = 0; i < 27; i++) {
             if (i == 13) {
-                name = ChatColor.GREEN + "Upgrade Requirements:";
+                name = ChatColor.GREEN + "Job Upgrade:";
                 lore = new ArrayList<>();
                 lore.add("");
-                lore.add(ChatColor.GOLD + "" + JobsUtil.getTokenNeeded(player) + " Tokens");
-                lore.add(ChatColor.GOLD + "" + JobsUtil.getPlayerJobXPTarget(player) + " Experience");
+                lore.add(ChatColor.RED + "Upgrade Requirements:");
+                lore.add(ChatColor.GOLD + "- " + JobsUtil.getTokenNeeded(player) + " Tokens");
+                lore.add(ChatColor.GOLD + "- " + JobsUtil.getPlayerJobXPTarget(player) + " Experience");
                 lore.add("");
                 lore.add(ChatColor.AQUA + "You have:");
-                lore.add(ChatColor.LIGHT_PURPLE + "" + JobsUtil.getPlayerToken(player) + " Tokens");
-                lore.add(ChatColor.LIGHT_PURPLE + "" + JobsUtil.getPlayerJobXP(player) + " Experience");
+                lore.add(ChatColor.LIGHT_PURPLE + "- " + JobsUtil.getPlayerToken(player) + " Tokens");
+                lore.add(ChatColor.LIGHT_PURPLE + "- " + JobsUtil.getPlayerJobXP(player) + " Experience");
                 lore.add("");
                 lore.add(ChatColor.YELLOW + "Click this if you want to proceed");
                 inv.setItem(i, button.createButton(Material.LIME_STAINED_GLASS_PANE, name, lore, false));

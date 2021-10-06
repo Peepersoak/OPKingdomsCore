@@ -23,6 +23,8 @@ public class JobsString {
     public static final NamespacedKey ARCHER = new NamespacedKey(OPKingdomsCore.getInstance(), "archer_certificate");
     public static final NamespacedKey SMITH = new NamespacedKey(OPKingdomsCore.getInstance(), "smith_certificate");
 
+    public static final NamespacedKey WARRIOR_KILL_COUNT = new NamespacedKey(OPKingdomsCore.getInstance(), "KillCount");
+
     // Token Converter
     public static final String CONVERTER_GUI_NAME = "Dollar --> Token";
     public static final String CONVERTER_DOLLAR = "Dollar_To_Token";
@@ -32,6 +34,25 @@ public class JobsString {
 
     // Miner Certificate
     public static final String MINER_JOBS_BLOCKS = "Miner_Jobs";
+
+    // Logger Certificate
+    public static final String LOGGER_JOBS_BLOCKS = "Logger_Jobs";
+    public static final String LOGGER_JOBS_DAMAGE_BONUS = "Damage_Increase";
+
+    // Archer Certificate
+    public static final String ARCHER_MOBS_SECTION = "Kill";
+    public static final String ARCHER_BONUS_DMG_1 = "Damage_Bonus." + "Level_1";
+    public static final String ARCHER_BONUS_DMG_3 = "Damage_Bonus." + "Level_3";
+    public static final String ARCHER_BONUS_DMG_5 = "Damage_Bonus." + "Level_5";
+
+    // Warrior Certificate
+    public static final String WARRIOR_MOBS_SECTION = "Kill";
+    public static final String WARRIOR_JOB_BONUSES = "Job_Level_Bonus";
+    public static final String WARRIOR_SWORD_BONUS = WARRIOR_JOB_BONUSES + ".Sword_Bonus";
+    public static final String WARRIOR_KNOCKBACK_BONUS = WARRIOR_JOB_BONUSES + ".Knockback";
+    public static final String WARRIOR_DEFENSE_BONUS = WARRIOR_JOB_BONUSES + ".Defense";
+    public static final String WARRIOR_AXE_BONUS = WARRIOR_JOB_BONUSES + ".Axe_Bonus";
+    public static final String WARRIOR_CRIT_CHANCE_RATIO = WARRIOR_JOB_BONUSES + ".Crit_Chance_Ratio";
 
     // For datas
     public static final String JOBS_CERTIFICATE_FILE_NAME = "Jobs Certificate Settings.yml";
@@ -69,4 +90,5 @@ public class JobsString {
 
     public static final String LEVEL_UP_TOKEN = "Token_Needed";
     public static final String LEVEL_UP_TOKEN_MULTIPLIER = "Token_Multiplier";
+    public static final String ANNOUNCE_EFFECT = "Announce_Effect_FOR_TESTING_ONLY";
 }

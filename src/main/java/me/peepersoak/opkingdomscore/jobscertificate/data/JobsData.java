@@ -31,6 +31,10 @@ public class JobsData {
         }
         config = YamlConfiguration.loadConfiguration(file);
 
+        if (!config.getBoolean(JobsString.ANNOUNCE_EFFECT)) {
+            config.addDefault(JobsString.ANNOUNCE_EFFECT, false);
+        }
+
         if (config.getInt(JobsString.LEVEL_UP_TOKEN) == 0) {
             config.addDefault(JobsString.LEVEL_UP_TOKEN, 20);
         }

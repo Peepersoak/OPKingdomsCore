@@ -1,49 +1,44 @@
 Break:
   oak_log:
     income: 6.0
-    points: 6.0
-    experience: 6.0
-  spruce_log:
-    income: 6.0
-    points: 6.0
     experience: 6.0
   birch_log:
     income: 8.0
-    points: 8.0
     experience: 8.0
   jungle_log:
     income: 12.0
-    points: 12.0
     experience: 12.0
-  acacia_log:
-    income: 6.0
-    points: 6.0
-    experience: 6.0
-  dark_oak_log:
-    income: 25.0
-    points: 25.0
-    experience: 25.0
   stripped_oak_log:
     income: 7.0
-    points: 7.0
     experience: 7.0
   stripped_spruce_log:
     income: 18.0
-    points: 18.0
     experience: 18.0
   stripped_birch_log:
     income: 10.0
-    points: 10.0
     experience: 10.0
   stripped_jungle_log:
     income: 9.0
-    points: 9.0
     experience: 9.0
   stripped_acacia_log:
     income: 14.0
-    points: 14.0
     experience: 14.0
   stripped_dark_oak_log:
     income: 12.0
-    points: 12.0
     experience: 12.0
+
+Logger_Jobs:
+  Level_1:
+    acacia_log:
+      income: 6.0
+      experience: 6.0
+  Level_2:
+    spruce_log:
+      income: 6.0
+      experience: 6.0
+  Level_3:
+    dark_oak_log:
+      income: 25.0
+      experience: 25.0
+
+Damage_Increase: 5.5

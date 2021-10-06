@@ -1,16 +1,28 @@
 package me.peepersoak.opkingdomscore.utilities;
 
+import me.peepersoak.opkingdomscore.OPKingdomsCore;
 import me.peepersoak.opkingdomscore.jobscertificate.JobsString;
 import me.peepersoak.opkingdomscore.jobscertificate.data.JobsData;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+
 public class JobsUtil {
     
-    public static Integer getLevelNeeded(String str) {
+    public static Integer getLevelFromString(String str) {
         String[] split = str.split("_");
         int level = -1;
         try {
@@ -44,9 +56,14 @@ public class JobsUtil {
     }
 
     public static int getPlayerJobXPTarget(Player player) {
-        PersistentDataContainer data = player.getPersistentDataContainer();
-        if (data.get(JobsString.JOB_XP_TARGET, PersistentDataType.INTEGER) == null) return -1;
-        return data.get(JobsString.JOB_XP_TARGET, PersistentDataType.INTEGER);
+        JobsData jobsData = new JobsData();
+        int newXPTarget = jobsData.getConfig().getInt(JobsUtil.getPlayerJobTitle(player) + "." + JobsString.XP_REQUIREMENT);
+        double amp = jobsData.getConfig().getDouble(JobsUtil.getPlayerJobTitle(player) + "." + JobsString.XP_MULTIPLIER);
+        for (int i = 0; i <= JobsUtil.getPlayerJobLevel(player); i++) {
+            if (i == 0) continue;
+            newXPTarget = (int) (newXPTarget * amp);
+        }
+        return newXPTarget;
     }
 
     public static int getPlayerToken(Player player) {
@@ -64,20 +81,28 @@ public class JobsUtil {
         data.set(JobsString.JOB_TOKEN, PersistentDataType.INTEGER, newToken);
     }
 
-    public static void changeLevel(Player player, int level, int target) {
+    public static void setPlayerToken(Player player, int token) {
+        PersistentDataContainer data = player.getPersistentDataContainer();
+        data.set(JobsString.JOB_TOKEN, PersistentDataType.INTEGER, token);
+    }
+
+    public static void upgradeLevel(Player player, int level) {
         JobsData jobsData = new JobsData();
         player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 10F, 1F);
         int tokenCost = jobsData.getConfig().getInt(JobsString.LEVEL_UP_TOKEN);
         PersistentDataContainer data = player.getPersistentDataContainer();
         data.set(JobsString.JOB_LEVEL, PersistentDataType.INTEGER, level + 1);
-        data.set(JobsString.JOB_XP, PersistentDataType.DOUBLE, 0.0);
-        data.set(JobsString.JOB_XP_TARGET, PersistentDataType.INTEGER, target);
         data.set(JobsString.JOB_TOKEN, PersistentDataType.INTEGER, data.get(JobsString.JOB_TOKEN, PersistentDataType.INTEGER) - tokenCost);
+    }
+
+    public static void changeJobLevel(Player player, int level) {
+        PersistentDataContainer data = player.getPersistentDataContainer();
+        data.set(JobsString.JOB_LEVEL, PersistentDataType.INTEGER, level);
     }
 
     public static void addXPToPlayer(Player player, double xp) {
         PersistentDataContainer data = player.getPersistentDataContainer();
-        int xpRequirement = getXPNeeded(JobsUtil.getPlayerJobTitle(player), JobsUtil.getPlayerJobLevel(player));
+        int xpRequirement = getPlayerJobXPTarget(player);
         double newXP = xp;
         if (xp >= xpRequirement) {
             newXP = xpRequirement;
@@ -90,8 +115,8 @@ public class JobsUtil {
         return data.has(JobsString.JOB_TITLE, PersistentDataType.STRING);
     }
 
-    public static int getEarnXP(ConfigurationSection section, String material) {
-        return section.getInt(material + "." + JobsString.XP);
+    public static int getEarnXP(ConfigurationSection section, String type) {
+        return section.getInt(type + "." + JobsString.XP);
     }
 
     public static int getEarnIncome(ConfigurationSection section, String material) {
@@ -115,14 +140,99 @@ public class JobsUtil {
         return jobsData.getConfig().getString(title + "." + JobsString.JOBS_LEVEL_UP_MESSAGE);
     }
 
-    public static int getXPNeeded(String title, int level) {
-        JobsData jobsData = new JobsData();
-        int newXPTarget = jobsData.getConfig().getInt(title + "." + JobsString.XP_REQUIREMENT);
-        double amp = jobsData.getConfig().getDouble(title + "." + JobsString.XP_MULTIPLIER);
-        for (int i = 0; i <= level; i++) {
-            if (i == 0) continue;
-            newXPTarget = (int) (newXPTarget * amp);
+    public static boolean isJobCorrect(Player player, String title) {
+        PersistentDataContainer data = player.getPersistentDataContainer();
+        return Objects.requireNonNull(data.get(JobsString.JOB_TITLE, PersistentDataType.STRING)).equalsIgnoreCase(title);
+    }
+
+    public static boolean isWieldingAxe(Player player) {
+        List<Material> mat = new ArrayList<>();
+        mat.add(Material.WOODEN_AXE);
+        mat.add(Material.IRON_AXE);
+        mat.add(Material.GOLDEN_AXE);
+        mat.add(Material.DIAMOND_AXE);
+        mat.add(Material.NETHERITE_AXE);
+        ItemStack item = player.getInventory().getItemInMainHand();
+        return mat.contains(item.getType());
+    }
+
+    public static boolean isWieldingSword(Player player) {
+        List<Material> mat = new ArrayList<>();
+        mat.add(Material.WOODEN_SWORD);
+        mat.add(Material.IRON_SWORD);
+        mat.add(Material.GOLDEN_SWORD);
+        mat.add(Material.DIAMOND_SWORD);
+        mat.add(Material.NETHERITE_SWORD);
+        ItemStack item = player.getInventory().getItemInMainHand();
+        return mat.contains(item.getType());
+    }
+
+    public static void addIncomeToPlayer(Player player, double income) {
+        Economy economy = OPKingdomsCore.getEconomy();
+        EconomyResponse response = economy.depositPlayer(player, income);
+        if (response.transactionSuccess()) {
+            player.sendMessage(ChatColor.GREEN + "" + income + " has beed added to your account");
+        } else {
+            player.sendMessage(ChatColor.RED + "Failed to add balance");
         }
-        return newXPTarget;
+    }
+
+    public static void checkBlockBreakJob(String material, Player player, String title, BlockBreakEvent event,
+                                   ConfigurationSection jobBlock, ConfigurationSection jobDefaultBlock) {
+
+        assert jobBlock != null;
+        assert jobDefaultBlock != null;
+
+        double xp = 0;
+        double income = 0;
+
+        boolean addIncomeAndXP = false;
+
+        for (String level : jobBlock.getKeys(false)) {
+            if (!JobsUtil.isBlock(material, Objects.requireNonNull(jobBlock.getConfigurationSection(level)))) continue;
+            if (!JobsUtil.isJobCorrect(player, title)) {
+                player.sendMessage(ChatColor.RED + "You don't have the proper certificate to do this!!");
+                event.setCancelled(true);
+                return;
+            }
+            if (JobsUtil.getPlayerJobLevel(player) < JobsUtil.getLevelFromString(level)) {
+                player.sendMessage(ChatColor.RED + "Your level is not high enough to do this!!");
+                player.sendMessage(ChatColor.RED + "Level requirement: " + JobsUtil.getLevelFromString(level));
+                event.setCancelled(true);
+                return;
+            }
+            addIncomeAndXP = true;
+            xp = JobsUtil.getEarnXP(Objects.requireNonNull(jobBlock.getConfigurationSection(level)), material);
+            income = JobsUtil.getEarnIncome(Objects.requireNonNull(jobBlock.getConfigurationSection(level)), material);
+        }
+
+        if (JobsUtil.isBlock(material, jobDefaultBlock)) {
+            if (JobsUtil.isJobCorrect(player, title)) {
+                addIncomeAndXP = true;
+                xp = JobsUtil.getEarnXP(jobDefaultBlock, material);
+                income = JobsUtil.getEarnIncome(jobDefaultBlock, material);
+            }
+        }
+
+        if (addIncomeAndXP) {
+            double playerNewXP = JobsUtil.getPlayerJobXP(player) + xp;
+            JobsUtil.addXPToPlayer(player, playerNewXP);
+            addIncomeToPlayer(player, income);
+        }
+    }
+
+    public static void addXPandIncome(Player player, ConfigurationSection section, String type) {
+        for (String key : section.getKeys(false)) {
+            if (!key.equalsIgnoreCase(type)) continue;
+            double xp = JobsUtil.getEarnXP(section, key) + JobsUtil.getPlayerJobXP(player);
+            double income = JobsUtil.getEarnIncome(section, key);
+            JobsUtil.addXPToPlayer(player, xp);
+            JobsUtil.addIncomeToPlayer(player, income);
+        }
+    }
+
+    public static boolean announce() {
+        JobsData data = new JobsData();
+        return data.getConfig().getBoolean(JobsString.ANNOUNCE_EFFECT);
     }
 }

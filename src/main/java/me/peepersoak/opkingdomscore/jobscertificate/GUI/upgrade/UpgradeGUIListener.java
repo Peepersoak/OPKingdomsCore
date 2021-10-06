@@ -37,13 +37,11 @@ public class UpgradeGUIListener implements Listener {
             double playerXP = JobsUtil.getPlayerJobXP(player);
             int level = JobsUtil.getPlayerJobLevel(player);
             int playerToken = JobsUtil.getPlayerToken(player);
-            int xpTarget = JobsUtil.getXPNeeded(title, level);
+            int xpTarget = JobsUtil.getPlayerJobXPTarget(player);
             int tokenNeeded = JobsUtil.getTokenNeeded(player);
 
             if (playerXP < xpTarget) {
                 player.sendMessage(ChatColor.RED + "You did not meet the xp requirement to upgrade your job!");
-                player.sendMessage(ChatColor.RED + "Current XP: " + ChatColor.AQUA + playerXP);
-                player.sendMessage(ChatColor.RED + "XP Needed: " + ChatColor.AQUA + xpTarget);
                 return;
             }
 
@@ -51,14 +49,17 @@ public class UpgradeGUIListener implements Listener {
                 player.sendMessage(ChatColor.RED + "You don't have enough token to upgrade your job!");
                 return;
             }
-            JobsUtil.changeLevel(player, level, JobsUtil.getXPNeeded(title, level));
+            JobsUtil.upgradeLevel(player, level);
             String rawMsg = JobsUtil.getLevelUPRawMessage(title);
             assert rawMsg != null;
             assert title != null;
+            int newLevel = level + 1;
             String msg = ChatColor.translateAlternateColorCodes('&', rawMsg)
-                    .replace("%job_level%", "" + level + 1)
+                    .replace("%job_level%", "" + newLevel)
                     .replace("%job_title%", title);
             sendLevelUPMessage(player, msg);
+            UpgradeGUI gui = new UpgradeGUI();
+            player.openInventory(gui.openGUI(player));
         }
     }
 
