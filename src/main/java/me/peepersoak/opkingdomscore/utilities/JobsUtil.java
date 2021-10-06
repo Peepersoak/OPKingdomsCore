@@ -77,7 +77,17 @@ public class JobsUtil {
 
     public static void addXPToPlayer(Player player, double xp) {
         PersistentDataContainer data = player.getPersistentDataContainer();
-        data.set(JobsString.JOB_XP, PersistentDataType.DOUBLE, xp);
+        int xpRequirement = getXPNeeded(JobsUtil.getPlayerJobTitle(player), JobsUtil.getPlayerJobLevel(player));
+        double newXP = xp;
+        if (xp >= xpRequirement) {
+            newXP = xpRequirement;
+        }
+        data.set(JobsString.JOB_XP, PersistentDataType.DOUBLE, newXP);
+    }
+
+    public static boolean hasJob(Player player) {
+        PersistentDataContainer data = player.getPersistentDataContainer();
+        return data.has(JobsString.JOB_TITLE, PersistentDataType.STRING);
     }
 
     public static int getEarnXP(ConfigurationSection section, String material) {

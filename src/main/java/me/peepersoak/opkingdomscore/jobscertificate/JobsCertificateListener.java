@@ -1,7 +1,7 @@
 package me.peepersoak.opkingdomscore.jobscertificate;
 
 import me.peepersoak.opkingdomscore.jobscertificate.data.JobsData;
-import me.peepersoak.opkingdomscore.jobscertificate.jobsGUI.JobsGUI;
+import me.peepersoak.opkingdomscore.jobscertificate.GUI.jobsGUI.JobsGUI;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -10,7 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -72,8 +71,10 @@ public class JobsCertificateListener implements Listener {
         data.set(JobsString.JOB_TITLE, PersistentDataType.STRING, title);
         data.set(JobsString.JOB_LEVEL, PersistentDataType.INTEGER, 0);
         data.set(JobsString.JOB_XP, PersistentDataType.DOUBLE, 0.0);
-        data.set(JobsString.JOB_TOKEN, PersistentDataType.INTEGER, 0);
 
+        if (!data.has(JobsString.JOB_TOKEN, PersistentDataType.INTEGER)) {
+            data.set(JobsString.JOB_TOKEN, PersistentDataType.INTEGER, 0);
+        }
         String joinRaw = jobsData.getConfig().getString(title + "." + JobsString.JOBS_JOIN_MESSAGE);
         assert joinRaw != null;
         String message = ChatColor.translateAlternateColorCodes('&', joinRaw);

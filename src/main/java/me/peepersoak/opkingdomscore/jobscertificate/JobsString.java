@@ -27,6 +27,8 @@ public class JobsString {
     public static final String CONVERTER_GUI_NAME = "Dollar --> Token";
     public static final String CONVERTER_DOLLAR = "Dollar_To_Token";
 
+    // Upgrade GUI
+    public static final String UPGRADE_GUI_NAME = "Upgrade your Job";
 
     // Miner Certificate
     public static final String MINER_JOBS_BLOCKS = "Miner_Jobs";

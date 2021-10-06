@@ -1,4 +1,4 @@
-package me.peepersoak.opkingdomscore.jobscertificate.jobsGUI;
+package me.peepersoak.opkingdomscore.jobscertificate.GUI.jobsGUI;
 
 import me.peepersoak.opkingdomscore.jobscertificate.JobsString;
 import me.peepersoak.opkingdomscore.jobscertificate.data.JobsData;
