@@ -3,12 +3,8 @@ package me.peepersoak.opkingdomscore.jobscertificate.jobs;
 import me.peepersoak.opkingdomscore.jobscertificate.JobsString;
 import me.peepersoak.opkingdomscore.jobscertificate.data.WarriorData;
 import me.peepersoak.opkingdomscore.utilities.JobsUtil;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -17,12 +13,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
-import org.w3c.dom.Attr;
 
 import java.util.*;
 
@@ -63,6 +53,7 @@ public class WarriorListener implements Listener {
                     if (rawDamage >= health) newHealth = 1;
                     e.setDamage(0);
                     entity.setHealth(newHealth);
+                    player.getWorld().playSound(entity.getLocation(), Sound.ITEM_TRIDENT_RIPTIDE_1, 5, 1);
                     if (JobsUtil.announce()) {
                         player.sendMessage(ChatColor.GOLD + "Critical Damage!! entity health from " + health +
                                 " to " + newHealth + " as it ignores protections as a " + level + " Warrior");
@@ -83,19 +74,9 @@ public class WarriorListener implements Listener {
                 JobsUtil.addXPandIncome(player,
                         Objects.requireNonNull(data.getConfig().getConfigurationSection(JobsString.WARRIOR_MOBS_SECTION)),
                         e.getEntity().getType().toString());
-                int level = JobsUtil.getPlayerJobLevel(player);
-                if (level >= 4) {
-                    for (ItemStack item : e.getDrops()) {
-                        int ammount = item.getAmount() * 2;
-                        item.setAmount(ammount);
-                        if (JobsUtil.announce()) {
-                            player.sendMessage(ChatColor.GOLD + "" + item.getType() +  " have doubled from " +
-                                    item.getAmount() + " to " +
-                                    ammount);
-                        }
-                    }
-                }
-                else if (level >= 1) return;
+            }
+            if (JobsUtil.shoudlDrop(player)) {
+                JobsUtil.addMobDrop(player, e.getDrops());
             }
         }
         e.getDrops().clear();

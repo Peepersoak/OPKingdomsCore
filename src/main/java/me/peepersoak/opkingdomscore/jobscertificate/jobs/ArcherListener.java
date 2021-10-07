@@ -3,10 +3,12 @@ package me.peepersoak.opkingdomscore.jobscertificate.jobs;
 import me.peepersoak.opkingdomscore.OPKingdomsCore;
 import me.peepersoak.opkingdomscore.jobscertificate.JobsString;
 import me.peepersoak.opkingdomscore.jobscertificate.data.ArcherData;
+import me.peepersoak.opkingdomscore.jobscertificate.data.WarriorData;
 import me.peepersoak.opkingdomscore.utilities.JobsUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
@@ -20,6 +22,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -64,6 +67,7 @@ public class ArcherListener implements Listener {
                     if (rawDamage >= health) newHealth = 1;
                     e.setDamage(0);
                     entity.setHealth(newHealth);
+                    player.getWorld().playSound(entity.getLocation(), Sound.ITEM_TRIDENT_RIPTIDE_1, 5, 1);
                     if (JobsUtil.announce()) {
                         player.sendMessage(ChatColor.GOLD + "Critical Damage!! entity health from " + health +
                                 " to " + newHealth + " as it ignores protections as a " + level + " Archer");
@@ -80,21 +84,13 @@ public class ArcherListener implements Listener {
         if (monster.getKiller() != null) {
             Player player = monster.getKiller();
             if (JobsUtil.isJobCorrect(player, JobsString.ARCHER_PATH)) {
-                ArcherData data = new ArcherData();
-                JobsUtil.addXPandIncome(player, Objects.requireNonNull(data.getConfig().getConfigurationSection(JobsString.ARCHER_MOBS_SECTION)), e.getEntity().getType().toString());
-                int level = JobsUtil.getPlayerJobLevel(player);
-                if (level >= 4) {
-                    for (ItemStack item : e.getDrops()) {
-                        int ammount = item.getAmount() * 2;
-                        item.setAmount(ammount);
-                        if (JobsUtil.announce()) {
-                            player.sendMessage(ChatColor.GOLD + "" + item.getType() +  " have doubled from " +
-                                    item.getAmount() + " to " +
-                                    ammount);
-                        }
-                    }
-                }
-                else if (level >= 1) return;
+                WarriorData data = new WarriorData();
+                JobsUtil.addXPandIncome(player,
+                        Objects.requireNonNull(data.getConfig().getConfigurationSection(JobsString.ARCHER_MOBS_SECTION)),
+                        e.getEntity().getType().toString());
+            }
+            if (JobsUtil.shoudlDrop(player)) {
+                JobsUtil.addMobDrop(player, e.getDrops());
             }
         }
         e.getDrops().clear();
@@ -105,7 +101,7 @@ public class ArcherListener implements Listener {
         Player player = e.getPlayer();
         if (!JobsUtil.isJobCorrect(player, JobsString.ARCHER_PATH)) return;
         int level = JobsUtil.getPlayerJobLevel(player);
-        if (level < 4) return;
+        if (level < 3) return;
         if (e.isSneaking()) {
             archerSneak(player);
         }

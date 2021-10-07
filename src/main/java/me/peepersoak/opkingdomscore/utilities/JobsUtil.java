@@ -15,10 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 
 public class JobsUtil {
     
@@ -141,6 +138,7 @@ public class JobsUtil {
     }
 
     public static boolean isJobCorrect(Player player, String title) {
+        if (!hasJob(player)) return false;
         PersistentDataContainer data = player.getPersistentDataContainer();
         return Objects.requireNonNull(data.get(JobsString.JOB_TITLE, PersistentDataType.STRING)).equalsIgnoreCase(title);
     }
@@ -240,8 +238,57 @@ public class JobsUtil {
         }
     }
 
+    public static void addCraftingXPandIncome(Player player, ConfigurationSection section, String type, int count) {
+        for (String key : section.getKeys(false)) {
+            if (!key.equalsIgnoreCase(type)) continue;
+            double xp = JobsUtil.getEarnXP(section, key) + JobsUtil.getPlayerJobXP(player);
+            double income = JobsUtil.getEarnIncome(section, key);
+
+            double newXP = xp * count;
+            double newIncome = income * count;
+
+            JobsUtil.addXPToPlayer(player, newXP);
+            JobsUtil.addIncomeToPlayer(player, newIncome);
+        }
+    }
+
     public static boolean announce() {
         JobsData data = new JobsData();
         return data.getConfig().getBoolean(JobsString.ANNOUNCE_EFFECT);
+    }
+
+    public static void addMobDrop(Player player, List<ItemStack> itemStackList) {
+        if (!isJobCorrect(player, JobsString.WARRIOR_PATH) && !isJobCorrect(player, JobsString.ARCHER_PATH)) return;
+        int level = JobsUtil.getPlayerJobLevel(player);
+        if (level >= 4) {
+            for (ItemStack item : itemStackList) {
+                int ammount = item.getAmount();
+                int newAmmount = ammount * 2;
+                item.setAmount(newAmmount);
+                if (JobsUtil.announce()) {
+                    player.sendMessage(ChatColor.GOLD + "" + item.getType() +  " have doubled from " +
+                            ammount + " to " +
+                            newAmmount);
+                }
+            }
+        }
+        ItemStack[] itemStacks = itemStackList.toArray(new ItemStack[0]);
+        HashMap<Integer, ItemStack> drops =  player.getInventory().addItem(itemStacks);
+        if (drops.isEmpty()) return;
+        for (ItemStack item : drops.values()) {
+            player.getWorld().dropItemNaturally(player.getLocation(), item);
+        }
+    }
+
+    public static boolean shoudlDrop(Player player) {
+        return isJobCorrect(player, JobsString.WARRIOR_PATH) || isJobCorrect(player, JobsString.ARCHER_PATH);
+    }
+
+    public static void removeCertificate(Player player) {
+        PersistentDataContainer data = player.getPersistentDataContainer();
+        data.remove(JobsString.JOB_TITLE);
+        data.remove(JobsString.JOB_LEVEL);
+        data.remove(JobsString.JOB_XP);
+        data.remove(JobsString.JOB_XP_TARGET);
     }
 }

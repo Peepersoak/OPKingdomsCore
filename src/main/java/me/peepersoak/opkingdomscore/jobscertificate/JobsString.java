@@ -45,6 +45,18 @@ public class JobsString {
     public static final String WARRIOR_CRIT_MIN = WARRIOR_CRIT_CHANCE + ".Min";
     public static final String WARRIOR_CRIT_MAX = WARRIOR_CRIT_CHANCE + ".Max";
 
+    // Smithing Certificate
+    public static final String SMITHING_CRAFT_XP = "Craft";
+    public static final String SMITHING_UPGRADE_XP = "Upgrade";
+    public static final String SMITHING_REPAIR_XP = "Repair";
+    public static final String SMITHING_SMELT_XP = "Smelt";
+    public static final String SMITHING_SPECIFIC_ITEM = "Job_Craft_Item";
+
+    // Brewer Certificate
+    public static final String BREWER_DOUBLE_THROW_CHANCE = "Double_Potion_Chance";
+    public static final String BREWER_POTION_RECOVERY_CHANCE = "Potion_Recovery_Chance";
+    public static final String BREWER_CRAFT_XP = "Crafter";
+    public static final String BREWER_GATHER_XP = "Gather";
 
     // For datas
     public static final String JOBS_CERTIFICATE_FILE_NAME = "Jobs Certificate Settings.yml";

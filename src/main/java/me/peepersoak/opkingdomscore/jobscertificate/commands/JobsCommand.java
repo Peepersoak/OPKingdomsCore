@@ -47,6 +47,24 @@ public class JobsCommand implements CommandExecutor {
                     sendPlayerJobsStatus(player);
                 }
             }
+            if (args.length == 2) {
+                String cmd = args[0];
+                String name = args[1];
+                if (cmd.equalsIgnoreCase("remove")) {
+                    if (!player.isOp()) {
+                        player.sendMessage(ChatColor.RED + "You don't have permission to do this!");
+                        return false;
+                    }
+                    Player target = Bukkit.getServer().getPlayer(name);
+                    if (target == null) {
+                        player.sendMessage(ChatColor.RED + "Player was not found!");
+                        return false;
+                    }
+                    JobsUtil.removeCertificate(target);
+                    player.sendMessage(ChatColor.GREEN + name + " certificate was remove!");
+                    return false;
+                }
+            }
             if (args.length == 4) {
                 String cmd = args[0];
                 String stat = args[1];
@@ -55,6 +73,10 @@ public class JobsCommand implements CommandExecutor {
                     Player target = Bukkit.getPlayer(name);
                     if (target == null || !target.isOnline()) {
                         player.sendMessage(ChatColor.RED + "Player not found!");
+                        return false;
+                    }
+                    if (!JobsUtil.hasJob(player)) {
+                        player.sendMessage(ChatColor.RED + name + " does not have any job!");
                         return false;
                     }
                     if (stat.equalsIgnoreCase("xp")) {

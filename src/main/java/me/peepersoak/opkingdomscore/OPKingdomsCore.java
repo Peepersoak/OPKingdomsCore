@@ -51,7 +51,7 @@ public final class OPKingdomsCore extends JavaPlugin implements Listener {
 
         if (!setupEconomy() ) {
             System.out.println(ChatColor.RED + "No Economy found, disabling vault");
-            getServer().getPluginManager().disablePlugin(this);
+            Bukkit.shutdown();
         }
     }
 

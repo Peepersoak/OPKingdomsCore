@@ -51,10 +51,19 @@ public class LoggerListener implements Listener {
         int level = JobsUtil.getPlayerJobLevel(player);
         if (level < 3) return;
         LoggerData data = new LoggerData();
-        double newDamage = e.getDamage() + data.getConfig().getDouble(JobsString.LOGGER_JOBS_DAMAGE_BONUS);
+        double bonus = data.getConfig().getDouble(JobsString.LOGGER_JOBS_DAMAGE_BONUS);
+        double newDamage = e.getDamage() + bonus;
+        if (JobsUtil.announce()) {
+            player.sendMessage(ChatColor.GOLD + "Added " + bonus + " damage to your attack");
+        }
         if (level >= 5) {
             newDamage = newDamage * 2;
+            if (JobsUtil.announce()) {
+                player.sendMessage(ChatColor.GOLD + "Damage has been double as a level " + level + " Logger" +
+                        " from " + (e.getDamage() + bonus) + " to " + newDamage);
+            }
         }
         e.setDamage(newDamage);
+
     }
 }

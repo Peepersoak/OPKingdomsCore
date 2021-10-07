@@ -3,8 +3,7 @@ package me.peepersoak.opkingdomscore.jobscertificate;
 import me.peepersoak.opkingdomscore.OPKingdomsCore;
 import me.peepersoak.opkingdomscore.jobscertificate.GUI.converter.ConverterGUIListener;
 import me.peepersoak.opkingdomscore.jobscertificate.GUI.upgrade.UpgradeGUIListener;
-import me.peepersoak.opkingdomscore.jobscertificate.jobs.ArcherListener;
-import me.peepersoak.opkingdomscore.jobscertificate.jobs.WarriorListener;
+import me.peepersoak.opkingdomscore.jobscertificate.jobs.*;
 import me.peepersoak.opkingdomscore.jobscertificate.jobs.logger.LoggerListener;
 import me.peepersoak.opkingdomscore.jobscertificate.jobs.miner.MinerListener;
 import org.bukkit.plugin.PluginManager;
@@ -19,5 +18,8 @@ public class JobsEventHandler {
         pm.registerEvents(new LoggerListener(), instance);
         pm.registerEvents(new ArcherListener(), instance);
         pm.registerEvents(new WarriorListener(), instance);
+        pm.registerEvents(new SmithingListener(), instance);
+        pm.registerEvents(new BrewerListener(), instance);
+        pm.registerEvents(new EnchanterListener(), instance);
     }
 }
