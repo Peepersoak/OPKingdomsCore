@@ -15,16 +15,6 @@ public class JobsString {
     public static final NamespacedKey JOB_XP_TARGET = new NamespacedKey(OPKingdomsCore.getInstance(), "JobXPTarget");
     public static final NamespacedKey JOB_TOKEN = new NamespacedKey(OPKingdomsCore.getInstance(), "JobToken");
 
-    public static final NamespacedKey MINER = new NamespacedKey(OPKingdomsCore.getInstance(), "miner_certificate");
-    public static final NamespacedKey LOGGER = new NamespacedKey(OPKingdomsCore.getInstance(), "logger_certificate");
-    public static final NamespacedKey BREWER = new NamespacedKey(OPKingdomsCore.getInstance(), "brewer_certificate");
-    public static final NamespacedKey ENCHANTER = new NamespacedKey(OPKingdomsCore.getInstance(), "enchanter_certificate");
-    public static final NamespacedKey WARRIOR = new NamespacedKey(OPKingdomsCore.getInstance(), "warrior_certificate");
-    public static final NamespacedKey ARCHER = new NamespacedKey(OPKingdomsCore.getInstance(), "archer_certificate");
-    public static final NamespacedKey SMITH = new NamespacedKey(OPKingdomsCore.getInstance(), "smith_certificate");
-
-    public static final NamespacedKey WARRIOR_KILL_COUNT = new NamespacedKey(OPKingdomsCore.getInstance(), "KillCount");
-
     // Token Converter
     public static final String CONVERTER_GUI_NAME = "Dollar --> Token";
     public static final String CONVERTER_DOLLAR = "Dollar_To_Token";
@@ -41,18 +31,20 @@ public class JobsString {
 
     // Archer Certificate
     public static final String ARCHER_MOBS_SECTION = "Kill";
-    public static final String ARCHER_BONUS_DMG_1 = "Damage_Bonus." + "Level_1";
-    public static final String ARCHER_BONUS_DMG_3 = "Damage_Bonus." + "Level_3";
-    public static final String ARCHER_BONUS_DMG_5 = "Damage_Bonus." + "Level_5";
+    public static final String ARCHER_BONUS_DMG = "Damage_Bonus." + "Bow_Bonus";
+    public static final String ARCHER_CRIT_CHANCE = "Damage_Bonus." + "Crit_Chance";
+    public static final String ARCHER_CRIT_MIN = ARCHER_CRIT_CHANCE + ".Min";
+    public static final String ARCHER_CRIT_MAX = ARCHER_CRIT_CHANCE + ".Max";
 
     // Warrior Certificate
     public static final String WARRIOR_MOBS_SECTION = "Kill";
     public static final String WARRIOR_JOB_BONUSES = "Job_Level_Bonus";
     public static final String WARRIOR_SWORD_BONUS = WARRIOR_JOB_BONUSES + ".Sword_Bonus";
-    public static final String WARRIOR_KNOCKBACK_BONUS = WARRIOR_JOB_BONUSES + ".Knockback";
     public static final String WARRIOR_DEFENSE_BONUS = WARRIOR_JOB_BONUSES + ".Defense";
-    public static final String WARRIOR_AXE_BONUS = WARRIOR_JOB_BONUSES + ".Axe_Bonus";
-    public static final String WARRIOR_CRIT_CHANCE_RATIO = WARRIOR_JOB_BONUSES + ".Crit_Chance_Ratio";
+    public static final String WARRIOR_CRIT_CHANCE = WARRIOR_JOB_BONUSES + ".Crit_Chance";
+    public static final String WARRIOR_CRIT_MIN = WARRIOR_CRIT_CHANCE + ".Min";
+    public static final String WARRIOR_CRIT_MAX = WARRIOR_CRIT_CHANCE + ".Max";
+
 
     // For datas
     public static final String JOBS_CERTIFICATE_FILE_NAME = "Jobs Certificate Settings.yml";

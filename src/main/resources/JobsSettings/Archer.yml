@@ -4,9 +4,10 @@ Allow_Animals: false
 Mvement_Bonus: 0.5
 
 Damage_Bonus:
-  Level_1: 2.5
-  Level_3: 3.0
-  Level_5: 5.0
+  Bow_Bonus: 2.0
+  Crit_Chance:
+    Min: 5
+    Max: 15
 
 Kill:
   Chicken:

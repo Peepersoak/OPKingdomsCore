@@ -167,6 +167,15 @@ public class JobsUtil {
         return mat.contains(item.getType());
     }
 
+    public static boolean isWieldingBow(Player player) {
+        List<Material> mat = new ArrayList<>();
+        mat.add(Material.BOW);
+        mat.add(Material.CROSSBOW);
+        mat.add(Material.TRIDENT);
+        ItemStack item = player.getInventory().getItemInMainHand();
+        return mat.contains(item.getType());
+    }
+
     public static void addIncomeToPlayer(Player player, double income) {
         Economy economy = OPKingdomsCore.getEconomy();
         EconomyResponse response = economy.depositPlayer(player, income);

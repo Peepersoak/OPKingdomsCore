@@ -6,14 +6,17 @@ import me.peepersoak.opkingdomscore.utilities.JobsUtil;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -30,45 +33,72 @@ public class WarriorListener implements Listener {
         if (!(e.getDamager() instanceof Player)) return;
         Player player = (Player) e.getDamager();
         if (!JobsUtil.isJobCorrect(player, JobsString.WARRIOR_PATH)) return;
+
         if (!(e.getEntity() instanceof LivingEntity)) return;
         LivingEntity entity = (LivingEntity) e.getEntity();
 
         WarriorData data = new WarriorData();
-        double bonus = 0;
 
         int level = JobsUtil.getPlayerJobLevel(player);
 
-        boolean addBonus = false;
-
         if (JobsUtil.isWieldingSword(player)) {
-            if (level >= 1) {
+            double bonus = 0;
+            if (level >= 2) {
                 bonus = data.getConfig().getDouble(JobsString.WARRIOR_SWORD_BONUS);
-                addBonus = true;
+                if (JobsUtil.announce()) {
+                    player.sendMessage(ChatColor.GREEN + "Bonus damage of " + bonus +
+                            " was added as a level " + level + " Warrior");
+                }
             }
-        }
-
-        if (addBonus) {
-            double damage = e.getDamage() + bonus;
             if (JobsUtil.getPlayerJobLevel(player) >= 5) {
-                damage = damage * 2;
-                // Add Track Here
-                addMobTrack(player.getInventory().getItemInMainHand());
+                double rawDamage = e.getDamage() + bonus;
+                Random rand = new Random();
+                int min = data.getConfig().getInt(JobsString.WARRIOR_CRIT_MIN);
+                int max = data.getConfig().getInt(JobsString.WARRIOR_CRIT_MAX);
+                int chance = rand.nextInt(max - min) + min;
+                int random = rand.nextInt(100) + 1;
+                double health = entity.getHealth();
+                double newHealth = health - rawDamage;
+                if (random <= chance) {
+                    if (rawDamage >= health) newHealth = 1;
+                    e.setDamage(0);
+                    entity.setHealth(newHealth);
+                    if (JobsUtil.announce()) {
+                        player.sendMessage(ChatColor.GOLD + "Critical Damage!! entity health from " + health +
+                                " to " + newHealth + " as it ignores protections as a " + level + " Warrior");
+                    }
+                }
             }
-            if (JobsUtil.announce()) {
-                player.sendMessage(ChatColor.GOLD + "Damage increase from " + Math.floor(e.getDamage()) +
-                        " to " + Math.floor(damage) + " as a level " + level + " Warrior");
+        }
+    }
+
+    @EventHandler
+    public void onDeath(EntityDeathEvent e) {
+        if (!(e.getEntity() instanceof Monster)) return;
+        Monster monster = (Monster) e.getEntity();
+        if (monster.getKiller() != null) {
+            Player player = monster.getKiller();
+            if (JobsUtil.isJobCorrect(player, JobsString.WARRIOR_PATH)) {
+                WarriorData data = new WarriorData();
+                JobsUtil.addXPandIncome(player,
+                        Objects.requireNonNull(data.getConfig().getConfigurationSection(JobsString.WARRIOR_MOBS_SECTION)),
+                        e.getEntity().getType().toString());
+                int level = JobsUtil.getPlayerJobLevel(player);
+                if (level >= 4) {
+                    for (ItemStack item : e.getDrops()) {
+                        int ammount = item.getAmount() * 2;
+                        item.setAmount(ammount);
+                        if (JobsUtil.announce()) {
+                            player.sendMessage(ChatColor.GOLD + "" + item.getType() +  " have doubled from " +
+                                    item.getAmount() + " to " +
+                                    ammount);
+                        }
+                    }
+                }
+                else if (level >= 1) return;
             }
-            e.setDamage(e.getDamage() + bonus);
         }
-
-        double damage = e.getFinalDamage();
-        double health = entity.getHealth();
-
-        if (damage >= health) {
-            JobsUtil.addXPandIncome(player,
-                    Objects.requireNonNull(data.getConfig().getConfigurationSection(JobsString.WARRIOR_MOBS_SECTION)),
-                    entity.getType().toString());
-        }
+        e.getDrops().clear();
     }
 
     @EventHandler
@@ -89,44 +119,5 @@ public class WarriorListener implements Listener {
                         Math.floor(damage) + " to " + Math.floor(newDamage) + ", as a level " + level + " Warrior");
             }
         }
-    }
-
-    public void addMobTrack(ItemStack item) {
-        WarriorData warriorData = new WarriorData();
-        ItemMeta meta = item.getItemMeta();
-        assert meta != null;
-        PersistentDataContainer data = meta.getPersistentDataContainer();
-
-        int killCount = 1;
-
-        if (data.get(JobsString.WARRIOR_KILL_COUNT, PersistentDataType.INTEGER) != null) {
-            killCount = data.get(JobsString.WARRIOR_KILL_COUNT, PersistentDataType.INTEGER) + 1;
-        }
-
-        data.set(JobsString.WARRIOR_KILL_COUNT, PersistentDataType.INTEGER, killCount);
-
-        System.out.println(killCount);
-
-        int ratio = warriorData.getConfig().getInt(JobsString.WARRIOR_CRIT_CHANCE_RATIO);
-        int ammount = killCount/ratio;
-
-        AttributeModifier modifier;
-
-        if (meta.hasAttributeModifiers()) {
-            Collection<AttributeModifier> attributeModifierList = meta.getAttributeModifiers(Attribute.GENERIC_ATTACK_SPEED);
-            if (attributeModifierList == null) return;
-            for (AttributeModifier am : attributeModifierList) {
-                if (am.getName().equalsIgnoreCase("Warrior.Knockback")) {
-                    modifier = am;
-                    meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, modifier);
-                    break;
-                }
-            }
-        }
-
-        modifier = new AttributeModifier(UUID.randomUUID(), "Warrior.Knockback", killCount, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND);
-        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, modifier);
-
-        item.setItemMeta(meta);
     }
 }

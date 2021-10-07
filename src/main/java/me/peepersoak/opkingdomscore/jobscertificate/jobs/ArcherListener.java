@@ -9,13 +9,11 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -23,6 +21,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
+import java.util.Random;
 
 public class ArcherListener implements Listener {
 
@@ -39,14 +38,66 @@ public class ArcherListener implements Listener {
 
         ArcherData data = new ArcherData();
         if (!JobsUtil.isJobCorrect(player, JobsString.ARCHER_PATH)) return;
-        damageEntity(e, player, data.getConfig());
 
-        double damage = e.getFinalDamage();
-        double health = entity.getHealth();
+        int level = JobsUtil.getPlayerJobLevel(player);
 
-        if (damage >= health) {
-            JobsUtil.addXPandIncome(player, Objects.requireNonNull(data.getConfig().getConfigurationSection(JobsString.ARCHER_MOBS_SECTION)), entity.getType().toString());
+        if (JobsUtil.isWieldingBow(player)) {
+            double bonus = 0;
+            if (level >= 2) {
+                if (level < 5 && player.getInventory().getItemInMainHand().getType() == Material.TRIDENT) return;
+                bonus = data.getConfig().getDouble(JobsString.ARCHER_BONUS_DMG);
+                if (JobsUtil.announce()) {
+                    player.sendMessage(ChatColor.GREEN + "Bonus damage of " + bonus +
+                            " was added as a level " + level + " Archer");
+                }
+            }
+            if (JobsUtil.getPlayerJobLevel(player) >= 5) {
+                double rawDamage = e.getDamage() + bonus;
+                Random rand = new Random();
+                int min = data.getConfig().getInt(JobsString.ARCHER_CRIT_MIN);
+                int max = data.getConfig().getInt(JobsString.ARCHER_CRIT_MAX);
+                int chance = rand.nextInt(max - min) + min;
+                int random = rand.nextInt(100) + 1;
+                double health = entity.getHealth();
+                double newHealth = health - rawDamage;
+                if (random <= chance) {
+                    if (rawDamage >= health) newHealth = 1;
+                    e.setDamage(0);
+                    entity.setHealth(newHealth);
+                    if (JobsUtil.announce()) {
+                        player.sendMessage(ChatColor.GOLD + "Critical Damage!! entity health from " + health +
+                                " to " + newHealth + " as it ignores protections as a " + level + " Archer");
+                    }
+                }
+            }
         }
+    }
+
+    @EventHandler
+    public void onKill(EntityDeathEvent e) {
+        if (!(e.getEntity() instanceof Monster)) return;
+        Monster monster = (Monster) e.getEntity();
+        if (monster.getKiller() != null) {
+            Player player = monster.getKiller();
+            if (JobsUtil.isJobCorrect(player, JobsString.ARCHER_PATH)) {
+                ArcherData data = new ArcherData();
+                JobsUtil.addXPandIncome(player, Objects.requireNonNull(data.getConfig().getConfigurationSection(JobsString.ARCHER_MOBS_SECTION)), e.getEntity().getType().toString());
+                int level = JobsUtil.getPlayerJobLevel(player);
+                if (level >= 4) {
+                    for (ItemStack item : e.getDrops()) {
+                        int ammount = item.getAmount() * 2;
+                        item.setAmount(ammount);
+                        if (JobsUtil.announce()) {
+                            player.sendMessage(ChatColor.GOLD + "" + item.getType() +  " have doubled from " +
+                                    item.getAmount() + " to " +
+                                    ammount);
+                        }
+                    }
+                }
+                else if (level >= 1) return;
+            }
+        }
+        e.getDrops().clear();
     }
 
     @EventHandler
@@ -72,25 +123,5 @@ public class ArcherListener implements Listener {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 30, 0, true, true, false));
             }
         }.runTaskTimer(OPKingdomsCore.getInstance(), 0, 20);
-    }
-
-    public void damageEntity(EntityDamageByEntityEvent event, Player player, FileConfiguration config) {
-        int level = JobsUtil.getPlayerJobLevel(player);
-        double bonusDamage = 0;
-        if (level >= 1) {
-            bonusDamage = config.getInt(JobsString.ARCHER_BONUS_DMG_1);
-        }
-        if (level >= 3) {
-            bonusDamage = config.getInt(JobsString.ARCHER_BONUS_DMG_3);
-        }
-        if (level >= 5) {
-            bonusDamage = config.getInt(JobsString.ARCHER_BONUS_DMG_5);
-        }
-        event.setDamage(event.getDamage() + bonusDamage);
-
-        if (JobsUtil.announce()) {
-            player.sendMessage(ChatColor.GREEN + "Bonus damage of " + bonusDamage +
-                    " was added as a level " + level + " Archer");
-        }
     }
 }

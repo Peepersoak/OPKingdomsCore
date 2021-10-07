@@ -3,10 +3,10 @@ Allow_Animals: false
 
 Job_Level_Bonus:
   Sword_Bonus: 2.0
-  Knockback: 0.3
   Defense: 25
-  Axe_Bonus: 3.0
-  Crit_Chance_Ratio: 500
+  Crit_Chance:
+    Min: 5
+    Max: 15
 
 Kill:
   Chicken:
