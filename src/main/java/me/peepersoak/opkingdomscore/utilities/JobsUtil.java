@@ -2,7 +2,11 @@ package me.peepersoak.opkingdomscore.utilities;
 
 import me.peepersoak.opkingdomscore.OPKingdomsCore;
 import me.peepersoak.opkingdomscore.jobscertificate.JobsString;
+import me.peepersoak.opkingdomscore.jobscertificate.data.JobMessage;
 import me.peepersoak.opkingdomscore.jobscertificate.data.JobsData;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.ChatColor;
@@ -138,7 +142,14 @@ public class JobsUtil {
     }
 
     public static boolean isJobCorrect(Player player, String title) {
-        if (!hasJob(player)) return false;
+        if (!hasJob(player)) {
+            JobMessage msg = new JobMessage();
+            String rawMsg = msg.getConfig().getString("No_Job");
+            assert rawMsg != null;
+            String message = ChatColor.translateAlternateColorCodes('&', rawMsg);
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+            return false;
+        }
         PersistentDataContainer data = player.getPersistentDataContainer();
         return Objects.requireNonNull(data.get(JobsString.JOB_TITLE, PersistentDataType.STRING)).equalsIgnoreCase(title);
     }
@@ -175,17 +186,21 @@ public class JobsUtil {
     }
 
     public static void addIncomeToPlayer(Player player, double income) {
+        JobMessage msg = new JobMessage();
         Economy economy = OPKingdomsCore.getEconomy();
         EconomyResponse response = economy.depositPlayer(player, income);
         if (response.transactionSuccess()) {
-            player.sendMessage(ChatColor.GREEN + "" + income + " has beed added to your account");
+            String rawMsg = msg.getConfig().getString("Income");
+            assert rawMsg != null;
+            String message = ChatColor.translateAlternateColorCodes('&', rawMsg);
+            player.sendMessage(message.replace("%income%", "" + response.amount));
         } else {
             player.sendMessage(ChatColor.RED + "Failed to add balance");
         }
     }
 
     public static void checkBlockBreakJob(String material, Player player, String title, BlockBreakEvent event,
-                                   ConfigurationSection jobBlock, ConfigurationSection jobDefaultBlock) {
+                                   ConfigurationSection jobBlock, ConfigurationSection jobDefaultBlock, boolean isCD) {
 
         assert jobBlock != null;
         assert jobDefaultBlock != null;
@@ -198,13 +213,12 @@ public class JobsUtil {
         for (String level : jobBlock.getKeys(false)) {
             if (!JobsUtil.isBlock(material, Objects.requireNonNull(jobBlock.getConfigurationSection(level)))) continue;
             if (!JobsUtil.isJobCorrect(player, title)) {
-                player.sendMessage(ChatColor.RED + "You don't have the proper certificate to do this!!");
+                sendWrongCertificate(player, title);
                 event.setCancelled(true);
                 return;
             }
             if (JobsUtil.getPlayerJobLevel(player) < JobsUtil.getLevelFromString(level)) {
-                player.sendMessage(ChatColor.RED + "Your level is not high enough to do this!!");
-                player.sendMessage(ChatColor.RED + "Level requirement: " + JobsUtil.getLevelFromString(level));
+                sendNotEnoughLevelMessage(player, title);
                 event.setCancelled(true);
                 return;
             }
@@ -222,6 +236,7 @@ public class JobsUtil {
         }
 
         if (addIncomeAndXP) {
+            if (isCD) return;
             double playerNewXP = JobsUtil.getPlayerJobXP(player) + xp;
             JobsUtil.addXPToPlayer(player, playerNewXP);
             addIncomeToPlayer(player, income);
@@ -235,20 +250,6 @@ public class JobsUtil {
             double income = JobsUtil.getEarnIncome(section, key);
             JobsUtil.addXPToPlayer(player, xp);
             JobsUtil.addIncomeToPlayer(player, income);
-        }
-    }
-
-    public static void addCraftingXPandIncome(Player player, ConfigurationSection section, String type, int count) {
-        for (String key : section.getKeys(false)) {
-            if (!key.equalsIgnoreCase(type)) continue;
-            double xp = JobsUtil.getEarnXP(section, key) + JobsUtil.getPlayerJobXP(player);
-            double income = JobsUtil.getEarnIncome(section, key);
-
-            double newXP = xp * count;
-            double newIncome = income * count;
-
-            JobsUtil.addXPToPlayer(player, newXP);
-            JobsUtil.addIncomeToPlayer(player, newIncome);
         }
     }
 
@@ -290,5 +291,36 @@ public class JobsUtil {
         data.remove(JobsString.JOB_LEVEL);
         data.remove(JobsString.JOB_XP);
         data.remove(JobsString.JOB_XP_TARGET);
+    }
+
+    public static void sendWrongCertificate(Player player, String job) {
+        JobMessage msg = new JobMessage();
+        if (!hasJob(player)) return;
+        ConfigurationSection section = msg.getConfig().getConfigurationSection(JobsString.WRONG_CERT);
+        assert section != null;
+        assert job != null;
+        String rawMsg = section.getString(job);
+        assert rawMsg != null;
+        String message = ChatColor.translateAlternateColorCodes('&', rawMsg);
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+    }
+
+    public static void sendNotEnoughLevelMessage(Player player, String job) {
+        JobMessage msg = new JobMessage();
+        if (!hasJob(player)) return;
+        ConfigurationSection section = msg.getConfig().getConfigurationSection(JobsString.WRONG_LEVEL);
+        assert section != null;
+        assert job != null;
+        String rawMsg = section.getString(job);
+        assert rawMsg != null;
+        String message = ChatColor.translateAlternateColorCodes('&', rawMsg);
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+    }
+
+    public static boolean isBlockSpecific(ConfigurationSection jobBlock, ConfigurationSection jobDefaultBlock, String material, Player player, String title) {
+        for (String level : jobBlock.getKeys(false)) {
+            if (JobsUtil.isBlock(material, Objects.requireNonNull(jobBlock.getConfigurationSection(level)))) return true;
+        }
+        return JobsUtil.isBlock(material, jobDefaultBlock);
     }
 }

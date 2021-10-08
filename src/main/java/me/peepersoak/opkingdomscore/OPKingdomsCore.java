@@ -77,6 +77,7 @@ public final class OPKingdomsCore extends JavaPlugin implements Listener {
         ArcherData archerData = new ArcherData();
         SmithingData smithingData = new SmithingData();
         ScheduleData scheduleData = new ScheduleData();
+        JobMessage jobMessage = new JobMessage();
 
         eggData.getYMLData();
     }

@@ -3,6 +3,7 @@ package me.peepersoak.opkingdomscore.jobscertificate;
 import me.peepersoak.opkingdomscore.OPKingdomsCore;
 import org.bukkit.NamespacedKey;
 
+import javax.naming.NameParser;
 import javax.xml.stream.events.Namespace;
 import java.io.File;
 
@@ -14,6 +15,7 @@ public class JobsString {
     public static final NamespacedKey JOB_XP = new NamespacedKey(OPKingdomsCore.getInstance(), "JobXP");
     public static final NamespacedKey JOB_XP_TARGET = new NamespacedKey(OPKingdomsCore.getInstance(), "JobXPTarget");
     public static final NamespacedKey JOB_TOKEN = new NamespacedKey(OPKingdomsCore.getInstance(), "JobToken");
+    public static final NamespacedKey BREWER_POTION = new NamespacedKey(OPKingdomsCore.getInstance(), "BrewerPotion");
 
     // Token Converter
     public static final String CONVERTER_GUI_NAME = "Dollar --> Token";
@@ -67,6 +69,7 @@ public class JobsString {
     public static final String WARRIOR_SETTINGS_FILE_NAME = "JobsSettings" + File.separator + "Warrior.yml";
     public static final String ARCHER_SETTINGS_FILE_NAME = "JobsSettings" + File.separator + "Archer.yml";
     public static final String SMITHING_SETTINGS_FILE_NAME = "JobsSettings" + File.separator + "Smithing.yml";
+    public static final String MESSAGE_FILE_NAME = "JobsSettings" + File.separator + "messages.yml";
 
     // Data path name
     public static final String XP_REQUIREMENT = "XP_Requirement";
@@ -85,6 +88,10 @@ public class JobsString {
     public static final String WARRIOR_PATH = "Warrior";
     public static final String ARCHER_PATH = "Archer";
     public static final String SMITH_PATH = "Smith";
+
+    // Messages
+    public static final String WRONG_CERT = "Wrong_Certificate";
+    public static final String WRONG_LEVEL = "Not_Enought_Level";
 
     public static final String JOBS_GUI_NAME = "Select your job";
     public static final String NEW_JOB_GUI_NAME = "Select your new job";

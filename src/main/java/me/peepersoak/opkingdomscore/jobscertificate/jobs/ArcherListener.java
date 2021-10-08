@@ -99,6 +99,7 @@ public class ArcherListener implements Listener {
     @EventHandler
     public void onSneak(PlayerToggleSneakEvent e) {
         Player player = e.getPlayer();
+        if (!JobsUtil.hasJob(player)) return;
         if (!JobsUtil.isJobCorrect(player, JobsString.ARCHER_PATH)) return;
         int level = JobsUtil.getPlayerJobLevel(player);
         if (level < 3) return;

@@ -1,0 +1,19 @@
+# Sell all messages here
+
+Wrong_Certificate:
+  Miner: "&cYou don't have the right certificate to mine this!!"
+  Logger: "&cYou don't have the right certificate to do this!!"
+  Smith: "&cYou don't have the right certificate to use this!!"
+  Enchanter: "&cYou don't have the right certificate to use this!!"
+  Brewer: "&cYou don't have the right certificate to use this!!"
+
+Not_Enought_Level:
+  Miner: "&cYour level is not high enough to mine this!!"
+  Logger: "&cYour level is not high enough to break this!!"
+  Smith: "&cYour level is not high enough to do this!!"
+  Enchanter: "&cYour level is not high enough to use this!!"
+  Brewer: "&cYour level is not high enough to use this!!"
+
+No_Job: "&cYou don't have any jobs yet!"
+
+Income: "&a%income%$ has been added to your account"

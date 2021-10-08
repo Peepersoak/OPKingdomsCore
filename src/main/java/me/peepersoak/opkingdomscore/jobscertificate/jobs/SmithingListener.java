@@ -3,20 +3,50 @@ package me.peepersoak.opkingdomscore.jobscertificate.jobs;
 import me.peepersoak.opkingdomscore.jobscertificate.JobsString;
 import me.peepersoak.opkingdomscore.jobscertificate.data.SmithingData;
 import me.peepersoak.opkingdomscore.utilities.JobsUtil;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Locale;
 import java.util.Objects;
 
 public class SmithingListener implements Listener {
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent e) {
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (e.getClickedBlock() == null) return;
+        Block block = e.getClickedBlock();
+        Material mat = block.getType();
+        Player player = e.getPlayer();
+        if (mat != Material.ANVIL && mat != Material.SMITHING_TABLE) return;
+        if (!JobsUtil.isJobCorrect(player, JobsString.SMITH_PATH)) {
+            JobsUtil.sendWrongCertificate(player, JobsString.SMITH_PATH);
+            e.setCancelled(true);
+            return;
+        }
+        int level = JobsUtil.getPlayerJobLevel(player);
+        if (mat == Material.ANVIL) {
+            if (level < 2) {
+                JobsUtil.sendNotEnoughLevelMessage(player, JobsString.SMITH_PATH);
+                e.setCancelled(true);
+                return;
+            }
+        }
+        if (mat == Material.SMITHING_TABLE) {
+            if (level < 3) {
+                JobsUtil.sendNotEnoughLevelMessage(player, JobsString.SMITH_PATH);
+                e.setCancelled(true);
+            }
+        }
+    }
 
     @EventHandler
     public void onClick(InventoryClickEvent e) {
@@ -42,7 +72,6 @@ public class SmithingListener implements Listener {
         assert upgrade != null;
 
         if (onCraft(section, player, e, mat, slot)) return;
-        if (onUpgrade(upgrade, player, e, mat, slot)) return;
 
         if (slot != 0) return;
         if (JobsUtil.isBlock(mat, craft)) {
@@ -57,13 +86,12 @@ public class SmithingListener implements Listener {
         for (String level : section.getKeys(false)) {
             if (!JobsUtil.isBlock(mat, Objects.requireNonNull(section.getConfigurationSection(level)))) continue;
             if (!JobsUtil.isJobCorrect(player, JobsString.SMITH_PATH)) {
-                player.sendMessage(ChatColor.RED + "You don't have proper certificate to craft this!!");
+                JobsUtil.sendWrongCertificate(player, JobsString.SMITH_PATH);
                 e.setCancelled(true);
                 return false;
             }
             if (JobsUtil.getPlayerJobLevel(player) < JobsUtil.getLevelFromString(level)) {
-                player.sendMessage(ChatColor.RED + "Your level is not high enough to craft this!!");
-                player.sendMessage(ChatColor.RED + "Level requirement: " + JobsUtil.getLevelFromString(level));
+                JobsUtil.sendNotEnoughLevelMessage(player, JobsString.SMITH_PATH);
                 e.setCancelled(true);
                 return false;
             }
@@ -71,23 +99,5 @@ public class SmithingListener implements Listener {
             return true;
         }
         return false;
-    }
-
-    public boolean onUpgrade(ConfigurationSection section, Player player, InventoryClickEvent e, String mat, int slot) {
-        if (slot != 2) return false;
-        if (!JobsUtil.isBlock(mat, section)) return false;
-        if (!JobsUtil.isJobCorrect(player, JobsString.SMITH_PATH)) {
-            player.sendMessage(ChatColor.RED + "You don't have proper certificate to craft this!!");
-            e.setCancelled(true);
-            return false;
-        }
-        if (JobsUtil.getPlayerJobLevel(player) < 3) {
-            player.sendMessage(ChatColor.RED + "Your level is not high enough to craft this!!");
-            player.sendMessage(ChatColor.RED + "Level requirement: " + 3);
-            e.setCancelled(true);
-            return false;
-        }
-        JobsUtil.addXPandIncome(player, section, mat);
-        return true;
     }
 }

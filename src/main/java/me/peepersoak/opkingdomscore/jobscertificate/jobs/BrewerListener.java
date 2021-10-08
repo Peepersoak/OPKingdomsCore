@@ -20,6 +20,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
@@ -29,15 +32,24 @@ public class BrewerListener implements Listener {
     @EventHandler
     public void onCraft(InventoryClickEvent e) {
         if (e.getClickedInventory() == null) return;
-        if (e.getClickedInventory().getType() != InventoryType.CRAFTING &&
-        e.getClickedInventory().getType() != InventoryType.WORKBENCH) return;
         if (e.getCurrentItem() == null) return;
-
-        ItemStack item = e.getCurrentItem();
-        String mat = item.getType().toString().toLowerCase();
-
         if (!(e.getWhoClicked() instanceof Player)) return;
         Player player = (Player) e.getWhoClicked();
+
+        ItemStack item = e.getCurrentItem();
+
+        if (e.getClickedInventory().getType() == InventoryType.BREWING) {
+            int slot = e.getSlot();
+            if (slot < 3) {
+                setData(item, player);
+                return;
+            }
+        }
+
+        if (e.getClickedInventory().getType() != InventoryType.CRAFTING &&
+        e.getClickedInventory().getType() != InventoryType.WORKBENCH) return;
+
+        String mat = item.getType().toString().toLowerCase();
 
         if (!JobsUtil.isJobCorrect(player, JobsString.BREWER_PATH)) return;
         if (e.getSlot() != 0) return;
@@ -79,24 +91,26 @@ public class BrewerListener implements Listener {
         int level = JobsUtil.getPlayerJobLevel(player);
         ItemStack item = potion.getItem();
 
+        if (allow(item)) return;
         if (!JobsUtil.isJobCorrect(player, JobsString.BREWER_PATH)) {
-            player.sendMessage(ChatColor.RED + "You don't have the proper certificate to throw this!");
+            JobsUtil.sendWrongCertificate(player, JobsString.BREWER_PATH);
             e.setCancelled(true);
+            return;
         }
 
         if (item.getType() == Material.LINGERING_POTION) {
             if (level < 3) {
-                player.sendMessage(ChatColor.RED + "Your level is not high enough to throw this!!");
-                player.sendMessage(ChatColor.RED + "Level Requirement: 3");
+                JobsUtil.sendNotEnoughLevelMessage(player, JobsString.BREWER_PATH);
                 e.setCancelled(true);
+                return;
             }
         }
 
         if (item.getType() == Material.SPLASH_POTION) {
             if (level < 2) {
-                player.sendMessage(ChatColor.RED + "Your level is not high enough to throw this!!");
-                player.sendMessage(ChatColor.RED + "Level Requirement: 2");
+                JobsUtil.sendNotEnoughLevelMessage(player, JobsString.BREWER_PATH);
                 e.setCancelled(true);
+                return;
             }
         }
 
@@ -141,15 +155,32 @@ public class BrewerListener implements Listener {
         if (e.getItem().getType() != Material.POTION) return;
         Player player =  e.getPlayer();
         int level = JobsUtil.getPlayerJobLevel(player);
+        if (allow(e.getItem())) return;
         if (!JobsUtil.isJobCorrect(player, JobsString.BREWER_PATH)) {
-            player.sendMessage(ChatColor.RED + "You don't have the proper certificate to drink this!");
+            JobsUtil.sendWrongCertificate(player, JobsString.BREWER_PATH);
             e.setCancelled(true);
             return;
         }
         if (level < 1) {
-            player.sendMessage(ChatColor.RED + "Your level is not high enough to drink this!");
-            player.sendMessage(ChatColor.RED + "Level Requirement: 1");
+            JobsUtil.sendNotEnoughLevelMessage(player, JobsString.BREWER_PATH);
             e.setCancelled(true);
         }
+    }
+
+    public boolean allow(ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null) return false;
+        PersistentDataContainer data = meta.getPersistentDataContainer();
+        return data.has(JobsString.BREWER_POTION, PersistentDataType.STRING);
+    }
+
+    public void setData(ItemStack item, Player player) {
+        if (!JobsUtil.isJobCorrect(player, JobsString.BREWER_PATH)) return;
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null) return;
+        PersistentDataContainer data = meta.getPersistentDataContainer();
+        data.set(JobsString.BREWER_POTION, PersistentDataType.STRING, player.getName());
+        item.setItemMeta(meta);
+        System.out.println(data.has(JobsString.BREWER_POTION, PersistentDataType.STRING));
     }
 }
