@@ -4,6 +4,7 @@ import me.peepersoak.opkingdomscore.dragon_event.*;
 import me.peepersoak.opkingdomscore.commands.GeneralCommands;
 import me.peepersoak.opkingdomscore.commands.TabCompletions;
 import me.peepersoak.opkingdomscore.jobscertificate.JobsEventHandler;
+import me.peepersoak.opkingdomscore.jobscertificate.commands.JobsAutoComplete;
 import me.peepersoak.opkingdomscore.jobscertificate.commands.JobsCommand;
 import me.peepersoak.opkingdomscore.jobscertificate.data.*;
 import me.peepersoak.opkingdomscore.schedule.ScheduleData;
@@ -46,6 +47,7 @@ public final class OPKingdomsCore extends JavaPlugin implements Listener {
         Objects.requireNonNull(getCommand("opkingdoms")).setTabCompleter(new TabCompletions());
 
         Objects.requireNonNull(getCommand("jobscert")).setExecutor(new JobsCommand());
+        Objects.requireNonNull(getCommand("jobscert")).setTabCompleter(new JobsAutoComplete());
 
         Scheduler scheduler = new Scheduler();
 
