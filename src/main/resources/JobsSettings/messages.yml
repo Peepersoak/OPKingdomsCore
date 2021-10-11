@@ -15,5 +15,239 @@ Not_Enought_Level:
   Brewer: "&cYour level is not high enough to use this!!"
 
 No_Job: "&cYou don't have any jobs yet!"
-
+Job_Apply_No_Permission: "&cRequirement not met!"
+Job_Apply_Other_Job: "&cYou already have a job!! Go away and work!!"
+Job_Apply_Join_Message: "&6You are now a/an %job%"
 Income: "&a%income%$ has been added to your account"
+
+Job_Upgrade:
+  Success:
+    - "&b============================="
+    - ""
+    - "&6You are now a level %job_level% %job_title%"
+    - ""
+    - "&b============================="
+  Not_Enough_XP: "&cYou did not meet the xp requirement to upgrade your job!"
+  Not_Enough_Token: "&cYou don't have enough token to upgrade your job!"
+
+Job_Change:
+  Success: "&a%token% token has been deducted, you can now choose a new job"
+  Failed: "&cNot enough token!!"
+
+Job_Status:
+  Messages:
+    - "&a=========================="
+    - ""
+    - "&6Name: &b%player_name%"
+    - "&6Job: &b%player_job%"
+    - "&6Level: &b%player_job_level%"
+    - "&6Experience: &b%player_job_xp%"
+    - "&6Experience Needed: &b%xp_requirements%"
+    - "&6Token: &b%player_token%"
+    - "&6Token Needed: &b%token_requirements%"
+    - ""
+    - "&a=========================="
+
+GUI:
+  Job_Change_GUI:
+    Title: "&6Change Job"
+    Button:
+      Yes_Button:
+        Material: lime_stained_glass_pane
+        Glowing: false
+        Title: "&6Yes"
+        Lore:
+          - "&bRequirements:"
+          - "&c%token% Tokens"
+          - ""
+          - "&eYou have:"
+          - "&d%player_token% tokens"
+      No_Button:
+        Material: red_stained_glass_pane
+        Glowing: false
+        Title: "&cNo"
+        Lore:
+          - "&cNo I don't want too"
+
+  Job_Token_Convert:
+    Title: "&eDollar --> Token"
+    Button:
+      Convert_2:
+        Material: iron_block
+        Glowing: false
+        Title: "&7Convert 2 Token"
+        Lore:
+          - ""
+          - "&e%dollar_ratio%$ &7= &61 Token"
+          - ""
+          - "&bWallet:"
+          - "&e%player_bal%$ &7| &6%player_token%"
+      Convert_4:
+        Material: gold_block
+        Glowing: false
+        Title: "&7Convert 4 Token"
+        Lore:
+          - ""
+          - "&e%dollar_ratio%$ &7= &61 Token"
+          - ""
+          - "&bWallet:"
+          - "&e%player_bal%$ &7| &6%player_token%"
+      Convert_6:
+        Material: emerald_block
+        Glowing: false
+        Title: "&7Convert 6 Token"
+        Lore:
+          - ""
+          - "&e%dollar_ratio%$ &7= &61 Token"
+          - ""
+          - "&bWallet:"
+          - "&e%player_bal%$ &7| &6%player_token%"
+      Convert_8:
+        Material: diamond_block
+        Glowing: false
+        Title: "&7Convert 8 Token"
+        Lore:
+          - ""
+          - "&e%dollar_ratio%$ &7= &61 Token"
+          - ""
+          - "&bWallet:"
+          - "&e%player_bal%$ &7| &6%player_token%"
+      Convert_10:
+        Material: netherite_block
+        Glowing: false
+        Title: "&7Convert 10 Token"
+        Lore:
+          - ""
+          - "&e%dollar_ratio%$ &7= &61 Token"
+          - ""
+          - "&bWallet:"
+          - "&e%player_bal%$ &7| &6%player_token%"
+
+  Jobs_Upgrade_GUI:
+    Title: "&aUpgrade your Job"
+    Button:
+      Upgrade:
+        Material: lime_stained_glass_pane
+        Glowing: false
+        Title: "&6Upgrade"
+        Lore:
+          - "&bRequirements:"
+          - "&c%xp_requirements% Experience"
+          - "&c%token% Tokens"
+          - ""
+          - "&eYou have:"
+          - "&d%player_xp% experience"
+          - "&d%player_token% tokens"
+          - ""
+          - "&eClick if you want to proceed"
+
+  Jobs_Apply_GUI:
+    Title: "&aSelect your Job"
+    Change: "&aSeleclt your New Job"
+    Button:
+      Miner:
+        Material: diamond_pickaxe
+        Glowing: false
+        Title: "&6Miner"
+        Lore:
+          - ""
+          - "&eBecome a miner that can"
+          - "&emine all kinds of ores!!"
+          - ""
+          - "&bLevel 1: Diamond Ores"
+          - "&bLevel 2: Lapiz Ore"
+          - "&bLevel 3: Emerald Ore"
+          - "&bLevel 4: Redstone Ore"
+          - "&bLevel 5: Ancient Debris"
+      Logger:
+        Material: diamond_axe
+        Glowing: false
+        Title: "&6Logger"
+        Lore:
+          - ""
+          - "&eA logger that can cut"
+          - "&eanything from blocks to player"
+          - ""
+          - "&bLevel 1: Acacia Log"
+          - "&bLevel 2: Spruce Log"
+          - "&bLevel 3: Dark Oak Log"
+          - "&bLevel 4: Bonus Axe Damage"
+          - "&bLevel 5: Double Axe Damage"
+      Archer:
+        Material: bow
+        Glowing: false
+        Title: "&6Archer"
+        Lore:
+          - ""
+          - "&eA sneaky huntsmand that"
+          - "&eprefers to fight on a distance."
+          - "&eThey are also proficient in"
+          - "&egathering monster loots"
+          - ""
+          - "&bLevel 1: Can collect mob loots"
+          - "&bLevel 2: Bonus Bow Damage"
+          - "&bLevel 3: Invisible when sneaking"
+          - "&bLevel 4: Double mob loots"
+          - "&bLevel 5: Critical Damage"
+      Warrior:
+        Material: diamond_sword
+        Glowing: false
+        Title: "&6Warrior"
+        Lore:
+          - ""
+          - "&eA strong warrior that"
+          - "&eprefers close combat."
+          - "&eThey are also prificient in"
+          - "&egathering monster loots"
+          - ""
+          - "&bLevel 1: Can collect mob loots"
+          - "&bLevel 2: Bonus sword damage"
+          - "&bLevel 3: Damage Reduction"
+          - "&bLevel 4: Double mob loots"
+          - "&bLevel 5: Critical Damage"
+      Smith:
+        Material: anvil
+        Glowing: false
+        Title: "&6Smith"
+        Lore:
+          - ""
+          - "&eA smith that excels in"
+          - "&ecrafting and upgrading"
+          - "&eweapons, tools and armors"
+          - ""
+          - "&bLevel 1: Diamonds gears"
+          - "&bLevel 2: Crossbows"
+          - "&bLevel 3: Netherite Upgrades"
+          - "&bLevel 4: Tipped arrows"
+          - "&bLevel 5: Beacon"
+      Enchanter:
+        Material: enchanting_table
+        Glowing: false
+        Title: "&6Enchanter"
+        Lore:
+          - ""
+          - "&eEnchanter excels in"
+          - "&eenchanting tools and books"
+          - "&eThey also knows how to trade"
+          - "&ewith villagers."
+          - ""
+          - "&bLevel 1: Unique Enchantments"
+          - "&bLevel 2: Elite Enchantments"
+          - "&bLevel 3: Ultimate Enchantments"
+          - "&bLevel 4: Legendary Enchantments"
+          - "&bLevel 5: Fabled Enchantments"
+      Brewer:
+        Material: brewing_stand
+        Glowing: false
+        Title: "&6Brewer"
+        Lore:
+          - ""
+          - "&ePlayers that practice witchcraft"
+          - "&eThey can safely produced any kind"
+          - "&eof potions"
+          - ""
+          - "&bLevel 1: Use of Regular Potions"
+          - "&bLevel 2: Use of Splash Potions"
+          - "&bLevel 3: Use of Lingering Potions"
+          - "&bLevel 4: Chance of double Potions"
+          - "&bLevel 5: Chance to recover Potions"

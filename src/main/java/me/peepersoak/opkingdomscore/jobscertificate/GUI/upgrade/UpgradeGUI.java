@@ -3,6 +3,7 @@ package me.peepersoak.opkingdomscore.jobscertificate.GUI.upgrade;
 import me.peepersoak.opkingdomscore.jobscertificate.JobsString;
 import me.peepersoak.opkingdomscore.utilities.GUIButton;
 import me.peepersoak.opkingdomscore.utilities.GUICreator;
+import me.peepersoak.opkingdomscore.utilities.GUIUtils;
 import me.peepersoak.opkingdomscore.utilities.JobsUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -15,28 +16,25 @@ import java.util.List;
 public class UpgradeGUI {
 
     public Inventory openGUI(Player player) {
-        GUICreator gui = new GUICreator(JobsString.UPGRADE_GUI_NAME, 27);
+        GUICreator gui = new GUICreator(GUIUtils.getGUITItle(JobsString.JOB_UPGRADE_GUI + "." + JobsString.TITLE), 27);
         Inventory inv = gui.getInv();
 
         GUIButton button = new GUIButton();
+
+        String jobPath = JobsString.JOB_UPGRADE_GUI + "." + JobsString.BUTTON;
+
         String name;
+        Material material;
+        boolean glow;
         List<String> lore;
 
         for (int i = 0; i < 27; i++) {
             if (i == 13) {
-                name = ChatColor.GREEN + "Job Upgrade:";
-                lore = new ArrayList<>();
-                lore.add("");
-                lore.add(ChatColor.RED + "Upgrade Requirements:");
-                lore.add(ChatColor.GOLD + "- " + JobsUtil.getTokenNeeded(player) + " Tokens");
-                lore.add(ChatColor.GOLD + "- " + JobsUtil.getPlayerJobXPTarget(player) + " Experience");
-                lore.add("");
-                lore.add(ChatColor.AQUA + "You have:");
-                lore.add(ChatColor.LIGHT_PURPLE + "- " + JobsUtil.getPlayerToken(player) + " Tokens");
-                lore.add(ChatColor.LIGHT_PURPLE + "- " + JobsUtil.getPlayerJobXP(player) + " Experience");
-                lore.add("");
-                lore.add(ChatColor.YELLOW + "Click this if you want to proceed");
-                inv.setItem(i, button.createButton(Material.LIME_STAINED_GLASS_PANE, name, lore, false));
+                name = GUIUtils.getButtonTitle(jobPath, 0);
+                material = GUIUtils.getButtonMaterial(jobPath, 0);
+                glow = GUIUtils.getButtonIsGlowing(jobPath, 0);
+                lore = GUIUtils.getButtonLores(jobPath, 0, player);
+                inv.setItem(i, button.createButton(material, name, lore, glow));
             } else {
                 inv.setItem(i, button.createButton(Material.BLACK_STAINED_GLASS_PANE, " ", null, false));
             }

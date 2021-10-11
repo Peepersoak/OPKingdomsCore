@@ -34,12 +34,11 @@ public class JobsData {
         if (!config.getBoolean(JobsString.ANNOUNCE_EFFECT)) {
             config.addDefault(JobsString.ANNOUNCE_EFFECT, false);
         }
-
         if (config.getInt(JobsString.LEVEL_UP_TOKEN) == 0) {
             config.addDefault(JobsString.LEVEL_UP_TOKEN, 20);
         }
         if (config.getDouble(JobsString.LEVEL_UP_TOKEN_MULTIPLIER) == 0) {
-            config.addDefault(JobsString.LEVEL_UP_TOKEN_MULTIPLIER, 1.5);
+            config.addDefault(JobsString.LEVEL_UP_TOKEN_MULTIPLIER, 2.5);
         }
         if (config.getInt(JobsString.CONVERTER_DOLLAR) == 0) {
             config.addDefault(JobsString.CONVERTER_DOLLAR, 10000);
@@ -65,23 +64,13 @@ public class JobsData {
         if (config.getConfigurationSection(JobsString.SMITH_PATH) == null) {
             addDefault(JobsString.SMITH_PATH);
         }
-
         config.options().copyDefaults(true);
         saveFileConfig();
     }
 
     public void addDefault(String jobTitle) {
-        config.addDefault(jobTitle + "." + JobsString.JOBS_TITLE_NAME, jobTitle);
         config.addDefault(jobTitle + "." + JobsString.XP_REQUIREMENT, 1000);
-        config.addDefault(jobTitle + "." + JobsString.XP_MULTIPLIER, 1.0);
-        List<String> lore = new ArrayList<>();
-        lore.add("Lore 1");
-        lore.add("Lore 2");
-        lore.add("Lore 3");
-        config.addDefault(jobTitle + "." + JobsString.JOBS_LORE, lore);
-        config.addDefault(jobTitle + "." + JobsString.JOBS_JOIN_MESSAGE, "Message Here");
-        config.addDefault(jobTitle + "." + JobsString.JOBS_LEAVE_MESSAGE, "Message Here");
-        config.addDefault(jobTitle + "." + JobsString.JOBS_LEVEL_UP_MESSAGE, "You are now a level %job_level% %job_title%");
+        config.addDefault(jobTitle + "." + JobsString.XP_MULTIPLIER, 2.5);
     }
 
     public void saveFileConfig() {

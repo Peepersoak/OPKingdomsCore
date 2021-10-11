@@ -1,5 +1,6 @@
 package me.peepersoak.opkingdomscore;
 
+import me.peepersoak.opkingdomscore.deathspawn.DeathSpawnData;
 import me.peepersoak.opkingdomscore.dragon_event.*;
 import me.peepersoak.opkingdomscore.commands.GeneralCommands;
 import me.peepersoak.opkingdomscore.commands.TabCompletions;
@@ -26,6 +27,7 @@ public final class OPKingdomsCore extends JavaPlugin implements Listener {
 
     private final DragonEventHandler dragonEventHandler = new DragonEventHandler();
     private final JobsEventHandler jobsEventHandler = new JobsEventHandler();
+    private final GeneralEventsHandler generalEventsHandler = new GeneralEventsHandler();
     private final DragonEggData eggData = new DragonEggData();
 
     private static Economy econ = null;
@@ -42,6 +44,7 @@ public final class OPKingdomsCore extends JavaPlugin implements Listener {
         PluginManager pm = Bukkit.getPluginManager();
         dragonEventHandler.registerDragonEvent(this, pm);
         jobsEventHandler.registerJobsEvent(this, pm);
+        generalEventsHandler.registerGeneralEvents(this, pm);
 
         Objects.requireNonNull(getCommand("opkingdoms")).setExecutor(new GeneralCommands());
         Objects.requireNonNull(getCommand("opkingdoms")).setTabCompleter(new TabCompletions());
@@ -66,7 +69,7 @@ public final class OPKingdomsCore extends JavaPlugin implements Listener {
             return false;
         }
         econ = rsp.getProvider();
-        return econ != null;
+        return true;
     }
 
     public void initializedYMLSettings() {
@@ -80,6 +83,7 @@ public final class OPKingdomsCore extends JavaPlugin implements Listener {
         SmithingData smithingData = new SmithingData();
         ScheduleData scheduleData = new ScheduleData();
         JobMessage jobMessage = new JobMessage();
+        DeathSpawnData deathSpawnData = new DeathSpawnData();
 
         eggData.getYMLData();
     }

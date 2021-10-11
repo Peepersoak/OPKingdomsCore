@@ -49,7 +49,7 @@ public class MinerListener implements Listener {
         ConfigurationSection jobDefaultBlock = minerData.getConfig().getConfigurationSection("Break");
         assert jobBlock != null;
         if (JobsUtil.isBlockSpecific(jobBlock, jobDefaultBlock, material, player, JobsString.MINER_PATH)) {
-            blockLocation.put(block.getLocation(), System.currentTimeMillis() + (1000 * 30));
+            blockLocation.put(block.getLocation(), System.currentTimeMillis() + (1000 * 300));
         }
     }
 

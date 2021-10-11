@@ -50,8 +50,6 @@ public class JobsString {
     // Smithing Certificate
     public static final String SMITHING_CRAFT_XP = "Craft";
     public static final String SMITHING_UPGRADE_XP = "Upgrade";
-    public static final String SMITHING_REPAIR_XP = "Repair";
-    public static final String SMITHING_SMELT_XP = "Smelt";
     public static final String SMITHING_SPECIFIC_ITEM = "Job_Craft_Item";
 
     // Brewer Certificate
@@ -102,4 +100,19 @@ public class JobsString {
     public static final String LEVEL_UP_TOKEN = "Token_Needed";
     public static final String LEVEL_UP_TOKEN_MULTIPLIER = "Token_Multiplier";
     public static final String ANNOUNCE_EFFECT = "Announce_Effect_FOR_TESTING_ONLY";
+
+    public static final String JOB_CHANGE_SUCESS = "Job_Change.Success";
+    public static final String JOB_CHANGE_FAILED = "Job_Change.Failed";
+
+    // GUI Strings
+    public static final String JOB_CHANGE_GUI= "GUI.Job_Change_GUI";
+    public static final String JOB_TOKEN_CONVERT_GUI = "GUI.Job_Token_Convert";
+    public static final String JOB_UPGRADE_GUI = "GUI.Jobs_Upgrade_GUI";
+    public static final String JOB_APPLY_GUI = "GUI.Jobs_Apply_GUI";
+    public static final String TITLE = "Title";
+    public static final String CHANGE  = "Change";
+    public static final String BUTTON = "Button";
+    public static final String MATERIAL = "Material";
+    public static final String GLOWING = "Glowing";
+    public static final String LORE = "Lore";
 }

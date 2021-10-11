@@ -20,6 +20,7 @@ public class TabCompletions implements TabCompleter {
         str.add("Reload");
         str.add("Events");
         str.add("Jobs");
+        str.add("set_death_location");
         return str;
     }
 }

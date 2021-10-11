@@ -3,6 +3,7 @@ package me.peepersoak.opkingdomscore.jobscertificate.GUI.converter;
 import me.peepersoak.opkingdomscore.OPKingdomsCore;
 import me.peepersoak.opkingdomscore.jobscertificate.JobsString;
 import me.peepersoak.opkingdomscore.jobscertificate.data.JobsData;
+import me.peepersoak.opkingdomscore.utilities.GUIUtils;
 import me.peepersoak.opkingdomscore.utilities.JobsUtil;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -19,8 +20,8 @@ public class ConverterGUIListener implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent e) {
-        String invName = ChatColor.stripColor(e.getView().getTitle());
-        if (!invName.equalsIgnoreCase(JobsString.CONVERTER_GUI_NAME)) return;
+        String invName = e.getView().getTitle();
+        if (!invName.equalsIgnoreCase(GUIUtils.getGUITItle(JobsString.JOB_TOKEN_CONVERT_GUI + "." + JobsString.TITLE))) return;
         e.setCancelled(true);
 
         if (e.getClickedInventory() == null) return;
@@ -28,7 +29,6 @@ public class ConverterGUIListener implements Listener {
         if (e.getCurrentItem() == null) return;
 
         ItemStack item = e.getCurrentItem();
-        if (item.getType() == Material.ORANGE_STAINED_GLASS_PANE) return;
 
         if (!(e.getWhoClicked() instanceof Player)) return;
 
@@ -39,22 +39,22 @@ public class ConverterGUIListener implements Listener {
         JobsData jobsData = new JobsData();
         int ratio = jobsData.getConfig().getInt(JobsString.CONVERTER_DOLLAR);
 
-        switch (mat) {
-            case IRON_BLOCK:
-                convert(player, ratio * 2);
-                break;
-            case GOLD_BLOCK:
-                convert(player, ratio * 4);
-                break;
-            case EMERALD_BLOCK:
-                convert(player, ratio * 6);
-                break;
-            case DIAMOND_BLOCK:
-                convert(player, ratio * 8);
-                break;
-            case NETHERITE_BLOCK:
-                convert(player, ratio * 10);
-                break;
+        String jobButton = JobsString.JOB_TOKEN_CONVERT_GUI + "." + JobsString.BUTTON;
+
+        if (GUIUtils.getButtonMaterial(jobButton, 0) == mat) {
+            convert(player, ratio * 2);
+        }
+        else if (GUIUtils.getButtonMaterial(jobButton, 1) == mat) {
+            convert(player, ratio * 4);
+        }
+        else if (GUIUtils.getButtonMaterial(jobButton, 2) == mat) {
+            convert(player, ratio * 6);
+        }
+        else if (GUIUtils.getButtonMaterial(jobButton, 3) == mat) {
+            convert(player, ratio * 8);
+        }
+        else if (GUIUtils.getButtonMaterial(jobButton, 4) == mat) {
+            convert(player, ratio * 10);
         }
     }
 

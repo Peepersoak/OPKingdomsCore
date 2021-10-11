@@ -1,0 +1,4 @@
+Death_Spawn:
+  Location: "NONE"
+  Message:
+    - "&cYou have died!!"

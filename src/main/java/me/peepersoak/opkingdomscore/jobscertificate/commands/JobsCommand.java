@@ -1,7 +1,9 @@
 package me.peepersoak.opkingdomscore.jobscertificate.commands;
 
+import me.peepersoak.opkingdomscore.jobscertificate.GUI.change.ChangeGUI;
 import me.peepersoak.opkingdomscore.jobscertificate.GUI.converter.ConverterGUI;
 import me.peepersoak.opkingdomscore.jobscertificate.GUI.upgrade.UpgradeGUI;
+import me.peepersoak.opkingdomscore.jobscertificate.data.JobMessage;
 import me.peepersoak.opkingdomscore.utilities.JobsUtil;
 import me.peepersoak.opkingdomscore.jobscertificate.GUI.jobsGUI.JobsGUI;
 import org.bukkit.Bukkit;
@@ -11,25 +13,33 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+
 public class JobsCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        JobMessage message = new JobMessage();
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 1) {
                 String cmd = args[0];
                 if (!player.hasPermission("OPK.jobs")) {
-                    player.sendMessage(ChatColor.RED + "Requirement not met!");
+                    String raw = message.getConfig().getString("Job_Apply_No_Permission");
+                    assert raw != null;
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', raw));
                     return false;
                 }
                 if (cmd.equalsIgnoreCase("apply")) {
                     if (JobsUtil.hasJob(player) && !player.isOp()) {
-                        player.sendMessage(ChatColor.RED + "You already have a job!! Go away and work!!");
+                        String raw = message.getConfig().getString("Job_Apply_Other_Job");
+                        assert raw != null;
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', raw));
                         return false;
                     }
                     JobsGUI jobsGUI = new JobsGUI();
-                    player.openInventory(jobsGUI.openMainGUI());
+                    player.openInventory(jobsGUI.openMainGUI(player));
+                    return false;
                 }
                 if (!JobsUtil.hasJob(player)) {
                     player.sendMessage(ChatColor.RED + "You don't have any jobs yet!!");
@@ -45,6 +55,10 @@ public class JobsCommand implements CommandExecutor {
                 }
                 if (cmd.equalsIgnoreCase("stats")) {
                     sendPlayerJobsStatus(player);
+                }
+                if (cmd.equalsIgnoreCase("change")) {
+                    ChangeGUI gui = new ChangeGUI();
+                    player.openInventory(gui.openGUI(player));
                 }
             }
             if (args.length == 2) {
@@ -119,18 +133,17 @@ public class JobsCommand implements CommandExecutor {
     }
 
     public void sendPlayerJobsStatus(Player player) {
-        String title = JobsUtil.getPlayerJobTitle(player);
-        String separator = ChatColor.GREEN + "=======================";
-        player.sendMessage(separator);
-        player.sendMessage("");
-        player.sendMessage(ChatColor.GOLD + "Name: " + ChatColor.AQUA + player.getName());
-        player.sendMessage(ChatColor.GOLD + "Job Certificate: " + ChatColor.AQUA + title);
-        player.sendMessage(ChatColor.GOLD + "Job Level: " + ChatColor.AQUA + JobsUtil.getPlayerJobLevel(player));
-        player.sendMessage(ChatColor.GOLD + "Job Experience: " + ChatColor.AQUA + JobsUtil.getPlayerJobXP(player));
-        player.sendMessage(ChatColor.GOLD + "Next Level XP Needed: " + ChatColor.AQUA + JobsUtil.getPlayerJobXPTarget(player));
-        player.sendMessage(ChatColor.GOLD + "Token: " + ChatColor.AQUA + JobsUtil.getPlayerToken(player));
-        player.sendMessage(ChatColor.GOLD + "Next Level Token Needed: " + ChatColor.AQUA + JobsUtil.getTokenNeeded(player));
-        player.sendMessage("");
-        player.sendMessage(separator);
+        JobMessage message = new JobMessage();
+        List<String> msg = message.getConfig().getStringList("Job_Status.Messages");
+        for (String str : msg) {
+            String raw = str.replace("%player_name%", player.getName())
+                    .replace("%player_job%", "" + JobsUtil.getPlayerJobTitle(player))
+                    .replace("%player_job_level%", "" + JobsUtil.getPlayerJobLevel(player))
+                    .replace("%player_job_xp%", "" + JobsUtil.getPlayerJobXP(player))
+                    .replace("%xp_requirements%", "" + JobsUtil.getPlayerJobXPTarget(player))
+                    .replace("%player_token%", "" + JobsUtil.getPlayerToken(player))
+                    .replace("%token_requirements%", "" + JobsUtil.getTokenNeeded(player));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', raw));
+        }
     }
 }
