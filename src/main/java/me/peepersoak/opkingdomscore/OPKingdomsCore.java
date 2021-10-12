@@ -8,6 +8,7 @@ import me.peepersoak.opkingdomscore.jobscertificate.JobsEventHandler;
 import me.peepersoak.opkingdomscore.jobscertificate.commands.JobsAutoComplete;
 import me.peepersoak.opkingdomscore.jobscertificate.commands.JobsCommand;
 import me.peepersoak.opkingdomscore.jobscertificate.data.*;
+import me.peepersoak.opkingdomscore.market.sql.SQLData;
 import me.peepersoak.opkingdomscore.schedule.ScheduleData;
 import me.peepersoak.opkingdomscore.schedule.Scheduler;
 import net.milkbowl.vault.economy.Economy;
@@ -18,12 +19,16 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Objects;
 
 
 public final class OPKingdomsCore extends JavaPlugin implements Listener {
 
     private static OPKingdomsCore instance;
+    private static Connection sqlConnection;
 
     private final DragonEventHandler dragonEventHandler = new DragonEventHandler();
     private final JobsEventHandler jobsEventHandler = new JobsEventHandler();
@@ -53,6 +58,8 @@ public final class OPKingdomsCore extends JavaPlugin implements Listener {
         Objects.requireNonNull(getCommand("jobscert")).setTabCompleter(new JobsAutoComplete());
 
         Scheduler scheduler = new Scheduler();
+
+        openConncetion();
 
         if (!setupEconomy() ) {
             System.out.println(ChatColor.RED + "No Economy found, disabling vault");
@@ -84,8 +91,23 @@ public final class OPKingdomsCore extends JavaPlugin implements Listener {
         ScheduleData scheduleData = new ScheduleData();
         JobMessage jobMessage = new JobMessage();
         DeathSpawnData deathSpawnData = new DeathSpawnData();
+        SQLData sqlData = new SQLData();
 
         eggData.getYMLData();
+    }
+
+    public void openConncetion() {
+        SQLData data = new SQLData();
+        try {
+            if (sqlConnection != null && !sqlConnection.isClosed()) {
+                return;
+            }
+            sqlConnection = DriverManager.getConnection("jdbc:mysql://" +
+                    data.getHost() + ":" + data.getPort() + "/" + data.getDBName(), data.getDBUsername(), data.getDBPassword());
+            System.out.println(ChatColor.GOLD + "=== OPKingdoms SQL Connected ===");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static OPKingdomsCore getInstance() {
@@ -94,5 +116,9 @@ public final class OPKingdomsCore extends JavaPlugin implements Listener {
 
     public static Economy getEconomy() {
         return econ;
+    }
+
+    public static Connection getSqlConnection() {
+        return sqlConnection;
     }
 }
